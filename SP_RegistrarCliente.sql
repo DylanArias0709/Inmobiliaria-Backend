@@ -72,13 +72,6 @@ BEGIN
             RETURN -5;
         END
 
-		-- Verificar si el Email ya está asociado a una persona
-        IF EXISTS (SELECT 1 FROM tbPhone WHERE PhoneNumber = @PhoneNumber)
-        BEGIN
-            RAISERROR ('El Numero de telefono ya está asociado a una persona.', 16, 1);
-            RETURN -5;
-        END
-
         -- Verificar si el ActivationToken ya existe en tbUser
         IF EXISTS (SELECT 1 FROM tbUser WHERE ActivationToken = @ActivationToken)
         BEGIN
@@ -160,20 +153,20 @@ EXEC spRegisterClient
     @Name = 'Joan',
     @FirstSurname = 'Perez',
     @SecondSurname = 'Ugalde',
-    @IdCard = '568974156',
+    @IdCard = '123456789',
     @IdProvince = @IdProvince,
     @IdCanton = @IdCanton,
     @IdDistrict = @IdDistrict,
     @AditionalInformation = 'Información adicional',
     @StatusPerson = 1,
-    @Email = 'joan.perez2@example.com',
+    @Email = 'joan.perez@example.com',
     @StatusEmail = 1,
     @PhoneNumber = '1234567890',
     @StatusPhone = 1,
     @UserName = 'juanperez',
     @Password = 'mypassword',
-    @ActivationToken = 'myactivationToken2',
-    @VerificationToken = 'myverificationToken2',
+    @ActivationToken = 'myactivationToken1',
+    @VerificationToken = 'myverificationToken1',
     @StatusUser = 1,
     @Budget = 1000.00,
     @StatusClient = 1,
