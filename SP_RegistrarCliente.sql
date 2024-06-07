@@ -1,4 +1,4 @@
-ALTER PROCEDURE spRegisterClient
+CREATE PROCEDURE spRegisterClient
     @Name VARCHAR(100),
     @FirstSurname VARCHAR(100),
     @SecondSurname VARCHAR(100),
