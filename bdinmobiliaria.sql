@@ -102,6 +102,25 @@ CREATE TABLE tbSesion (
     FOREIGN KEY (IdUser) REFERENCES tbUser (IdUser)
 );
 
+-- Entidad Cliente
+CREATE TABLE tbClient (
+    IdClient INT PRIMARY KEY IDENTITY (1,1),
+    Budget DECIMAL (10,2),
+    IdUser INT,
+    Status TINYINT NOT NULL,
+    FOREIGN KEY (IdUser) REFERENCES tbUser (IdUser)
+);
+
+-- Entidad Agente Inmobiliario
+CREATE TABLE tbRealStateAgent (
+    IdRealStateAgent INT PRIMARY KEY IDENTITY (1,1),
+    IdUser INT,
+    IdClientPreference INT,
+    MaximumBudget DECIMAL(10,2),
+    Status TINYINT NOT NULL,
+    FOREIGN KEY (IdUser) REFERENCES tbUser(IdUser)
+);
+
 -- Entidad Tipo De Comunicacion
 CREATE TABLE tbComunicationType (
     IdComunicationType INT PRIMARY KEY IDENTITY (1,1),
@@ -113,20 +132,13 @@ CREATE TABLE tbComunicationType (
 CREATE TABLE tbComunication (
     IdComunication INT PRIMARY KEY IDENTITY (1,1),
     IdComunicationType INT,
+    IdClient INT NOT NULL,
+    IdRealStateAgent INT NOT NULL,
     DateTimeComunication DATETIME,
     Status TINYINT NOT NULL,
-    FOREIGN KEY (IdComunicationType) REFERENCES tbComunicationType (IdComunicationType)
-);
-
--- Entidad Cliente
-CREATE TABLE tbClient (
-    IdClient INT PRIMARY KEY IDENTITY (1,1),
-    Budget DECIMAL (10,2),
-    IdUser INT,
-    IdComunication INT,
-    Status TINYINT NOT NULL,
-    FOREIGN KEY (IdUser) REFERENCES tbUser (IdUser),
-    FOREIGN KEY (IdComunication) REFERENCES tbComunication (IdComunication)
+    FOREIGN KEY (IdComunicationType) REFERENCES tbComunicationType (IdComunicationType),
+    FOREIGN KEY (IdClient) REFERENCES tbClient (IdClient),
+    FOREIGN KEY (IdRealStateAgent) REFERENCES tbRealStateAgent (IdRealStateAgent)
 );
 
 -- Entidad Cliente Preferencia
@@ -146,18 +158,6 @@ CREATE TABLE tbClientPreference (
     AdicionalCharacteristics VARCHAR(200),
     Status TINYINT NOT NULL,
     FOREIGN KEY (IdClient) REFERENCES tbClient(IdClient)
-);
-
--- Entidad Agente Inmobiliario
-CREATE TABLE tbRealStateAgent (
-    IdRealStateAgent INT PRIMARY KEY IDENTITY (1,1),
-    IdUser INT,
-    IdClientPreference INT,
-    MaximumBudget DECIMAL(10,2),
-    IdComunication INT,
-    Status TINYINT NOT NULL,
-    FOREIGN KEY (IdUser) REFERENCES tbUser(IdUser),
-    FOREIGN KEY (IdComunication) REFERENCES tbComunication(IdComunication)
 );
 
 -- Entidad Tipo De Servicio
