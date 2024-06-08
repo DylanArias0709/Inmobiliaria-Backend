@@ -1,5 +1,6 @@
 package com.g2inmobiliaria.app.Entities;
 
+import com.g2inmobiliaria.app.Entities.Direction;
 import jakarta.persistence.*; //Librería para el mapeo de entidades y la persistencia de datos.
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "tbPerson")
-
 public class Person {
 
     @Id
@@ -32,17 +32,20 @@ public class Person {
     @Column(name = "IdCard")
     private Integer idCard;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IdEmail", referencedColumnName = "IdEmail")
     private Email email;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "IdPhone", referencedColumnName = "IdPhone")
     @Column(name = "IdPhone")
-    private Integer idPhone;
+    private Phone phone;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) //Tipo de cascada.
+    @JoinColumn(name = "IdDirecction", referencedColumnName = "IdDirecction")
     @Column(name = "IdDirection")
-    private Integer idDirection;
+    private Direction direction;
 
     @Column(name = "Status")
     private boolean status;
-
 }
