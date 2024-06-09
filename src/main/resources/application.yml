@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: g2Inmobiliaria
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;database=bdInmobiliaria
+    username: DeeEmDy
+    password: DADS123456
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: sql_server
+    database-platform: org.hibernate.dialect.SQLServerDialect
+
+debug: true
+logging:
+  level:
+    root: DEBUG
+
+server:
+  port: 8080
+  tomcat:
+    native:
+      enabled: true
+    protocol-header: x-forwarded-proto
