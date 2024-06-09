@@ -181,6 +181,7 @@ EXEC spRegisterClient
     @IdRole = @IdRole
 
 Select * FROM tbPerson
+SELECT * FROM tbPhone
 SELECT * FROM tbUser
 SELECT * FROM tbClient
 
