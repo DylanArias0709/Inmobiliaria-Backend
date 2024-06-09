@@ -33,6 +33,6 @@ public class Role {
 
     // Roles por defecto
     public static final Role ROLE_ADMIN = new Role("ROLE_ADMIN", true);
-    public static final Role CLIENT = new Role("CLIENT", true);
-    public static final Role REAL_ESTATE_AGENT = new Role("REAL_ESTATE_AGENT", true);
+    public static final Role CLIENT = new Role("ROLE_CLIENT", true);
+    public static final Role REAL_ESTATE_AGENT = new Role("ROLE_REAL_ESTATE_AGENT", true);
 }

@@ -2,10 +2,7 @@ package com.g2inmobiliaria.app.Entities;
 
 import java.util.ArrayList;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,12 +16,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Getter
+@Setter
 @Table(name = "tbUser")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Para hacer que cada registro tenga su ID autoincrementable.
-
     @Column(name = "IdUser")
     private Integer idUser;
 
@@ -43,12 +41,12 @@ public class User implements UserDetails {
     @Column(name = "VerificationToken")
     private String verificationToken;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IdPerson", referencedColumnName = "IdPerson")
     private Person person;
 
     //Obtener el roll del usuario.
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IdRole", referencedColumnName = "IdRole")
     private Role role;
 

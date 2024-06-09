@@ -11,11 +11,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterRequest {
 
-    private String firstSurname; //Entidad:Person
+    // Datos de la entidad Direction
+    private String province;
+    private String canton;
+    private String district;
+    private String aditionalInformation;
 
-    private String secondSurname; //Entidad:Person
+    // Datos de la entidad Email
+    private String email;
 
-    private String email; //Entidad:User
+    // Datos de la entidad Phone
+    private String phoneNumber;
 
-    private String password; //Entidad:User
+    // Datos de la entidad Person
+    private String name;
+    private String firstSurname;
+    private String secondSurname;
+    private Integer idCard;
+
+
+    // Datos de la entidad User
+    private String password;
 }

@@ -2,16 +2,15 @@ package com.g2inmobiliaria.app.Entities;
 
 import com.g2inmobiliaria.app.Entities.Direction;
 import jakarta.persistence.*; //Librería para el mapeo de entidades y la persistencia de datos.
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Getter
+@Setter
 @Table(name = "tbPerson")
 public class Person {
 
