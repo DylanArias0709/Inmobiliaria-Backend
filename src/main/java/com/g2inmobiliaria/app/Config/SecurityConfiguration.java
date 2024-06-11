@@ -1,6 +1,5 @@
 package com.g2inmobiliaria.app.Config;
 
-import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,33 +14,23 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    
+
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
-
-    //El security filterChain es el responsable de configurar toda la seguridad HTTP de la APP.
-
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception { //Recibe todas las solicitudes HTTP.
-
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf()
-                .disable()
-                //-----------EndPoints que no necesitan uso del filtrado de solicitudes HTTP.
-                .authorizeHttpRequests()
-                .requestMatchers("") //URL o EndPoints que no requieren de autentificacion del JWT como: Crear usuario o Iniciar Sesion.
-                .permitAll() //Para brindarle permisos a todas las solicitudes indicadas en la lista de requestMatchers.
-                .anyRequest() //Todas las otras URL o EndPoints que no esten dentro de la lista de requestMatchers si requiren de la autentificacion.
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //Una solicitud de sesion sin estado.
-                .and()
-                //Especificar a Spring Boot que autentificador se utilizara.
+                .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/v1/auth").permitAll() // URLs públicas: Registrar usuario y iniciar sesión NO requieren de token. NOTA: Se autoriza todos los EndPoints que están dentro de la controladora de autentificación de usuarios.
+                        .anyRequest().authenticated() // Cualquier otra solicitud requiere autenticación
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Sesión sin estado
+                )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
 
         return http.build();
     }

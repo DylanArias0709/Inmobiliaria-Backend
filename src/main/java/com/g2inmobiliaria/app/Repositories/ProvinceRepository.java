@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface ProvinceRepository extends JpaRepository<Province, Integer>{
-    Optional<Province> findByNameProvince(String name);
+public interface ProvinceRepository extends JpaRepository<Province, Integer> {
+    Optional<Province> findByName(String name);
 }

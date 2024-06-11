@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface CantonRepository extends JpaRepository<Canton, Integer>{
-    Optional<Canton> findByNameCanton(String name);
+    Optional<Canton> findByName(String name);
 }

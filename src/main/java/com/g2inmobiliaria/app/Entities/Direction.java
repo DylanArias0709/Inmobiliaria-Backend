@@ -16,7 +16,7 @@ import com.g2inmobiliaria.app.Entities.District;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tDirection")
+@Table(name = "tbDirection")
 public class Direction {
 
     @Id
@@ -26,17 +26,14 @@ public class Direction {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IdProvince", referencedColumnName = "IdProvince")
-    @Column(name = "IdProvince")
     private Province province;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IdCanton", referencedColumnName = "IdCanton")
-    @Column(name = "IdCanton")
     private Canton canton;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IdDistrict", referencedColumnName = "IdDistrict")
-    @Column(name = "IdDistrict")
     private District district;
 
     @Column(name = "AditionalInformation")

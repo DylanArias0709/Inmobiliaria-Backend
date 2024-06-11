@@ -22,7 +22,6 @@ public class District {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IdCanton", referencedColumnName = "IdCanton")
-    @Column(name = "IdCanton")
     private Canton canton;
 
     @Column(name = "Name")

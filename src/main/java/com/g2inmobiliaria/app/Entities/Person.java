@@ -37,12 +37,10 @@ public class Person {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IdPhone", referencedColumnName = "IdPhone")
-    @Column(name = "IdPhone")
     private Phone phone;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) //Tipo de cascada.
-    @JoinColumn(name = "IdDirecction", referencedColumnName = "IdDirecction")
-    @Column(name = "IdDirection")
+    @JoinColumn(name = "IdDirection", referencedColumnName = "IdDirection")
     private Direction direction;
 
     @Column(name = "Status")

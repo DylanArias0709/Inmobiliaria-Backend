@@ -4,12 +4,10 @@ import com.g2inmobiliaria.app.Entities.*;
 import com.g2inmobiliaria.app.Repositories.*;
 import com.g2inmobiliaria.app.Services.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import  com.g2inmobiliaria.app.Entities.User;
 
 import java.util.HashMap;
 
@@ -17,41 +15,18 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    @Autowired
-    private ProvinceRepository provinceRepository;
-
-    @Autowired
-    private CantonRepository cantonRepository;
-
-    @Autowired
-    private DistrictRepository districtRepository;
-
-    @Autowired
-    private DirectionRepository directionRepository;
-
-    @Autowired
-    private PhoneRepository phoneRepository;
-
-    @Autowired
-    private EmailRepository emailRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private PersonRepository personRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final ProvinceRepository provinceRepository;
+    private final CantonRepository cantonRepository;
+    private final DistrictRepository districtRepository;
+    private final DirectionRepository directionRepository;
+    private final PhoneRepository phoneRepository;
+    private final EmailRepository emailRepository;
+    private final RoleRepository roleRepository;
+    private final PersonRepository personRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
         // Verificar si el email ya existe
