@@ -18,6 +18,13 @@ spring:
     native:
       enabled: true
     protocol-header: x-forwarded-proto
+  session:
+    store-type: jdbc
+    jdbc:
+      schema: dbo
+      initialize-schema: never
+      table-name: tbSesion
+      delete-expired-stmt: DELETE FROM tbSesion WHERE ExpirationSesionDate < ?
 logging:
   level:
     root: DEBUG
