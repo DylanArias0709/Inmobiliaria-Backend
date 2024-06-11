@@ -1,4 +1,4 @@
-ALTER PROCEDURE spLogicalDeleteClient
+CREATE PROCEDURE spLogicalDeleteClient
     @IdClient INT
 AS
 BEGIN
