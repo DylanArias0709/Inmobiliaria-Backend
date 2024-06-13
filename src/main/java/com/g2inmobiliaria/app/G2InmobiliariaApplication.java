@@ -8,6 +8,7 @@ public class G2InmobiliariaApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(G2InmobiliariaApplication.class, args);
+        System.out.println("Hello There InmobiliariaBD");
     }
 
 }
