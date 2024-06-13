@@ -14,8 +14,8 @@ BEGIN
         -- Verificar si el usuario existe
         IF NOT EXISTS (SELECT 1 FROM tbUser WHERE IdUser = @IdUser AND Status = 1)
         BEGIN
-            RAISERROR ('El usuario no existe.', 16, 1);
             SET @IdSesionCreated =  -1;
+            RAISERROR ('El usuario no existe.', 16, 1);
         END
 
         -- Verificar si existe una sesión activa para el usuario
@@ -49,13 +49,11 @@ GO
 
 DECLARE @IdSesionCreated INT;
 EXEC spCreateSesion
-	@IdUser = 2,
+	@IdUser = 10,
 	@IdSesionCreated = @IdSesionCreated OUT
 
 SELECT @IdSesionCreated AS IdSesion
 
--- Ver el resultado
-SELECT @IdUser AS IdUser;
 
 SELECT * FROM tbUser
 SELECT * FROM tbSesion
