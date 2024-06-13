@@ -1,4 +1,4 @@
-CREATE PROCEDURE spCreateSesion
+ALTER PROCEDURE spCreateSesion
     @UserName VARCHAR(100),
     @Password VARCHAR(100),
     @IdUser INT OUTPUT
@@ -53,8 +53,8 @@ GO
 DECLARE @IdUser INT;
 
 EXEC spCreateSesion
-    @UserName = 'johndoe', -- Reemplaza 'exampleUserName' con el nombre de usuario real
-    @Password = 'securepassword', -- Reemplaza 'examplePassword' con la contraseña real
+    @UserName = 'johndoe',
+    @Password = 'securepassword',
     @IdUser = @IdUser OUTPUT;
 
 -- Ver el resultado
