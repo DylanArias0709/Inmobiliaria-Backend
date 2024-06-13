@@ -1,11 +1,9 @@
 ALTER PROCEDURE spCreateComunication
-    @ComunicationStatus TINYINT,
     @IdComunicationType INT,
     @IdClient INT,
     @IdRealStateAgent INT,
 
     @NameComunicationType VARCHAR(100), -- Añadí el tamaño máximo del campo
-    @ComunicationTypeStatus TINYINT,
 
     @IdComunication INT OUT
 AS
@@ -29,10 +27,10 @@ BEGIN
             -- Verificar si el IdComunicationType existe en tbComunicationType
             IF NOT EXISTS (SELECT 1 FROM tbComunicationType WHERE IdComunicationType = @IdComunicationType)
             BEGIN
-                IF @ComunicationTypeStatus IS NOT NULL AND @NameComunicationType IS NOT NULL
+                IF @NameComunicationType IS NOT NULL
                 BEGIN
                     INSERT INTO tbComunicationType (NameComunicationType, Status)
-                    VALUES (@NameComunicationType, @ComunicationTypeStatus);
+                    VALUES (@NameComunicationType, 1);
                     
                     -- Obtener el Id del nuevo tipo de comunicación insertado
                     SET @IdComunicationType = SCOPE_IDENTITY();
@@ -45,7 +43,7 @@ BEGIN
             END
 
             INSERT INTO tbComunication (IdComunicationType, IdClient, IdRealStateAgent, DateTimeComunication, Status)
-            VALUES (@IdComunicationType, @IdClient, @IdRealStateAgent, GETUTCDATE(), @ComunicationStatus);
+            VALUES (@IdComunicationType, @IdClient, @IdRealStateAgent, GETUTCDATE(), 1);
 
             SET @IdComunication = SCOPE_IDENTITY();
 
@@ -69,14 +67,14 @@ GO
 DECLARE @IdComunication INT;
 
 EXEC spCreateComunication
-    @ComunicationStatus = 1,
     @IdComunicationType = 1, -- ID del tipo de comunicación existente
     @IdClient = 1, -- ID del cliente existente
     @IdRealStateAgent = 1, -- ID del agente de bienes raíces existente
-    @NameComunicationType = NULL,
-    @ComunicationTypeStatus = NULL, -- Estado del nuevo tipo de comunicación
+    @NameComunicationType = 'Celular',
 
     @IdComunication = @IdComunication OUTPUT;
+
+SELECT * FROM tbComunication
 
 -- Inserts para la tabla tbProvince (7 provincias de Costa Rica)
 INSERT INTO tbProvince (Name, Status) VALUES ('San José', 1);
