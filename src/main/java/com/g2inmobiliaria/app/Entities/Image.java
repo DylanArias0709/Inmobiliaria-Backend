@@ -4,26 +4,30 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "tbRole")
-public class Role {
+@Table(name = "tbImage")
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IdRole", nullable = false)
+    @Column(name = "IdImage", nullable = false)
     private Integer id;
 
-    @Column(name = "RoleName", length = 100)
-    private String roleName;
+    @Column(name = "Image")
+    private byte[] image;
+
+    @Column(name = "RegistrationDate")
+    private LocalDate registrationDate;
 
     @Column(name = "Status", columnDefinition = "tinyint not null")
     private Short status;
 
-    @OneToMany(mappedBy = "idRole")
-    private Set<User> tbUsers = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "idImage")
+    private Set<Property> tbProperties = new LinkedHashSet<>();
 
 }

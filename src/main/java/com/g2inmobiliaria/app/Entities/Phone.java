@@ -1,29 +1,27 @@
 package com.g2inmobiliaria.app.Entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "tbPhone")
-
 public class Phone {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IdPhone")
-    private Integer idPhone;
+    @Column(name = "IdPhone", nullable = false)
+    private Integer id;
 
-    @Column(name = "PhoneNumber")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IdPerson")
+    private Person idPerson;
+
+    @Column(name = "PhoneNumber", length = 20)
     private String phoneNumber;
 
-    @Column(name = "Status")
-    private boolean status;
+    @Column(name = "Status", columnDefinition = "tinyint not null")
+    private Short status;
 
 }
