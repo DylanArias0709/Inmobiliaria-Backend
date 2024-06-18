@@ -1,14 +1,14 @@
 spring:
   datasource:
     url: jdbc:sqlserver://localhost:1433;database=bdInmobiliaria;encrypt=true;trustServerCertificate=true
-    username: Dixon8
-    password: 12345678
+    username: DeeEmDy
+    password: DADS123456
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
-      format_sql: true
+      #ddl-auto: update
+      #format_sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.SQLServerDialect
