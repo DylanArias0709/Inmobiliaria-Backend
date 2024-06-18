@@ -11,39 +11,39 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "tbClient")
-public class Client {
+@Table(name = "tbRealStateAgent")
+public class RealStateAgent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IdClient", nullable = false)
+    @Column(name = "IdRealStateAgent", nullable = false)
     private Integer id;
-
-    @Column(name = "Budget", precision = 10, scale = 2)
-    private BigDecimal budget;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IdUser")
     private User idUser;
 
+    @Column(name = "IdClientPreference")
+    private Integer idClientPreference;
+
+    @Column(name = "MaximumBudget", precision = 10, scale = 2)
+    private BigDecimal maximumBudget;
+
     @Column(name = "Status", columnDefinition = "tinyint not null")
     private Short status;
 
-    @OneToMany(mappedBy = "idClient")
+    @OneToMany(mappedBy = "idRealStateAgent")
     private Set<Agreement> tbAgreements = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "idClient")
-    private Set<ClientPreference> tbClientPreferences = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "idClient")
+    @OneToMany(mappedBy = "idRealStateAgent")
     private Set<Comunication> tbComunications = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "idClient")
-    private Set<Property> tbProperties = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "idRealStateAgent")
+    private Set<PublicationProperty> tbPublicationProperties = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "idClient")
+    @OneToMany(mappedBy = "idRealStateAgent")
     private Set<Sale> tbSales = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "idClient")
+    @OneToMany(mappedBy = "idRealStateAgent")
     private Set<Visit> tbVisits = new LinkedHashSet<>();
 
 }

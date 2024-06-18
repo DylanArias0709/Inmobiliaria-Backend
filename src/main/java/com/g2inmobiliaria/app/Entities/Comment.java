@@ -9,30 +9,28 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "tbSesion")
-public class Sesion {
+@Table(name = "tbComment")
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IdSesion", nullable = false)
+    @Column(name = "IdComment", nullable = false)
     private Integer id;
-
-    @Column(name = "TokenSesion", length = 500)
-    private String tokenSesion;
-
-    @Column(name = "RegistrationSesionDate")
-    private LocalDate registrationSesionDate;
-
-    @Column(name = "ActualizationSesionDate")
-    private LocalDate actualizationSesionDate;
-
-    @Column(name = "ExpirationSesionDate")
-    private LocalDate expirationSesionDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IdUser")
     private User idUser;
 
+    @Column(name = "CommentContent", length = 200)
+    private String commentContent;
+
+    @Column(name = "CommentPublicationDate")
+    private LocalDate commentPublicationDate;
+
     @Column(name = "Status", columnDefinition = "tinyint not null")
     private Short status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IdVisit")
+    private Visit idVisit;
 
 }

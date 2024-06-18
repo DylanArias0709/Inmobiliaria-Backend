@@ -10,20 +10,20 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "tbRole")
-public class Role {
+@Table(name = "tbComunicationType")
+public class ComunicationType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IdRole", nullable = false)
+    @Column(name = "IdComunicationType", nullable = false)
     private Integer id;
 
-    @Column(name = "RoleName", length = 100)
-    private String roleName;
+    @Column(name = "NameComunicationType", length = 100)
+    private String nameComunicationType;
 
     @Column(name = "Status", columnDefinition = "tinyint not null")
     private Short status;
 
-    @OneToMany(mappedBy = "idRole")
-    private Set<User> tbUsers = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "idComunicationType")
+    private Set<Comunication> tbComunications = new LinkedHashSet<>();
 
 }
