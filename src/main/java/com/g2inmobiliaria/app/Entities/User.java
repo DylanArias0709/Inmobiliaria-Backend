@@ -1,105 +1,59 @@
 package com.g2inmobiliaria.app.Entities;
 
-import java.util.ArrayList;
 import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Data //Importacion de anotación de LoomBook que provee los setters y getters de las entidades.
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
 @Getter
 @Setter
+@Entity
 @Table(name = "tbUser")
-public class User implements UserDetails {
-
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //Para hacer que cada registro tenga su ID autoincrementable.
-    @Column(name = "IdUser")
-    private Integer idUser;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "IdUser", nullable = false)
+    private Integer id;
 
-    @Column(name = "UserName")
+    @Column(name = "UserName", length = 100)
     private String userName;
 
     @Column(name = "RegistrationDate")
-    private Date registrationDate;
+    private LocalDate registrationDate;
 
-    @Column(name = "Password")
+    @Column(name = "Password", length = 100)
     private String password;
 
-    @Column(name = "ActivationToken")
+    @Column(name = "ActivationToken", length = 500)
     private String activationToken;
 
-    @Column(name = "VerificationToken")
+    @Column(name = "VerificationToken", length = 500)
     private String verificationToken;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IdPerson", referencedColumnName = "IdPerson")
-    private Person person;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IdPerson")
+    private Person idPerson;
 
-    //Obtener el roll del usuario.
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IdRole", referencedColumnName = "IdRole")
-    private Role role;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IdRole")
+    private Role idRole;
 
-    @Column(name = "Status")
-    private boolean status;
+    @Column(name = "Status", columnDefinition = "tinyint not null")
+    private Short status;
 
+    @OneToMany(mappedBy = "idUser")
+    private Set<Client> tbClients = new LinkedHashSet<>();
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Crear una lista de los roles del usuario
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role.getRoleName())); // Agregar el rol del usuario
+    @OneToMany(mappedBy = "idUser")
+    private Set<Comment> tbComments = new LinkedHashSet<>();
 
-        return authorities;
-    }
+    @OneToMany(mappedBy = "idUser")
+    private Set<RealStateAgent> tbRealStateAgents = new LinkedHashSet<>();
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
+    @OneToMany(mappedBy = "idUser")
+    private Set<Sesion> tbSesions = new LinkedHashSet<>();
 
-    /* --Metodo por default.
-    @Override
-    public String getUsername() {
-        return person.getEmail().getEmail();
-    }
-    */
-    @Override
-    public String getUsername() {
-        if (person != null && person.getEmail() != null) {
-            return person.getEmail().getEmail();
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

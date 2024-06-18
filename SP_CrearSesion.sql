@@ -1,7 +1,7 @@
 ALTER PROCEDURE spCreateSesion
-    @UserName VARCHAR(100),
-    @Password VARCHAR(100),
-    @IdUser INT OUTPUT
+    @IdUser INT,
+
+	@IdSesionCreated INT OUT
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -12,16 +12,11 @@ BEGIN
     BEGIN TRAN
     BEGIN TRY
         -- Verificar si el usuario existe
-        IF NOT EXISTS (SELECT 1 FROM tbUser WHERE UserName = @UserName AND Password = @Password)
+        IF NOT EXISTS (SELECT 1 FROM tbUser WHERE IdUser = @IdUser AND Status = 1)
         BEGIN
-            RAISERROR ('El usuario o la contraseña no existen.', 16, 1);
-            RETURN -1;
+            SET @IdSesionCreated =  -1;
+            RAISERROR ('El usuario no existe.', 16, 1);
         END
-
-        -- Obtener el IdUser del usuario
-        SELECT @IdUser = IdUser
-        FROM tbUser
-        WHERE UserName = @UserName AND Password = @Password;
 
         -- Verificar si existe una sesión activa para el usuario
         IF EXISTS (SELECT 1 FROM tbSesion WHERE IdUser = @IdUser AND Status = 1 AND ExpirationSesionDate IS NULL)
@@ -37,6 +32,8 @@ BEGIN
         INSERT INTO tbSesion (TokenSesion, RegistrationSesionDate, ActualizationSesionDate, ExpirationSesionDate, IdUser, Status)
         VALUES (NEWID(), @CurrentDate, @CurrentDate, NULL, @IdUser, 1);
 
+		SET @IdSesionCreated =  SCOPE_IDENTITY();
+
         COMMIT;
     END TRY
     BEGIN CATCH
@@ -50,15 +47,13 @@ BEGIN
 END
 GO
 
-DECLARE @IdUser INT;
-
+DECLARE @IdSesionCreated INT;
 EXEC spCreateSesion
-    @UserName = 'johndoe',
-    @Password = 'securepassword',
-    @IdUser = @IdUser OUTPUT;
+	@IdUser = 10,
+	@IdSesionCreated = @IdSesionCreated OUT
 
--- Ver el resultado
-SELECT @IdUser AS IdUser;
+SELECT @IdSesionCreated AS IdSesion
+
 
 SELECT * FROM tbUser
 SELECT * FROM tbSesion
