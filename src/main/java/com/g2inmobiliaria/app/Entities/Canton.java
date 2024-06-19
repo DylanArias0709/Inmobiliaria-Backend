@@ -27,6 +27,10 @@ public class Canton {
     @Column(name = "Status", columnDefinition = "tinyint not null")
     private Short status;
 
+    // Campo para almacenar el nombre de la provincia
+    @Column(name = "name", length = 200)
+    private String provinceName;
+
     @OneToMany(mappedBy = "idCanton")
     private Set<District> tbDistricts = new LinkedHashSet<>();
 
