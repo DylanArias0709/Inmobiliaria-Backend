@@ -34,11 +34,11 @@ public class RoleService {
         int idRoleCreado = (int) query.getOutputParameterValue(2);
 
         if(idRoleCreado > 0){
-            return "Role creado exitosamente";
+            return "{\"success\": true, \"message\": \"¡Rol creado exitosamente!\"}";
         } else if (idRoleCreado == -1) {
-            return "El nombre del rol ya existe";
+            return "{\"success\": false, \"message\": \"¡El nombre del rol ya existe!\"}";
         } else{
-            return "Hubo un error al registrar el role";
+            return "{\"success\": false, \"message\": \"¡Hubo un error creando el rol!\"}";
         }
     }
 

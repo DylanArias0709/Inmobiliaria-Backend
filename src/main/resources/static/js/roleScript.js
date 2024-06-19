@@ -100,15 +100,15 @@ function mostrarMensaje(mensaje, container) {
     container.innerHTML = mensaje;
 }
 
-function validarCreacionRol(selector, mensajeConfirmacion, urlRedireccion) {
-    var crearForm = document.querySelector(selector);
+function validarCreacionRol() {
+    var crearForm = document.querySelector('.form-crear');
 
     crearForm.addEventListener('submit', function (event) {
-        alert("Si llega al if");
+        //alert("Si llega al if");
         event.preventDefault();
         if (validarFormularioCrear(event)) {
             Swal.fire({
-                title: mensajeConfirmacion,
+                title: "¿Estas seguro de crear este rol?",
                 text: '¡Asegurate de tener los datos correctos!',
                 icon: 'question',
                 showCancelButton: true,
@@ -118,11 +118,19 @@ function validarCreacionRol(selector, mensajeConfirmacion, urlRedireccion) {
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Realizar una petición AJAX o enviar el formulario de forma asíncrona
-                    //alert("Si llega aqui.");
+                    /// Obtener datos del formulario y convertirlos a JSON
+                    const formData = new FormData(crearForm);
+                    const jsonData = {};
+                    formData.forEach((value, key) => {
+                        jsonData[key] = value;
+                    });
+                    const requestBody = JSON.stringify(jsonData);
                     fetch(crearForm.action, {
                         method: 'POST',
-                        body: new FormData(crearForm)
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: requestBody
                     })
                         .then(response => response.json())
                         .then(data => {
@@ -131,7 +139,7 @@ function validarCreacionRol(selector, mensajeConfirmacion, urlRedireccion) {
                                 mostrarToastConfirmacion(data.message);
                                 // Redirigir después de un pequeño retraso
                                 setTimeout(function () {
-                                    window.location.href = urlRedireccion;
+                                    window.location.href = './listarRoles';
                                 }, 1000); // 1000 milisegundos de retraso
                             } else {
                                 // Si el proceso de agregar el cliente falló, mostrar mensaje de error

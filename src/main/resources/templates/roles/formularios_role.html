@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Formulario de Rol</title>
-    <script src="text/javascript" th:src="@{/js/alertScript.js}"></script>
-    <script src="text/javascript" th:src="@{/js/roleScript.js}"></script>
-</head>
-<body>
 <div th:if="${role == null}">
     <h2>Crear Rol</h2>
-    <form th:action="@{/roles/registrarRole}" method="post" id="form-crear">
+    <form th:action="@{/roles/registrarRole}" method="post" id="form-crear" class="form-crear">
         <label for="roleName">Nombre del Rol:</label>
         <input type="text" id="roleName" name="roleName">
         <br><br>
@@ -20,16 +11,18 @@
             <option value="0">Inactivo</option>
         </select>
         <br><br>
-        <button type="submit">Crear</button>
+        <button type="submit" onclick="validarCreacionRol()">Crear</button>
         <button type="button" onclick="ocultarFomr()">Cancelar</button>
     </form>
     <div>
         <p id="texto_error" style="color: red;"></p>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="text/javascript" th:src="@{/js/alertScript.js}"></script>
+    <script src="text/javascript" th:src="@{/js/roleScript.js}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            validarCreacionRol('.form-crear', '¿Estas seguro de continuar con la creación de este rol?', './listarRoles')
+
         });
     </script>
 </div>
@@ -51,6 +44,3 @@
         <button type="button" onclick="ocultarFomr()">Cancelar</button>
     </form>
 </div>
-</body>
-</html>
-<br><br>

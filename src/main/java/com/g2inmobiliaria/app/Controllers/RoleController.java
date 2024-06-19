@@ -24,8 +24,8 @@ public class RoleController {
     }
 
     @PostMapping("/registrarRole")
-    public String registrarRole(@RequestBody Role role) {
-        return roleService.registrarRole(role);
+    public ResponseEntity<?> registrarRole(@RequestBody Role role) {
+        return ResponseEntity.ok().body(roleService.registrarRole(role));
     }
 
     @PostMapping("/actualizarRole")
@@ -45,5 +45,7 @@ public class RoleController {
         model.addAttribute("role", role);
         return "roles/formularios_role";
     }
+
+
 
 }
