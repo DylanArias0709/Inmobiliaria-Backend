@@ -1,4 +1,4 @@
-package com.g2inmobiliaria.app.Config;
+/*package com.g2inmobiliaria.app.Config;
 
 import com.g2inmobiliaria.app.Repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -46,3 +46,4 @@ public class ApplicationConfig {
         return new BCryptPasswordEncoder();
     }
 }
+ */

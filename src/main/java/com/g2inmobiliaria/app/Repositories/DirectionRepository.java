@@ -1,4 +1,4 @@
-package com.g2inmobiliaria.app.Repositories;
+/*package com.g2inmobiliaria.app.Repositories;
 
 import com.g2inmobiliaria.app.Entities.Direction;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,3 +11,4 @@ public interface DirectionRepository extends JpaRepository<Direction, Integer> {
     Optional<Direction> findByDistrict_IdDistrict(Integer idDistrict);
     Optional<Direction> findByAditionalInformation(String additionalInformation);
 }
+*/
