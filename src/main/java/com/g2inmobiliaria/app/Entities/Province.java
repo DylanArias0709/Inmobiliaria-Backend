@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.naming.Name;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -12,6 +13,14 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "tbProvince")
+@NamedStoredProcedureQuery(
+        name = "spCreateProvince",
+        procedureName = "spCreateProvince",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "Name", type = String.class),
+                @StoredProcedureParameter(mode = ParameterMode.OUT, name = "IdProvince", type = Integer.class)
+        }
+)
 public class Province {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,4 +1,4 @@
-/*package com.g2inmobiliaria.app.Controllers;
+package com.g2inmobiliaria.app.Controllers;
 
 import com.g2inmobiliaria.app.Entities.Province;
 import com.g2inmobiliaria.app.Services.ProvinceService;
@@ -29,7 +29,7 @@ public class ProvinceController {
 
     @PostMapping
     public ResponseEntity<Province> createProvince(@RequestBody Province province) {
-        int newProvinceId = provinceService.createProvince(province.getName(), province.getStatus());
+        int newProvinceId = provinceService.createProvince(province.getName());
         province.setId(newProvinceId);
         return ResponseEntity.ok(province);
     }
@@ -40,7 +40,7 @@ public class ProvinceController {
         if (province.isPresent()) {
             Province updatedProvince = province.get();
             updatedProvince.setName(provinceDetails.getName());
-            updatedProvince.setStatus(provinceDetails.getStatus());
+            updatedProvince.setStatus(provinceDetails.getStatus()); // Assuming you still need to update status
             return ResponseEntity.ok(provinceService.save(updatedProvince));
         } else {
             return ResponseEntity.notFound().build();
@@ -53,6 +53,3 @@ public class ProvinceController {
         return ResponseEntity.noContent().build();
     }
 }
-
-
- */

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Usuario</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Registro de Usuario</h2>
+    <form action="/guardarUsuario" method="POST">
+
+        <!-- Datos de la Persona -->
+        <div class="form-group">
+            <label for="nombrePersona">Nombre de Persona</label>
+            <input type="text" class="form-control" id="nombrePersona" name="nombrePersona" required>
+        </div>
+
+        <div class="form-group">
+            <label for="primerApellido">Primer Apellido</label>
+            <input type="text" class="form-control" id="primerApellido" name="nombrePersona" required>
+        </div>
+
+        <div class="form-group">
+            <label for="segundoApellido">Segundo Apellido</label>
+            <input type="text" class="form-control" id="segundoApellido" name="nombrePersona" required>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input type="tel" class="form-control" id="telefono" name="telefono">
+        </div>
+
+        <!-- Dirección -->
+        <div class="form-group">
+            <label for="direccion">Dirección</label>
+            <input type="text" class="form-control" id="direccion" name="direccion">
+        </div>
+
+        <!-- Selección de Provincia, Cantón y Distrito (Si aplica) -->
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="provincia">Provincia</label>
+                <select class="form-control" id="provincia" name="provincia">
+                    <option value="San Jose">San José</option>
+                    <!-- Agrega más opciones según tus necesidades -->
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="canton">Cantón</label>
+                <select class="form-control" id="canton" name="canton">
+                    <option value="San Jose">San José</option>
+                    <!-- Agrega más opciones según tus necesidades -->
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="distrito">Distrito</label>
+                <select class="form-control" id="distrito" name="distrito">
+                    <option value="San Jose">San José</option>
+                    <!-- Agrega más opciones según tus necesidades -->
+                </select>
+            </div>
+        </div>
+
+        <!-- Selección de Rol -->
+        <div class="form-group">
+            <label>Rol del Usuario</label><br>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="clienteCheckbox" name="roles" value="CLIENT">
+                <label class="form-check-label" for="clienteCheckbox">Cliente</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="agenteCheckbox" name="roles" value="REAL_STATE_AGENT">
+                <label class="form-check-label" for="agenteCheckbox">Agente Inmobiliario</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Registrar Usuario</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS (opcional, si necesitas componentes interactivos) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy4WgYxiNAwqRDvq3Ih2FYb1Awo8F5VaU6"
+        crossorigin="anonymous"></script>
+</body>
+</html>

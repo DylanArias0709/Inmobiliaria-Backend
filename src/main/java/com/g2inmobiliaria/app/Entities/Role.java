@@ -26,4 +26,45 @@ public class Role {
     @OneToMany(mappedBy = "idRole")
     private Set<User> tbUsers = new LinkedHashSet<>();
 
+    public Role() {
+    }
+
+    public Role(Integer id, String roleName, Short status, Set<User> tbUsers) {
+        this.id = id;
+        this.roleName = roleName;
+        this.status = status;
+        this.tbUsers = tbUsers;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public Short getStatus() {
+        return status;
+    }
+
+    public void setStatus(Short status) {
+        this.status = status;
+    }
+
+    public Set<User> getTbUsers() {
+        return tbUsers;
+    }
+
+    public void setTbUsers(Set<User> tbUsers) {
+        this.tbUsers = tbUsers;
+    }
 }

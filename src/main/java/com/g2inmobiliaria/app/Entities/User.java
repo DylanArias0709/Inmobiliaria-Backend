@@ -3,8 +3,12 @@ package com.g2inmobiliaria.app.Entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -53,7 +57,33 @@ public class User {
     @OneToMany(mappedBy = "idUser")
     private Set<RealStateAgent> tbRealStateAgents = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "idUser")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Sesion> tbSesions = new LinkedHashSet<>();
+
+    public Collection<? extends GrantedAuthority> getRoles() {
+        Set<GrantedAuthority> roles = new HashSet<>();
+
+        // Agregar el rol principal del usuario
+        roles.add(new SimpleGrantedAuthority("ROLE_" + idRole.getRoleName()
+        ));
+
+        // Agregar roles adicionales si es necesario
+        switch (idRole.getRoleName()) {
+            case "ADMIN":
+                roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                break;
+            case "CLIENT":
+                roles.add(new SimpleGrantedAuthority("ROLE_CLIENT"));
+                break;
+            case "REAL_STATE_AGENT":
+                roles.add(new SimpleGrantedAuthority("ROLE_REAL_STATE_AGENT"));
+                break;
+            default:
+                // Agregar un manejo para otros roles si es necesario
+                break;
+        }
+
+        return roles;
+    }
 
 }

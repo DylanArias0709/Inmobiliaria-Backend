@@ -4,9 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.InvalidKeyException;
-import io.jsonwebtoken.security.SecureDigestAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -35,30 +32,28 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String jwtToken) {
-        return Jwts
-                .parser()
-                .verifyWith(getSignInKey()) // Usando verifyWith en lugar de setSigningKey
+        return Jwts.parser()
+                .setSigningKey(getSigningKey())
                 .build()
-                .parseUnsecuredClaims(jwtToken)
-                .getPayload(); // Usando getPayload() en lugar de getBody()
+                .parseClaimsJws(jwtToken)
+                .getBody();
     }
 
-    private SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+    private SecretKey getSigningKey() {
+        byte[] keyBytes = Keys.hmacShaKeyFor(SECRET_KEY.getBytes()).getEncoded();
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails
-    ) {
-        return Jwts
-                .builder()
-                .claims(extraClaims) // Usando claims() en lugar de setClaims()
-                .subject(userDetails.getUsername()) // Usando subject() en lugar de setSubject()
-                .issuedAt(new Date(System.currentTimeMillis())) // Usando issuedAt() en lugar de setIssuedAt()
-                .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 1000)) // Usando expiration() en lugar de setExpiration()
-                .signWith(getSignInKey(), Jwts.SIG.HS512) // Usando signWith(Key, SecureDigestAlgorithm)
+    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + 60 * 60 * 1000); // 1 hour validity
+
+        return Jwts.builder()
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
 
