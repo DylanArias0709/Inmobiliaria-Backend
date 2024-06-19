@@ -1,4 +1,4 @@
-package com.g2inmobiliaria.app.Config;
+/*package com.g2inmobiliaria.app.Config;
 
 import com.g2inmobiliaria.app.Repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,28 +22,28 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        //Uso de expresion Lambda
+        // Uso de expresión Lambda
         return username -> userRepository.findByPersonEmailEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
 
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(); //DAO: Data-Access-Objetc: Es el responsable de obtener los detalles del usuario y de codificar la contraseña.
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(); // DAO: Data-Access-Object: Es el responsable de obtener los detalles del usuario y de codificar la contraseña.
         authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder()); //Hashear o Codificar la contraseña.
+        authProvider.setPasswordEncoder(passwordEncoder()); // Hashear o Codificar la contraseña.
         return authProvider;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-
         return new BCryptPasswordEncoder();
     }
 }
+ */

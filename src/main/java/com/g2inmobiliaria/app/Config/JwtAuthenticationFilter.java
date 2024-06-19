@@ -1,4 +1,4 @@
-package com.g2inmobiliaria.app.Config;
+/*package com.g2inmobiliaria.app.Config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -68,3 +68,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response); //Hacer que la solicitud HTTPS pase por el filtro de autentificacion.
     }
 }
+
+
+ */

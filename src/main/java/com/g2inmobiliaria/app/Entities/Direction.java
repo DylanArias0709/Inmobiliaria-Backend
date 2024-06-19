@@ -1,48 +1,33 @@
 package com.g2inmobiliaria.app.Entities;
 
-import com.g2inmobiliaria.app.Entities.*;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-import com.g2inmobiliaria.app.Entities.Province;
-import com.g2inmobiliaria.app.Entities.Canton;
-import com.g2inmobiliaria.app.Entities.District;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Data //Importacion de anotación de LoomBook que provee los setters y getters de las entidades.
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @Entity
-@Table(name = "tDirection")
+@Table(name = "tbDirection")
 public class Direction {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IdDirection")
-    private Integer idDirection;
+    @Column(name = "IdDirection", nullable = false)
+    private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IdProvince", referencedColumnName = "IdProvince")
-    @Column(name = "IdProvince")
-    private Province province;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IdDistrict")
+    private District idDistrict;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IdCanton", referencedColumnName = "IdCanton")
-    @Column(name = "IdCanton")
-    private Canton canton;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IdDistrict", referencedColumnName = "IdDistrict")
-    @Column(name = "IdDistrict")
-    private District district;
-
-    @Column(name = "AditionalInformation")
+    @Column(name = "AditionalInformation", length = 200)
     private String aditionalInformation;
 
-    @Column(name = "Status")
-    private boolean status;
+    @Column(name = "Status", columnDefinition = "tinyint not null")
+    private Short status;
+
+    @OneToMany(mappedBy = "idDirection")
+    private Set<Person> tbPeople = new LinkedHashSet<>();
 
 }

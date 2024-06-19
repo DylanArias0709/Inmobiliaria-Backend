@@ -1,27 +1,30 @@
 spring:
-  application:
-    name: g2Inmobiliaria
   datasource:
-    url: jdbc:sqlserver://localhost:1433;database=bdInmobiliaria
+    url: jdbc:sqlserver://localhost:1433;database=bdInmobiliaria;encrypt=true;trustServerCertificate=true
     username: DeeEmDy
-    password: DADS123456
+    password: Sof14&Dyl4n.18
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     show-sql: true
+    hibernate:
+      #ddl-auto: update
+      #format_sql: true
     properties:
       hibernate:
-        format_sql: true
-    database: sql_server
-    database-platform: org.hibernate.dialect.SQLServerDialect
-
-debug: true
-logging:
-  level:
-    root: DEBUG
-
-server:
-  port: 8080
+        dialect: org.hibernate.dialect.SQLServerDialect
+  server:
+    port: 8080
   tomcat:
     native:
       enabled: true
     protocol-header: x-forwarded-proto
+  session:
+    store-type: jdbc
+    jdbc:
+      schema: dbo
+      initialize-schema: never
+      table-name: tbSesion
+      delete-expired-stmt: DELETE FROM tbSesion WHERE ExpirationSesionDate < ?
+logging:
+  level:
+    root: DEBUG

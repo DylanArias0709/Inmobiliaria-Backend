@@ -1,10 +1,7 @@
-package com.g2inmobiliaria.app.Repositories;
+/*package com.g2inmobiliaria.app.Repositories;
+
+
 import com.g2inmobiliaria.app.Entities.User;
-import com.g2inmobiliaria.app.Entities.Person;
-import com.g2inmobiliaria.app.Entities.Email;
-
-
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -16,3 +13,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     // Método para encontrar un usuario por el email de la persona asociada
     Optional<User> findByPersonEmailEmail(String email);
 }
+
+ */

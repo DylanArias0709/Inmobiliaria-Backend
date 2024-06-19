@@ -1,33 +1,33 @@
 package com.g2inmobiliaria.app.Entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import com.g2inmobiliaria.app.Entities.Canton;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data //Importacion de anotación de LoomBook que provee los setters y getters de las entidades.
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "tbDistrict")
 public class District {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IdDistrict")
-    private Integer idDistrict;
+    @Column(name = "IdDistrict", nullable = false)
+    private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IdCanton", referencedColumnName = "IdCanton")
-    @Column(name = "IdCanton")
-    private Canton canton;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IdCanton")
+    private Canton idCanton;
 
-    @Column(name = "Name")
+    @Column(name = "Name", length = 200)
     private String name;
 
-    @Column(name = "Status")
-    private boolean status;
+    @Column(name = "Status", columnDefinition = "tinyint not null")
+    private Short status;
+
+    @OneToMany(mappedBy = "idDistrict")
+    private Set<Direction> tbDirections = new LinkedHashSet<>();
+
 }

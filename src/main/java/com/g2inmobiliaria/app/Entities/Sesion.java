@@ -1,41 +1,38 @@
 package com.g2inmobiliaria.app.Entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+import java.time.LocalDate;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "tbSesion")
-
 public class Sesion {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IdSesion")
-    private Integer idSesion;
+    @Column(name = "IdSesion", nullable = false)
+    private Integer id;
 
-    @Column(name = "TokenSesion")
+    @Column(name = "TokenSesion", length = 500)
     private String tokenSesion;
 
     @Column(name = "RegistrationSesionDate")
-    private String registrationSesionDate;
+    private LocalDate registrationSesionDate;
 
     @Column(name = "ActualizationSesionDate")
-    private String actualizationSesionDate;
+    private LocalDate actualizationSesionDate;
 
     @Column(name = "ExpirationSesionDate")
-    private String expirationSesionDate;
+    private LocalDate expirationSesionDate;
 
-    @Column(name = "IdUser")
-    private Integer idUser;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IdUser")
+    private User idUser;
 
-    @Column(name = "Status")
-    private String status;
+    @Column(name = "Status", columnDefinition = "tinyint not null")
+    private Short status;
 
 }

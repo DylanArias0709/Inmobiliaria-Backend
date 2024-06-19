@@ -1,38 +1,29 @@
 package com.g2inmobiliaria.app.Entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "tbRole")
 public class Role {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IdRole")
-    private int idRole;
+    @Column(name = "IdRole", nullable = false)
+    private Integer id;
 
-    @Column(name = "RoleName")
+    @Column(name = "RoleName", length = 100)
     private String roleName;
 
-    @Column(name = "Status")
-    private boolean status;
+    @Column(name = "Status", columnDefinition = "tinyint not null")
+    private Short status;
 
-    // Constructor para roles por defecto
-    public Role(String roleName, boolean status) {
-        this.roleName = roleName;
-        this.status = status;
-    }
+    @OneToMany(mappedBy = "idRole")
+    private Set<User> tbUsers = new LinkedHashSet<>();
 
-    // Roles por defecto
-    public static final Role ROLE_ADMIN = new Role("ROLE_ADMIN", true);
-    public static final Role CLIENT = new Role("ROLE_CLIENT", true);
-    public static final Role REAL_ESTATE_AGENT = new Role("ROLE_REAL_ESTATE_AGENT", true);
 }
