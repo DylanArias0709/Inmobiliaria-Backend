@@ -1,16 +1,15 @@
-function desplegarForm(){
-    var desplegarFormContainer = document.getElementById("form_container");
+function desplegarFormProvince(){
+    var desplegarFormContainer = document.getElementById("form_conainer");
 
     // Obtener todos los botones de desplegar formularios y agregar un evento clic a cada uno
     var botones = document.querySelectorAll('.btn_desplegarForm');
     botones.forEach(function (boton) {
         boton.addEventListener('click', function () {
-            // Obtener el valor (ID del producto) del botón clicado
-            var idRole= this.value;
-            //alert("ID del producto: " + idProveedor);
+            // Obtener el valor (ID de la provincia) del botón clicado
+            var idProvince = this.value;
 
             var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", "/roles/roleForm?role=" + idRole, true);
+            xmlhttp.open("GET", "/provinces/provinceForm?province=" + idProvince, true);
             xmlhttp.send();
 
             xmlhttp.onreadystatechange = function () {
@@ -22,16 +21,16 @@ function desplegarForm(){
     });
 }
 
-function ocultarFomr(){
-    document.getElementById("form_container").innerHTML = "";
+function ocultarFormProvince(){
+    document.getElementById("form_conainer").innerHTML = "";
 }
 
-function editarRole(){
+function editarProvince(){
     var editarForm = document.querySelector('.editForm');
     editarForm.addEventListener('submit', function (event) {
         event.preventDefault();
         Swal.fire({
-            title: '¿Desea continuar con la edición de este rol?',
+            title: '¿Desea continuar con la edición de esta provincia?',
             text: '¡Asegúrate de tener los datos correctos!',
             icon: 'question',
             showCancelButton: true,
@@ -62,7 +61,7 @@ function editarRole(){
                         if (data.success) {
                             mostrarToastConfirmacion(data.message);
                             setTimeout(function () {
-                                window.location.href = "./listarRoles";
+                                window.location.href = "/provinces/listarProvinces";
                             }, 1000);
                         } else {
                             mostrarToastError(data.message);
@@ -76,8 +75,7 @@ function editarRole(){
     });
 }
 
-function validarFormularioCrear(event) {
-
+function validarFormularioCrearProvince(event) {
     event.preventDefault(); // Evitar que el evento por defecto se ejecute
 
     var form = document.getElementById('form-crear');
@@ -88,7 +86,7 @@ function validarFormularioCrear(event) {
         var input = inputs[i];
         if (input.value.trim() === '') {
             var mensaje = "Por favor, completa todos los campos.";
-            mostrarMensaje(mensaje, mensajeContainer);
+            mostrarMensajeProvince(mensaje, mensajeContainer);
             return false; // Detener la validación y no enviar el formulario
         }
     }
@@ -96,19 +94,19 @@ function validarFormularioCrear(event) {
     return true;
 }
 
-function mostrarMensaje(mensaje, container) {
+function mostrarMensajeProvince(mensaje, container) {
     container.innerHTML = mensaje;
 }
 
-function validarCreacionRol() {
+function validarCreacionProvince() {
     var crearForm = document.querySelector('.form-crear');
 
     crearForm.addEventListener('submit', function (event) {
         //alert("Si llega al if");
         event.preventDefault();
-        if (validarFormularioCrear(event)) {
+        if (validarFormularioCrearProvince(event)) {
             Swal.fire({
-                title: "¿Estas seguro de crear este rol?",
+                title: "¿Estas seguro de crear esta Provincia?",
                 text: '¡Asegurate de tener los datos correctos!',
                 icon: 'question',
                 showCancelButton: true,
@@ -139,7 +137,7 @@ function validarCreacionRol() {
                                 mostrarToastConfirmacion(data.message);
                                 // Redirigir después de un pequeño retraso
                                 setTimeout(function () {
-                                    window.location.href = './listarRoles';
+                                    window.location.href = './listarProvinces';
                                 }, 1000); // 1000 milisegundos de retraso
                             } else {
                                 // Si el proceso de agregar el cliente falló, mostrar mensaje de error
@@ -154,3 +152,4 @@ function validarCreacionRol() {
         }
     });
 }
+

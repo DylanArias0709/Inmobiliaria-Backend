@@ -2,55 +2,56 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario de Rol</title>
+    <title>Administrar Roles</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="text/javascript" th:src="@{/js/alertScript.js}"></script>
     <script src="text/javascript" th:src="@{/js/roleScript.js}"></script>
 </head>
 <body>
-<div th:if="${role == null}">
-    <h2>Crear Rol</h2>
-    <form th:action="@{/roles/registrarRole}" method="post" id="form-crear">
-        <label for="roleName">Nombre del Rol:</label>
-        <input type="text" id="roleName" name="roleName">
-        <br><br>
-        <label for="status">Status:</label>
-        <select id="status" name="status">
-            <option value="2">--Seleccionar--</option>
-            <option value="1">Activo</option>
-            <option value="0">Inactivo</option>
-        </select>
-        <br><br>
-        <button type="submit">Crear</button>
-        <button type="button" onclick="ocultarFomr()">Cancelar</button>
-    </form>
-    <div>
-        <p id="texto_error" style="color: red;"></p>
+<div class="container mt-5">
+    <div th:if="${role == null}">
+        <h2 class="mb-4">Crear Rol</h2>
+        <form th:action="@{/roles/registrarRole}" method="post" id="form-crear" class="form-crear">
+            <div class="form-group">
+                <label for="roleName">Nombre del Rol:</label>
+                <input type="text" class="form-control" id="roleName" name="roleName" required>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="validarCreacionRol()">Crear</button>
+            <button type="button" class="btn btn-secondary" onclick="ocultarFomr()">Cancelar</button>
+        </form>
+        <div class="mt-3">
+            <p id="texto_error" class="text-danger"></p>
+        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            validarCreacionRol('.form-crear', '¿Estas seguro de continuar con la creación de este rol?', './listarRoles')
-        });
-    </script>
-</div>
-<div th:if="${role != null}">
-    <h2>Editar Rol</h2>
-    <form class="editForm" th:action="@{/roles/actualizarRole}" method="post">
-        <input type="hidden" id="id" name="id" th:value="${role.id}">
 
-        <label for="roleName">Nombre del Rol:</label>
-        <input type="text" id="roleName" name="roleName" th:value="${role.roleName}" required>
-        <br><br>
-        <label for="status">Status:</label>
-        <select id="status" name="status" required>
-            <option value="1" th:selected="${role.status == 1}">Activo</option>
-            <option value="0" th:selected="${role.status == 0}">Inactivo</option>
-        </select>
-        <br><br>
-        <button type="submit" onclick="editarRole()">Actualizar</button>
-        <button type="button" onclick="ocultarFomr()">Cancelar</button>
-    </form>
+    <div th:if="${role != null}">
+        <h2 class="mb-4">Editar Rol</h2>
+        <form class="editForm" th:action="@{/roles/actualizarRole}" method="post">
+            <input type="hidden" id="id" name="id" th:value="${role.id}">
+            <div class="form-group">
+                <label for="roleName">Nombre del Rol:</label>
+                <input type="text" class="form-control" id="roleName" name="roleName" th:value="${role.roleName}" required>
+            </div>
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <select class="form-control" id="status" name="status" required>
+                    <option value="1" th:selected="${role.status == 1}">Activo</option>
+                    <option value="0" th:selected="${role.status == 0}">Inactivo</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="editarRole()">Actualizar</button>
+            <button type="button" class="btn btn-secondary" onclick="ocultarFomr()">Cancelar</button>
+        </form>
+    </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Agrega tus scripts aquí si es necesario
+    });
+</script>
 </body>
 </html>
-<br><br>

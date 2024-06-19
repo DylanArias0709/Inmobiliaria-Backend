@@ -30,4 +30,18 @@ public class District {
     @OneToMany(mappedBy = "idDistrict")
     private Set<Direction> tbDirections = new LinkedHashSet<>();
 
+    public District() {
+        id = 0;
+        name = "";
+        status = 0;
+
+    }
+
+    public District(Integer id, Canton idCanton, String name, Short status, Set<Direction> tbDirections) {
+        this.id = id;
+        this.idCanton = idCanton;
+        this.name = name;
+        this.status = status;
+        this.tbDirections = tbDirections;
+    }
 }
