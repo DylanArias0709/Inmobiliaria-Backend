@@ -56,9 +56,9 @@ public class RoleService {
         int errorCode = (int) query.getOutputParameterValue("ErrorCode");
         System.out.println(errorCode);
         if (errorCode == 0){
-            return "Role actualizado exitosamente";
+            return "{\"success\": true, \"message\": \"¡Rol actualizado exitosamente!\"}";
         } else {
-            return "Hubo un error actualizando el role";
+            return "{\"success\": false, \"message\": \"¡Hubo un error actualizando!\"}";
         }
     }
 
@@ -78,6 +78,15 @@ public class RoleService {
         } else {
             return "{\"success\": false, \"message\": \"Hubo un error desahbilitando el role.\"}";
         }
+    }
+
+    public Role obtenerRolePorId(int id){
+        for(Role role : listarRoles()){
+            if (id == role.getId()){
+                return role;
+            }
+        }
+        return null;
     }
 
 }

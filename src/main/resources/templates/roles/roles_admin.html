@@ -10,6 +10,13 @@
     <script src="https://kit.fontawesome.com/51553d23ad.js" crossorigin="anonymous"></script>
 </head>
 <body>
+<div>
+    <button class="btn_desplegarForm" value="0">Crear nuevo rol</button>
+    <br><br>
+    <div id="form_conainer">
+
+    </div>
+</div>
 <div th:if="${!roles.empty}" class="tb-container">
     <table border="1" class="contenedor-productos table table-striped table-hover">
         <thead>
@@ -24,7 +31,7 @@
             <td th:text="${role.roleName}"></td>
             <td th:text="${role.status == 1 ? 'Activo' : 'Inactivo'}"></td>
             <td>
-                <button type="button" class="producto-editar btn_editar" th:value="${role.id}"><i class="bi bi-pen"></i></button>
+                <button type="button" class="producto-editar btn_desplegarForm" th:value="${role.id}"><i class="bi bi-pen"></i></button>
                 <br>
                 -----
                 <br>
@@ -38,9 +45,11 @@
     </table>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="text/javascript" th:src="@{/js/alertScript.js}"></script>
+    <script src="text/javascript" th:src="@{/js/roleScript.js}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            validarEliminacion('.btn_delete', './listarRoles')
+            validarEliminacion('.btn_delete', './listarRoles'),
+                desplegarForm()
                 //detallesProveedor()
         });
     </script>
