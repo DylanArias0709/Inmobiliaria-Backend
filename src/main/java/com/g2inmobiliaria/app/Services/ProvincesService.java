@@ -45,11 +45,14 @@ public class ProvincesService {
     public String actualizarProvince(Province province) {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spUpdateProvince");
         query.registerStoredProcedureParameter("IdProvince", Integer.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter("ProvinceName", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("Name", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("Status", Byte.class, ParameterMode.IN); // TINYINT corresponde a Byte en Java
         query.registerStoredProcedureParameter("ErrorCode", Integer.class, ParameterMode.OUT);
 
         query.setParameter("IdProvince", province.getId()); // Assuming you have a getId() method in your Province entity
-        query.setParameter("ProvinceName", province.getName());
+        query.setParameter("Name", province.getName());
+        query.setParameter("Status", province.getStatus()); // Asumiendo que getStatus() devuelve un Byte
+
 
         query.execute();
 

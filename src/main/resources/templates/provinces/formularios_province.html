@@ -10,8 +10,8 @@
 <div th:if="${province == null}">
     <h2>Crear Provincia</h2>
     <form th:action="@{/provinces/registrarProvince}" method="post" id="form-crear">
-        <label for="provinceName">Nombre de la Provincia:</label>
-        <input type="text" id="provinceName" name="provinceName">
+        <label for="name">Nombre de la Provincia:</label>
+        <input type="text" id="name" name="name">
         <br><br>
         <label for="status">Estado:</label>
         <select id="status" name="status">
@@ -29,7 +29,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            validarCreacionProvince('#form-crear', '¿Estás seguro de continuar con la creación de esta provincia?', './listarProvincias');
+            validarCreacionProvince('#form-crear', '¿Estás seguro de continuar con la creación de esta provincia?', './listarProvinces');
         });
     </script>
 </div>
@@ -38,8 +38,8 @@
     <form class="editForm" th:action="@{/provinces/actualizarProvince}" method="post">
         <input type="hidden" id="id" name="id" th:value="${province.id}">
 
-        <label for="provinceName">Nombre de la Provincia:</label>
-        <input type="text" id="provinceName" name="provinceName" th:value="${province.provinceName}" required>
+        <label for="name">Nombre de la Provincia:</label>
+        <input type="text" id="name" name="name" th:value="${province.name}" required>
         <br><br>
         <label for="status">Estado:</label>
         <select id="status" name="status" required>
