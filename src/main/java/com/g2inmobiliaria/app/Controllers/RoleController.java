@@ -3,9 +3,7 @@ package com.g2inmobiliaria.app.Controllers;
 import com.g2inmobiliaria.app.Entities.Role;
 import com.g2inmobiliaria.app.Services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,5 +16,20 @@ public class RoleController {
     @GetMapping("/listarRoles")
     public List<Role> listarEntidades() {
         return roleService.listarRoles();
+    }
+
+    @PostMapping("/registrarRole")
+    public String registrarRole(@RequestBody Role role) {
+        return roleService.registrarRole(role);
+    }
+
+    @PutMapping("/actualzarRole")
+    public String actualizarRole(@RequestBody Role role) {
+        return roleService.actualizarRole(role);
+    }
+
+    @DeleteMapping("/eliminarRole")
+    public String borradoLogicoRole(@RequestParam("role") int id){
+        return roleService.borradoLogicoRole(id);
     }
 }
