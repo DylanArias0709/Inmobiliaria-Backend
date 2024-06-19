@@ -28,13 +28,22 @@ public class RoleController {
         return roleService.registrarRole(role);
     }
 
-    @PutMapping("/actualzarRole")
-    public String actualizarRole(@RequestBody Role role) {
-        return roleService.actualizarRole(role);
+    @PostMapping("/actualizarRole")
+    public ResponseEntity<?> actualizarRole(@RequestBody Role role) {
+        return ResponseEntity.ok().body(roleService.actualizarRole(role));
     }
 
     @DeleteMapping("/eliminarRole")
     public ResponseEntity<?> borradoLogicoRole(@RequestParam("role") int id){
         return ResponseEntity.ok().body(roleService.borradoLogicoRole(id));
     }
+
+    @GetMapping("/roleForm")
+    public String mostrarFormulario(@RequestParam("role") Integer id, Model model) {
+        Role role = null;
+        role = roleService.obtenerRolePorId(id); // Método para obtener el rol por id
+        model.addAttribute("role", role);
+        return "roles/formularios_role";
+    }
+
 }
