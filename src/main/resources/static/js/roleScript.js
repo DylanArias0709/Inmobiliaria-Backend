@@ -1,5 +1,5 @@
 function desplegarForm(){
-    var desplegarFormContainer = document.getElementById("form_conainer");
+    var desplegarFormContainer = document.getElementById("form_container");
 
     // Obtener todos los botones de desplegar formularios y agregar un evento clic a cada uno
     var botones = document.querySelectorAll('.btn_desplegarForm');
@@ -23,7 +23,7 @@ function desplegarForm(){
 }
 
 function ocultarFomr(){
-    document.getElementById("form_conainer").innerHTML = "";
+    document.getElementById("form_container").innerHTML = "";
 }
 
 function editarRole(){
