@@ -118,36 +118,36 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-        <!-- <dependency>
-             <groupId>org.testng</groupId>
-             <artifactId>testng</artifactId>
-             <version>7.7.0</version>
-             <scope>compile</scope>
-         </dependency>
-         <dependency>
-             <groupId>org.testng</groupId>
-             <artifactId>testng</artifactId>
-             <version>7.7.0</version>
-             <scope>compile</scope>
-         </dependency>
-         <dependency>
-             <groupId>org.testng</groupId>
-             <artifactId>testng</artifactId>
-             <version>7.7.0</version>
-             <scope>compile</scope>
-         </dependency>
-         <dependency>
-             <groupId>org.testng</groupId>
-             <artifactId>testng</artifactId>
-             <version>7.7.0</version>
-             <scope>compile</scope>
-         </dependency>
-         <dependency>
-             <groupId>org.testng</groupId>
-             <artifactId>testng</artifactId>
-             <version>7.7.0</version>
-             <scope>compile</scope>
-         </dependency>-->
+       <!-- <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.7.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.7.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.7.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.7.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.7.0</version>
+            <scope>compile</scope>
+        </dependency>-->
     </dependencies>
 
     <build>
