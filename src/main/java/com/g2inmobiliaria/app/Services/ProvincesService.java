@@ -24,21 +24,23 @@ public class ProvincesService {
     public String registrarProvince(Province province) {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spCreateProvince");
         query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT); // Parámetro de salida para el ID de la provincia creada
+        query.registerStoredProcedureParameter(2, Short.class, ParameterMode.IN); // Parámetro de salida para el ID de la provincia creada
+        query.registerStoredProcedureParameter(3, Integer.class, ParameterMode.OUT); // Parámetro de salida para el ID de la provincia creada
 
         query.setParameter(1, province.getName());
+        query.setParameter(2, province.getStatus());
 
         query.execute();
 
         // Obtener el valor del parámetro de salida
-        int idProvinceCreada = (int) query.getOutputParameterValue(2);
+        int idProvinceCreada = (int) query.getOutputParameterValue(3);
 
         if(idProvinceCreada > 0){
-            return "Provincia creada exitosamente";
+            return "{\"success\": true, \"message\": \"¡Provincia creado exitosamente!\"}";
         } else if (idProvinceCreada == -1) {
-            return "El nombre de la provincia ya existe";
+            return "{\"success\": false, \"message\": \"¡El nombre de la provincia ya existe!\"}";
         } else{
-            return "Hubo un error al registrar la provincia";
+            return "{\"success\": false, \"message\": \"¡Hubo un error creandola provincia!\"}";
         }
     }
 

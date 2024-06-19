@@ -86,7 +86,7 @@ function validarFormularioCrearProvince(event) {
         var input = inputs[i];
         if (input.value.trim() === '') {
             var mensaje = "Por favor, completa todos los campos.";
-            mostrarMensaje(mensaje, mensajeContainer);
+            mostrarMensajeProvince(mensaje, mensajeContainer);
             return false; // Detener la validación y no enviar el formulario
         }
     }
@@ -98,14 +98,15 @@ function mostrarMensajeProvince(mensaje, container) {
     container.innerHTML = mensaje;
 }
 
-function validarCreacionProvince(selector, mensajeConfirmacion, urlRedireccion) {
-    var crearForm = document.querySelector(selector);
+function validarCreacionProvince() {
+    var crearForm = document.querySelector('.form-crear');
 
     crearForm.addEventListener('submit', function (event) {
+        //alert("Si llega al if");
         event.preventDefault();
-        if (validarFormularioCrear(event)) {
+        if (validarFormularioCrearProvince(event)) {
             Swal.fire({
-                title: mensajeConfirmacion,
+                title: "¿Estas seguro de crear esta Provincia?",
                 text: '¡Asegurate de tener los datos correctos!',
                 icon: 'question',
                 showCancelButton: true,
@@ -115,20 +116,31 @@ function validarCreacionProvince(selector, mensajeConfirmacion, urlRedireccion) 
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Realizar una petición AJAX o enviar el formulario de forma asíncrona
+                    /// Obtener datos del formulario y convertirlos a JSON
+                    const formData = new FormData(crearForm);
+                    const jsonData = {};
+                    formData.forEach((value, key) => {
+                        jsonData[key] = value;
+                    });
+                    const requestBody = JSON.stringify(jsonData);
                     fetch(crearForm.action, {
                         method: 'POST',
-                        body: new FormData(crearForm)
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: requestBody
                     })
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
+                                // Si el proceso de agregar el cliente fue exitoso, mostrar mensaje de éxito
                                 mostrarToastConfirmacion(data.message);
                                 // Redirigir después de un pequeño retraso
                                 setTimeout(function () {
-                                    window.location.href = urlRedireccion;
+                                    window.location.href = './listarProvinces';
                                 }, 1000); // 1000 milisegundos de retraso
                             } else {
+                                // Si el proceso de agregar el cliente falló, mostrar mensaje de error
                                 mostrarToastError(data.message);
                             }
                         })

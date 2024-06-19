@@ -1,6 +1,7 @@
 package com.g2inmobiliaria.app.Controllers;
 
 import com.g2inmobiliaria.app.Entities.Province;
+import com.g2inmobiliaria.app.Entities.Role;
 import com.g2inmobiliaria.app.Services.ProvincesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,8 @@ public class ProvincesController {
     }
 
     @PostMapping("/registrarProvince")
-    public String registrarProvince(@RequestBody Province province) {
-        return provincesService.registrarProvince(province);
+    public ResponseEntity<?> registrarProvince(@RequestBody Province province) {
+        return ResponseEntity.ok().body(provincesService.registrarProvince(province));
     }
 
     @PostMapping("/actualizarProvince")

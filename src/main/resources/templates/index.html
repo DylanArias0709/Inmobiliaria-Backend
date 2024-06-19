@@ -3,15 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <title>Página Principal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilos personalizados */
+        body {
+            padding-top: 56px; /* Ajuste para dejar espacio al navbar fijo */
+        }
+        .offcanvas-collapse {
+            position: fixed;
+            top: 0; /* Ajusta la posición al inicio de la página */
+            bottom: 0;
+            left: 0;
+            z-index: 1030; /* Asegura que esté por encima del contenido */
+            width: 280px;
+            padding-top: 4.5rem;
+            overflow-y: auto;
+            background-color: #f8f9fa; /* Fondo del offcanvas */
+            border-right: 1px solid rgba(0, 0, 0, 0.1); /* Borde derecho */
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(-100%);
+        }
+        .offcanvas-collapse.open {
+            transform: translateX(0);
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        .navbar-brand {
+            font-size: 1.5rem; /* Tamaño de la fuente */
+            font-weight: 600; /* Grosor de la fuente */
+            text-align: center; /* Centrar el texto */
+            width: 100%; /* Ocupar todo el ancho disponible */
+        }
+        .navbar-toggler {
+            border: none; /* Elimina el borde del botón */
+        }
+        .navbar-nav .nav-link {
+            color: #343a40; /* Color del texto del enlace */
+            font-weight: 500; /* Grosor de la fuente */
+        }
+        .navbar-nav .nav-link.active {
+            font-weight: 600; /* Grosor de la fuente para el activo */
+        }
+        .offcanvas-body {
+            padding: 1rem; /* Espaciado interior del cuerpo */
+        }
+        .offcanvas-header {
+            background-color: #fff; /* Fondo del encabezado */
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Borde inferior */
+        }
+        .offcanvas-title {
+            font-size: 1.25rem; /* Tamaño de la fuente del título */
+            font-weight: 600; /* Grosor de la fuente */
+            margin-bottom: 0; /* Elimina el margen inferior */
+        }
+        .btn-close {
+            color: #6c757d; /* Color del botón de cierre */
+        }
+    </style>
 </head>
-<body>
-<nav>
-    <ul class="menu">
-        <li><button id="todos" class="boton-menu boton-categoria active">Inicio</button></li>
-        <li><button id="roles" class="boton-menu boton-categoria" onclick= "window.location.href = '/roles/listarRoles'" >Administrar Roles</button></li>
-        <li><button id="provinces" class="boton-menu boton-categoria" onclick= "window.location.href = '/provinces/listarProvinces'" >Administrar Provincias</button></li>
-        <li><button id="disctrict" class="boton-menu boton-categoria" onclick= "window.location.href = '/district/listarDistrict'" >Administrar Distritos</button></li>
-    </ul>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">Sistema de Inmobiliaria</a>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <button id="menu-toggler" class="nav-link active btn btn-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
+
+<!-- Panel lateral offcanvas -->
+<div class="offcanvas offcanvas-end bg-light" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menú</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="navbar-nav flex-column">
+            <li class="nav-item">
+                <button id="todos-offcanvas" class="nav-link active btn btn-link" onclick="window.location.href = '/'">Inicio</button>
+            </li>
+            <li class="nav-item">
+                <button id="roles-offcanvas" class="nav-link btn btn-link" onclick="window.location.href = '/roles/listarRoles'">Administrar Roles</button>
+            </li>
+            <li class="nav-item">
+                <button id="provinces-offcanvas" class="nav-link btn btn-link" onclick="window.location.href = '/provinces/listarProvinces'">Administrar Provincias</button>
+            </li>
+            <li class="nav-item">
+                <button id="district-offcanvas" class="nav-link btn btn-link" onclick="window.location.href = '/district/listarDistrict'">Administrar Distritos</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<script>
+    var offcanvasElement = document.getElementById('offcanvasExample');
+    var bsOffcanvas = new bootstrap.Offcanvas(offcanvasElement);
+
+    var navbarToggler = document.querySelector('.navbar-toggler');
+    navbarToggler.addEventListener('click', function () {
+        bsOffcanvas.toggle();
+    });
+</script>
 </body>
 </html>
