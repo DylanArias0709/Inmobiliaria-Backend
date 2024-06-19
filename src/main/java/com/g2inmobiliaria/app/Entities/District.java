@@ -44,4 +44,44 @@ public class District {
         this.status = status;
         this.tbDirections = tbDirections;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Canton getIdCanton() {
+        return idCanton;
+    }
+
+    public void setIdCanton(Canton idCanton) {
+        this.idCanton = idCanton;
+    }
+
+    public Short getStatus() {
+        return status;
+    }
+
+    public void setStatus(Short status) {
+        this.status = status;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Direction> getTbDirections() {
+        return tbDirections;
+    }
+
+    public void setTbDirections(Set<Direction> tbDirections) {
+        this.tbDirections = tbDirections;
+    }
 }

@@ -11,31 +11,32 @@ import java.util.List;
 
 @Service
 public class DistrictService {
+
     @Autowired
     private EntityManager entityManager;
 
-    // Método para listar Distritos
+    // Método para listar distritos
     public List<District> listarDistritos() {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spGetDistrict", District.class);
         return query.getResultList();
     }
 
-    // Método para registrar un Distrito y obtener el ID del distrito creado
+    // Método para registrar un distrito y obtener el ID del distrito creado
     public String registrarDistrito(District district) {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spCreateDistrict");
-        query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter(3, Integer.class, ParameterMode.OUT); // Parámetro de salida para el ID del distrito creado
 
-        query.setParameter(1, district.getName());
-        query.setParameter(2, district.getIdCanton());
+        query.setParameter(1, district.getIdCanton().getId()); // Ajustar para obtener el ID del cantón
+        query.setParameter(2, district.getName());
 
         query.execute();
 
         // Obtener el valor del parámetro de salida
         int idDistritoCreado = (int) query.getOutputParameterValue(3);
 
-        if(idDistritoCreado > 0){
+        if (idDistritoCreado > 0) {
             return "Distrito creado exitosamente";
         } else if (idDistritoCreado == -1) {
             return "El nombre del distrito ya existe";
@@ -44,43 +45,33 @@ public class DistrictService {
         }
     }
 
+    // Método para actualizar un distrito
     public String actualizarDistrito(District district) {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spUpdateDistrict");
-        query.registerStoredProcedureParameter("IdDistrict", Integer.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter("Name", String.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter("Status", Integer.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter("ErrorCode", Integer.class, ParameterMode.OUT);
+        query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(3, String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(4, Integer.class, ParameterMode.IN);
 
-        query.setParameter("IdDistrict", district.getId());
-        query.setParameter("Name", district.getName());
-        query.setParameter("Status", district.getStatus());
+        query.setParameter(1, district.getId());
+        query.setParameter(2, district.getIdCanton().getId());
+        query.setParameter(3, district.getName());
+        query.setParameter(4, district.getStatus());
 
         query.execute();
 
-        int errorCode = (int) query.getOutputParameterValue("ErrorCode");
-        System.out.println(errorCode);
-        if (errorCode == 0) {
-            return "Distrito actualizado exitosamente";
-        } else {
-            return "Hubo un error actualizando el distrito";
-        }
+        return "Distrito actualizado exitosamente";
     }
 
+    // Método para el borrado lógico de un distrito
     public String borradoLogicoDistrito(int id) {
-        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spLogicalDeleteDistrict");
-        query.registerStoredProcedureParameter("IdDistrict", Integer.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter("IdDistrictEliminado", Integer.class, ParameterMode.OUT);
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spDeleteDistrict");
+        query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
 
-        query.setParameter("IdDistrict", id);
+        query.setParameter(1, id);
 
         query.execute();
 
-        int idDistritoEliminado = (int) query.getOutputParameterValue("IdDistrictEliminado");
-        System.out.println(idDistritoEliminado);
-        if (idDistritoEliminado == id) {
-            return "{\"success\": true, \"message\": \"Distrito deshabilitado exitosamente.\"}";
-        } else {
-            return "{\"success\": false, \"message\": \"Hubo un error deshabilitando el distrito.\"}";
-        }
+        return "Distrito deshabilitado exitosamente";
     }
 }

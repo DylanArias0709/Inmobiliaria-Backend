@@ -30,4 +30,54 @@ public class Canton {
     @OneToMany(mappedBy = "idCanton")
     private Set<District> tbDistricts = new LinkedHashSet<>();
 
+    public Canton() {
+    }
+
+    public Canton(Integer id, Province idProvince, String name, Short status, Set<District> tbDistricts) {
+        this.id = id;
+        this.idProvince = idProvince;
+        this.name = name;
+        this.status = status;
+        this.tbDistricts = tbDistricts;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Province getIdProvince() {
+        return idProvince;
+    }
+
+    public void setIdProvince(Province idProvince) {
+        this.idProvince = idProvince;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Short getStatus() {
+        return status;
+    }
+
+    public void setStatus(Short status) {
+        this.status = status;
+    }
+
+    public Set<District> getTbDistricts() {
+        return tbDistricts;
+    }
+
+    public void setTbDistricts(Set<District> tbDistricts) {
+        this.tbDistricts = tbDistricts;
+    }
 }

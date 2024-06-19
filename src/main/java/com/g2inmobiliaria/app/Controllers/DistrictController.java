@@ -13,28 +13,39 @@ import java.util.List;
 @Controller
 @RequestMapping("/district")
 public class DistrictController {
+
     @Autowired
     private DistrictService districtService;
 
     @GetMapping("/listarDistrict")
     public String listarDistritos(Model model) {
-        List<District> listaDistritos = districtService.listarDistritos();
-        model.addAttribute("district", listaDistritos);
+        try {
+            List<District> listaDistritos = districtService.listarDistritos();
+            model.addAttribute("distritos", listaDistritos);
+        } catch (Exception e) {
+            // Manejo de errores: puedes registrar el error o mostrar un mensaje genérico
+            model.addAttribute("error", "Error al cargar la lista de distritos.");
+            e.printStackTrace(); // Aquí puedes usar un logger adecuado
+        }
         return "district/district_admin";
     }
 
+
     @PostMapping("/registrarDistrict")
-    public String registrarDistrito(@RequestBody District district) {
-        return districtService.registrarDistrito(district);
+    public ResponseEntity<String> registrarDistrito(@RequestBody District district) {
+        String mensaje = districtService.registrarDistrito(district);
+        return ResponseEntity.ok().body(mensaje);
     }
 
     @PutMapping("/actualizarDistrict")
-    public String actualizarDistrito(@RequestBody District district) {
-        return districtService.actualizarDistrito(district);
+    public ResponseEntity<String> actualizarDistrito(@RequestBody District district) {
+        String mensaje = districtService.actualizarDistrito(district);
+        return ResponseEntity.ok().body(mensaje);
     }
 
     @DeleteMapping("/eliminarDistrict")
-    public ResponseEntity<?> borradoLogicoDistrito(@RequestParam("id") int id){
-        return ResponseEntity.ok().body(districtService.borradoLogicoDistrito(id));
+    public ResponseEntity<String> borradoLogicoDistrito(@RequestParam("id") int id) {
+        String mensaje = districtService.borradoLogicoDistrito(id);
+        return ResponseEntity.ok().body(mensaje);
     }
 }
