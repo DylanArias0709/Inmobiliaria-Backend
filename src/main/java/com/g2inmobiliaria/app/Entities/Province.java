@@ -1,6 +1,7 @@
 package com.g2inmobiliaria.app.Entities;
 
 import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 

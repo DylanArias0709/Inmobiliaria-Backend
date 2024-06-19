@@ -1,4 +1,4 @@
-package com.g2inmobiliaria.app.Config;
+/*package com.g2inmobiliaria.app.Config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -35,3 +35,5 @@ public class SecurityConfiguration {
         return http.build();
     }
 }
+
+ */

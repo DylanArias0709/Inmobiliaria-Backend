@@ -1,4 +1,4 @@
-package com.g2inmobiliaria.app.Auth;
+/*package com.g2inmobiliaria.app.Auth;
 
 import com.g2inmobiliaria.app.Auth.AuthenticationRequest;
 import lombok.RequiredArgsConstructor;
@@ -31,3 +31,4 @@ public class AuthenticationController {
 
 
 }
+ */
