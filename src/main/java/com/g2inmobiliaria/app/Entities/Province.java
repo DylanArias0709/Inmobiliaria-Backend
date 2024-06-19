@@ -27,4 +27,49 @@ public class Province {
     @OneToMany(mappedBy = "idProvince")
     private Set<Canton> tbCantons = new LinkedHashSet<>();
 
+    public Province() {
+        id = 0;
+        name = "";
+        status = 0;
+    }
+
+    public Province(Integer id, String name, Short status, Set<Canton> tbCantons) {
+        this.id = id;
+        this.name = name;
+        this.status = status;
+        this.tbCantons = tbCantons;
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Short getStatus() {
+        return status;
+    }
+
+    public void setStatus(Short status) {
+        this.status = status;
+    }
+
+    public Set<Canton> getTbCantons() {
+        return tbCantons;
+    }
+
+    public void setTbCantons(Set<Canton> tbCantons) {
+        this.tbCantons = tbCantons;
+    }
 }
