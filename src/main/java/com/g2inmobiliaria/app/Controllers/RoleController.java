@@ -3,6 +3,7 @@ package com.g2inmobiliaria.app.Controllers;
 import com.g2inmobiliaria.app.Entities.Role;
 import com.g2inmobiliaria.app.Services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class RoleController {
     }
 
     @DeleteMapping("/eliminarRole")
-    public String borradoLogicoRole(@RequestParam("role") int id){
-        return roleService.borradoLogicoRole(id);
+    public ResponseEntity<?> borradoLogicoRole(@RequestParam("role") int id){
+        return ResponseEntity.ok().body(roleService.borradoLogicoRole(id));
     }
 }
