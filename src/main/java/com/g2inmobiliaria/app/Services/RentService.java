@@ -1,5 +1,6 @@
 package com.g2inmobiliaria.app.Services;
 
+import com.g2inmobiliaria.app.Entities.Agreement;
 import com.g2inmobiliaria.app.Entities.Rent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,6 +15,8 @@ public class RentService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private AgreementService agreementService;
 
     // Método para utilizar el sp de crear Rent
     public void createRent(Integer idAgreement, java.math.BigDecimal rentPrice, java.sql.Date startDateRent, java.sql.Date endDateRent, Integer monthDuration, java.math.BigDecimal initialDeposit) {
@@ -53,6 +56,7 @@ public class RentService {
         }
     }
     // Método para utilizar el sp de listar rentas
+    // Método para utilizar el sp de listar rentas
     public List<Rent> getRents(Integer idRent, Integer idAgreement, Short status) {
         return jdbcTemplate.execute((Connection connection) -> {
             CallableStatement callableStatement = connection.prepareCall("{call spGetRent(?, ?, ?)}");
@@ -74,6 +78,17 @@ public class RentService {
                         rent.setMonthDuration(resultSet.getInt("MonthDuration"));
                         rent.setInitialDeposit(resultSet.getBigDecimal("InitialDeposit"));
                         rent.setStatus(resultSet.getShort("Status"));
+
+                        // Obtener idAgreement
+                        int agreementId = resultSet.getInt("IdAgreement");
+                        if (!resultSet.wasNull()) {
+                            // Usar el método getAgreements para obtener el Agreement
+                            List<Agreement> agreements = agreementService.getAgreements(agreementId, null, null, null, null);
+                            if (!agreements.isEmpty()) {
+                                rent.setIdAgreement(agreements.get(0));
+                            }
+                        }
+
                         rents.add(rent);
                     }
                 }
@@ -83,6 +98,7 @@ public class RentService {
             return rents;
         });
     }
+
     // Método para utilizar sp de modificar rent
     public void updateRent(Integer idRent, Integer idAgreement, java.math.BigDecimal rentPrice, java.sql.Date startDateRent, java.sql.Date endDateRent, Integer monthDuration, java.math.BigDecimal initialDeposit, Short status) {
         try {

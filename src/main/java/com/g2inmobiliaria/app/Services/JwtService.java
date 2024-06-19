@@ -1,3 +1,4 @@
+/*
 package com.g2inmobiliaria.app.Services;
 
 import io.jsonwebtoken.Claims;
@@ -75,3 +76,4 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 }
+*/

@@ -16,7 +16,7 @@ public class RentController {
     @Autowired
     private RentService rentService;
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<?> createRent(@RequestBody Rent rent) {
         try {
             rentService.createRent(rent.getIdAgreement().getId(), rent.getRentPrice(),
@@ -29,7 +29,7 @@ public class RentController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteRent(@PathVariable Integer id) {
         try {
             rentService.logicalDeleteRent(id);
@@ -54,7 +54,7 @@ public class RentController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> updateRent(@PathVariable Integer id, @RequestBody Rent rent) {
         try {
             rentService.updateRent(id, rent.getIdAgreement().getId(), rent.getRentPrice(),
