@@ -1,4 +1,4 @@
-package com.g2inmobiliaria.app.Repositories;
+/*package com.g2inmobiliaria.app.Repositories;
 
 import com.g2inmobiliaria.app.Entities.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,3 +14,4 @@ public interface PersonRepository extends JpaRepository<Person, Integer> {
     List<Person> findByStatus(boolean status);
 
 }
+*/

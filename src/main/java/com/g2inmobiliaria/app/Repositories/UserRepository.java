@@ -1,4 +1,4 @@
-package com.g2inmobiliaria.app.Repositories;
+/*package com.g2inmobiliaria.app.Repositories;
 
 
 import com.g2inmobiliaria.app.Entities.User;
@@ -13,3 +13,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     // Método para encontrar un usuario por el email de la persona asociada
     Optional<User> findByPersonEmailEmail(String email);
 }
+
+ */
