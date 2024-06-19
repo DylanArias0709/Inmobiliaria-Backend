@@ -7,8 +7,10 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      #ddl-auto: update
-      #format_sql: true
+      ddl-auto: none  # Evita que Hibernate cambie la estructura de la base de datos
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl  # Usa los nombres exactos de las tablas y columnas en la base de datos
+      format_sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.SQLServerDialect
@@ -23,8 +25,8 @@ spring:
     jdbc:
       schema: dbo
       initialize-schema: never
-      #table-name: tbSesion
-      #delete-expired-stmt: DELETE FROM tbSesion WHERE ExpirationSesionDate < ?
-#logging:
-  #level:
-    #root: DEBUG
+      table-name: tbSesion
+      delete-expired-stmt: DELETE FROM tbSesion WHERE ExpirationSesionDate < ?
+logging:
+  level:
+    root: DEBUG

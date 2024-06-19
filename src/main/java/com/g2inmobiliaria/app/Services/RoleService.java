@@ -16,7 +16,7 @@ public class RoleService {
 
     // Método para listar Roles
     public List<Role> listarRoles() {
-        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spGetRole");
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spGetRole", Role.class);
         return query.getResultList();
     }
 
@@ -74,9 +74,9 @@ public class RoleService {
         int idRoleEliminado = (int) query.getOutputParameterValue("IdRoleEliminado");
         System.out.println(idRoleEliminado);
         if (idRoleEliminado == id){
-            return "Role deshabilitado exitosamente";
+            return "{\"success\": true, \"message\": \"Role deshabilitado exitosamente.\"}";
         } else {
-            return "Hubo un error deshabilitando el role";
+            return "{\"success\": false, \"message\": \"Hubo un error desahbilitando el role.\"}";
         }
     }
 
