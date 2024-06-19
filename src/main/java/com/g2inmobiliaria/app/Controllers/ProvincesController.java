@@ -17,8 +17,8 @@ public class ProvincesController {
     private ProvincesService provincesService;
 
     @GetMapping("/listarProvinces")
-    public String listarProvinces(Model model) {
-        List<Province> listaProvinces = provincesService.listarProvinces();
+    public String listarProvincias(Model model) {
+        List<Province> listaProvinces = provincesService.listarProvince();
         model.addAttribute("provinces", listaProvinces);
         return "provinces/provinces_admin";
     }
@@ -28,13 +28,20 @@ public class ProvincesController {
         return provincesService.registrarProvince(province);
     }
 
-    @PutMapping("/actualizarProvince")
-    public String actualizarProvince(@RequestBody Province province) {
-        return provincesService.actualizarProvince(province);
+    @PostMapping("/actualizarProvince")
+    public ResponseEntity<?> actualizarProvince(@RequestBody Province province) {
+        return ResponseEntity.ok().body(provincesService.actualizarProvince(province));
     }
 
     @DeleteMapping("/eliminarProvince")
-    public ResponseEntity<?> borradoLogicoProvince(@RequestParam("id") int id){
+    public ResponseEntity<?> borradoLogicoProvince(@RequestParam("province") int id){
         return ResponseEntity.ok().body(provincesService.borradoLogicoProvince(id));
+    }
+
+    @GetMapping("/provinceForm")
+    public String mostrarFormulario(@RequestParam("province") Integer id, Model model) {
+        Province province = provincesService.obtenerProvincePorId(id); // Método para obtener la provincia por id
+        model.addAttribute("province", province);
+        return "provinces/formularios_province";
     }
 }

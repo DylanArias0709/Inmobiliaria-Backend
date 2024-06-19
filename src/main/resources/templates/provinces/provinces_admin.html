@@ -10,6 +10,16 @@
     <script src="https://kit.fontawesome.com/51553d23ad.js" crossorigin="anonymous"></script>
 </head>
 <body>
+
+
+<div>
+    <button class="btn_desplegarForm" value="0">Crear nueva Provincia</button>
+    <br><br>
+    <div id="form_conainer">
+
+    </div>
+</div>
+
 <div th:if="${!provinces.empty}" class="tb-container">
     <table border="1" class="contenedor-productos table table-striped table-hover">
         <thead>
@@ -24,12 +34,12 @@
             <td th:text="${province.name}"></td>
             <td th:text="${province.status == 1 ? 'Activo' : 'Inactivo'}"></td>
             <td>
-                <button type="button" class="producto-editar btn_editar" th:value="${province.id}"><i class="bi bi-pen"></i></button>
+                <button type="button" class="producto-editar btn_desplegarForm" th:value="${province.id}"><i class="bi bi-pen"></i></button>
                 <br>
                 -----
                 <br>
                 <button class="btn_delete producto-eliminar">
-                    <a class="btn_eliminar" th:href="@{/provinces/eliminarProvince(id=${province.id})}"><i class="bi bi-trash"></i></a>
+                    <a class="btn_eliminar" th:href="@{/provinces/eliminarProvince(province=${province.id})}"><i class="bi bi-trash"></i></a>
                 </button>
                 <br>
             </td>
@@ -38,9 +48,11 @@
     </table>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="text/javascript" th:src="@{/js/alertScript.js}"></script>
+    <script src="text/javascript" th:src="@{/js/provinceScript.js}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            validarEliminacion('.btn_delete', './listarProvinces')
+            validarEliminacion('.btn_delete', './listarProvinces'),
+                desplegarFormProvince()
             //detallesProveedor()
         });
     </script>
