@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:sqlserver://localhost:1433;database=bdInmobiliaria;encrypt=true;trustServerCertificate=true
-    username: DeeEmDy
-    password: Sof14&Dyl4n.18
+    username: sa
+    password: 1234
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     show-sql: true
@@ -23,8 +23,8 @@ spring:
     jdbc:
       schema: dbo
       initialize-schema: never
-      table-name: tbSesion
-      delete-expired-stmt: DELETE FROM tbSesion WHERE ExpirationSesionDate < ?
-logging:
-  level:
-    root: DEBUG
+      #table-name: tbSesion
+      #delete-expired-stmt: DELETE FROM tbSesion WHERE ExpirationSesionDate < ?
+#logging:
+  #level:
+    #root: DEBUG
