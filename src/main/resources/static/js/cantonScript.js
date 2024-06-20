@@ -21,6 +21,8 @@ function desplegarForm() {
     });
 }
 
+
+
 function ocultarForm(){
     document.getElementById("form_container").innerHTML = "";
 }
@@ -75,8 +77,7 @@ function editarCanton(){
     });
 }
 
-function validarFormularioCrear(event) {
-
+function validarFormularioCrearCanton(event) {
     event.preventDefault(); // Evitar que el evento por defecto se ejecute
 
     var form = document.getElementById('form-crear');
@@ -105,7 +106,7 @@ function validarCreacionCanton() {
     crearForm.addEventListener('submit', function (event) {
         //alert("Si llega al if");
         event.preventDefault();
-        if (validarFormularioCrear(event)) {
+        if (validarFormularioCrearCanton(event)) {
             Swal.fire({
                 title: "¿Estas seguro de crear este cantón?",
                 text: '¡Asegurate de tener los datos correctos!',
@@ -117,19 +118,10 @@ function validarCreacionCanton() {
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    /// Obtener datos del formulario y convertirlos a JSON
-                    const formData = new FormData(crearForm);
-                    const jsonData = {};
-                    formData.forEach((value, key) => {
-                        jsonData[key] = value;
-                    });
-                    const requestBody = JSON.stringify(jsonData);
+
                     fetch(crearForm.action, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: requestBody
+                        body: new FormData(crearForm)
                     })
                         .then(response => response.json())
                         .then(data => {
