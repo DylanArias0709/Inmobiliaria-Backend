@@ -67,7 +67,8 @@ public class SaleController {
                 sale = sales.get(0);
             }
         }
-
+        List<Agreement> agreements = agreementService.getAgreements(null, null, null, null, null);
+        model.addAttribute("agreements", agreements);
         model.addAttribute("paymentMethods", paymentMethods);
         model.addAttribute("sale", sale);
         return "ventas/formularios_sale";

@@ -52,6 +52,8 @@ public class RentController {
                 rent = rents.getFirst();
             }
         }
+        List<Agreement> agreements = agreementService.getAgreements(null, null, null, null, null);
+        model.addAttribute("agreements", agreements);
         model.addAttribute("rent", rent);
         return "rentas/formularios_rent";
     }
