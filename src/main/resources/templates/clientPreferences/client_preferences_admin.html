@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrar Preferencias de Cliente</title>
+    <!-- Incluye tus hojas de estilo y scripts aquí -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://kit.fontawesome.com/a2dd6045c4.js"></script>
+    <script src="https://kit.fontawesome.com/51553d23ad.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <button class="btn btn-primary mb-3 btn_desplegarForm" value="0">Crear nueva Preferencia</button>
+    <div id="form_conainer" class="mb-4">
+
+    </div>
+</div>
+
+<div th:if="${not #lists.isEmpty(clientPreferences)}" class="container">
+    <table border="1" class="contenedor-productos table table-striped table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>Cliente</th>
+            <th>Precio Mínimo</th>
+            <th>Precio Máximo</th>
+            <th>Mínimo Habitaciones</th>
+            <th>Máximo Habitaciones</th>
+            <th>Mínimo Baños</th>
+            <th>Máximo Baños</th>
+            <th>Área Mínima</th>
+            <th>Área Máxima</th>
+            <th>Año Construcción Mínimo</th>
+            <th>Año Construcción Máximo</th>
+            <th>Características Adicionales</th>
+            <th>Estatus</th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="clientPreference : ${clientPreferences}">
+            <td th:text="${clientPreference.idClient.name}"></td>
+            <td th:text="${clientPreference.minimumPrice}"></td>
+            <td th:text="${clientPreference.maximumPrice}"></td>
+            <td th:text="${clientPreference.amountMinimunRooms}"></td>
+            <td th:text="${clientPreference.amountMaximumRooms}"></td>
+            <td th:text="${clientPreference.amountMinimumBathrooms}"></td>
+            <td th:text="${clientPreference.amountMaximumBathrooms}"></td>
+            <td th:text="${clientPreference.minimumArea}"></td>
+            <td th:text="${clientPreference.maximumArea}"></td>
+            <td th:text="${clientPreference.minimumYearConstruction}"></td>
+            <td th:text="${clientPreference.maximumYearConstruction}"></td>
+            <td th:text="${clientPreference.adicionalCharacteristics}"></td>
+            <td th:text="${clientPreference.status == 1 ? 'Activo' : 'Inactivo'}"></td>
+            <td>
+                <button type="button" class="btn btn-warning btn-sm producto-editar btn_desplegarForm" th:value="${clientPreference.id}">
+                    <i class="bi bi-pen"></i>
+                </button>
+                <br>
+                -----
+                <br>
+                <button class="btn btn-danger btn-sm btn_delete producto-eliminar">
+                    <a class="btn_eliminar text-white" th:href="@{/clientPreferences/eliminarPreference(clientPreference=${clientPreference.id})}">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </button>
+                <br>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="text/javascript" th:src="@{/js/alertScript.js}"></script>
+    <script src="text/javascript" th:src="@{/js/clientPreferenceScript.js}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            validarEliminacion('.btn_delete', './listarPreferences'),
+                desplegarFormClientPreference()
+            //detallesProveedor()
+        });
+    </script>
+</div>
+<div th:if="${#lists.isEmpty(clientPreferences)}" class="container">
+    <p class="alert alert-info">No se encontraron registros para mostrar.</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
