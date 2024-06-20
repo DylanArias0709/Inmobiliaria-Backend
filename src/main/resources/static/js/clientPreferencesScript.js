@@ -1,5 +1,5 @@
 function desplegarFormClientPreference() {
-    var desplegarFormContainer = document.getElementById("form_conainer");
+    var desplegarFormContainer = document.getElementById("form_container");
 
     // Obtener todos los botones de desplegar formularios y agregar un evento clic a cada uno
     var botones = document.querySelectorAll('.btn_desplegarForm');
@@ -9,7 +9,7 @@ function desplegarFormClientPreference() {
             var idClientPreference = this.value;
 
             var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", "/clientPreferences/clientPreferenceForm?id=" + idClientPreference, true);
+            xmlhttp.open("GET", "/clientPreferences/clientPreferenceForm?clientPreference=" + idClientPreference, true);
             xmlhttp.send();
 
             xmlhttp.onreadystatechange = function () {
@@ -22,7 +22,7 @@ function desplegarFormClientPreference() {
 }
 
 function ocultarFormClientPreference() {
-    document.getElementById("form_conainer").innerHTML = "";
+    document.getElementById("form_container").innerHTML = "";
 }
 
 function editarClientPreference() {
@@ -61,7 +61,7 @@ function editarClientPreference() {
                         if (data.success) {
                             mostrarToastConfirmacion(data.message);
                             setTimeout(function () {
-                                window.location.href = "/clientPreferences/listarPreferences";
+                                window.location.href = "/clientPreferences/listarClientPreferences";
                             }, 1000);
                         } else {
                             mostrarToastError(data.message);
@@ -135,7 +135,7 @@ function validarCreacionClientPreference() {
                             if (data.success) {
                                 mostrarToastConfirmacion(data.message);
                                 setTimeout(function () {
-                                    window.location.href = './listarPreferences';
+                                    window.location.href = './listarClientPreferences';
                                 }, 1000);
                             } else {
                                 mostrarToastError(data.message);
