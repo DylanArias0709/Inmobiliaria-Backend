@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:sqlserver://localhost:1433;database=bdInmobiliaria;encrypt=true;trustServerCertificate=true
-    username: EdisonBC
-    password: 74185296
+    username: AdamAG124
+    password: adam124
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     show-sql: true
