@@ -13,8 +13,8 @@
         <h2 class="mb-4">Crear Tipo de Propiedad</h2>
         <form th:action="@{/property-types/createPropertyTypes}" method="post" class="form-crear" id="form-crear">
             <div class="mb-3">
-                <label for="namePropertyType" class="form-label">Nombre del Tipo de Propiedad:</label>
-                <input type="text" id="namePropertyType" name="namePropertyType" class="form-control">
+                <label for="propertyTypeName" class="form-label">Nombre del Tipo de Propiedad:</label>
+                <input type="text" id="propertyTypeName" name="propertyTypeName" class="form-control">
             </div>
             <div class="mb-3">
                 <label for="propertyTypeDescription" class="form-label">Descripción del Tipo de Propiedad:</label>
@@ -39,11 +39,11 @@
     </div>
     <div th:if="${propertyType != null}" class="card p-4 shadow-sm">
         <h2 class="mb-4">Editar Tipo de Propiedad</h2>
-        <form class="editForm" th:action="@{/propertyTypes/actualizarPropertyType}" method="post">
+        <form class="editForm" th:action="@{/property-types/updatePropertyTypes}" method="post">
             <input type="hidden" id="id" name="id" th:value="${propertyType.id}">
             <div class="mb-3">
-                <label for="namePropertyType" class="form-label">Nombre del Tipo de Propiedad:</label>
-                <input type="text" id="namePropertyType" name="namePropertyType" th:value="${propertyType.namePropertyType}" class="form-control" required>
+                <label for="propertyTypeName" class="form-label">Nombre del Tipo de Propiedad:</label>
+                <input type="text" id="propertyTypeName" name="propertyTypeName" th:value="${propertyType.propertyTypeName}" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label for="propertyTypeDescription" class="form-label">Descripción del Tipo de Propiedad:</label>

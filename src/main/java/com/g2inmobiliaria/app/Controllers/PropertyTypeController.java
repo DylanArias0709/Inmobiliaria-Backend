@@ -39,7 +39,7 @@ public class PropertyTypeController {
         return ResponseEntity.ok().body(propertyTypeService.logicalDeletePropertyType(id));
     }
 
-    @GetMapping("/formPropertyTypes")
+    @GetMapping("/formPropertyType")
     public String showForm(@RequestParam("PropertyType") Integer id, Model model) {
         PropertyType propertyType = propertyTypeService.getPropertyTypeById(id);
         model.addAttribute("propertyType", propertyType);

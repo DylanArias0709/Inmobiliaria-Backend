@@ -25,19 +25,18 @@ public class PropertyTypeService {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spCreatePropertyType");
         query.registerStoredProcedureParameter("PropertyTypeName", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("PropertyTypeDescription", String.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter("Status", Short.class, ParameterMode.IN); // TINYINT corresponde a Short en Java
-        query.registerStoredProcedureParameter("ErrorCode", Integer.class, ParameterMode.OUT);
+        query.registerStoredProcedureParameter("NewPropertyTypeID", Integer.class, ParameterMode.OUT);
 
         query.setParameter("PropertyTypeName", propertyType.getPropertyTypeName());
         query.setParameter("PropertyTypeDescription", propertyType.getPropertyTypeDescription());
-        query.setParameter("Status", propertyType.getStatus());
 
         query.execute();
 
-        int errorCode = (int) query.getOutputParameterValue("ErrorCode");
-        if (errorCode == 0){
+        int newPropertyTypeID = (int) query.getOutputParameterValue("NewPropertyTypeID");
+
+        if (newPropertyTypeID > 0) {
             return "{\"success\": true, \"message\": \"¡Tipo de propiedad creado exitosamente!\"}";
-        } else if (errorCode == -1) {
+        } else if (newPropertyTypeID == -1) {
             return "{\"success\": false, \"message\": \"¡El nombre del tipo de propiedad ya existe!\"}";
         } else {
             return "{\"success\": false, \"message\": \"¡Hubo un error creando el tipo de propiedad!\"}";
@@ -45,28 +44,31 @@ public class PropertyTypeService {
     }
 
 
+
+
+
     public String updatePropertyType(PropertyType propertyType) {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spUpdatePropertyType");
+
         query.registerStoredProcedureParameter("IdPropertyType", Integer.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter("PropertyTypeName", String.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter("PropertyTypeDescription", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("NewNamePropertyType", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("NewNamePropertyTypeDescription", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("Status", Short.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter("ErrorCode", Integer.class, ParameterMode.OUT);
 
         query.setParameter("IdPropertyType", propertyType.getId());
-        query.setParameter("PropertyTypeName", propertyType.getPropertyTypeName());
-        query.setParameter("PropertyTypeDescription", propertyType.getPropertyTypeDescription());
+        query.setParameter("NewNamePropertyType", propertyType.getPropertyTypeName());
+        query.setParameter("NewNamePropertyTypeDescription", propertyType.getPropertyTypeDescription());
         query.setParameter("Status", propertyType.getStatus());
 
         query.execute();
 
-        int errorCode = (int) query.getOutputParameterValue("ErrorCode");
-        if (errorCode == 0){
-            return "{\"success\": true, \"message\": \"¡Tipo de propiedad actualizado exitosamente!\"}";
-        } else {
-            return "{\"success\": false, \"message\": \"¡Hubo un error actualizando el tipo de propiedad!\"}";
-        }
+        return "{\"success\": true, \"message\": \"¡Tipo de propiedad actualizado exitosamente!\"}";
     }
+
+
+
+
+
 
 
     public String logicalDeletePropertyType(int id) {
