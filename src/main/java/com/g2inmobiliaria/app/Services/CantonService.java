@@ -40,4 +40,13 @@ public class CantonService {
         }
     }
 
+    public Canton obtenerRolePorId(int id){
+        for(Canton canton : listarCantones()){
+            if (id == canton.getId()){
+                return canton;
+            }
+        }
+        return null;
+    }
+
 }

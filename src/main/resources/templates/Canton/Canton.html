@@ -4,12 +4,29 @@
   <meta charset="UTF-8">
   <title>Cantones</title>
   <!-- Incluye tus hojas de estilo y scripts aquí -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <script src="https://kit.fontawesome.com/a2dd6045c4.js"></script>
   <script src="https://kit.fontawesome.com/51553d23ad.js" crossorigin="anonymous"></script>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Administrar Cantones</a>
+    <button class="navbar-toggler btn_desplegarForm" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Cantones</h2>
+    <button class="btn btn-primary btn_desplegarForm" value="0">Crear nuevo Canton</button>
+  </div>
+  <div id="form_container" class="mb-3">
+  </div>
+
 <div th:if="${!cantones.empty}" class="tb-container">
   <table border="1" class="contenedor-productos table table-striped table-hover">
     <thead>
@@ -31,7 +48,7 @@
         -----
         <br>
         <button class="btn_delete producto-eliminar">
-          <a class="btn_eliminar" th:href="@{/cantones/eliminarCanton(canton=${canton.id})}"><i class="bi bi-trash"></i></a>
+          <a class="btn_eliminar" th:href="@{/canton/eliminarCanton(canton=${canton.id})}"><i class="bi bi-trash"></i></a>
         </button>
         <br>
       </td>
@@ -42,7 +59,7 @@
   <script src="text/javascript" th:src="@{/js/alertScript.js}"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      validarEliminacion('.btn_delete', "¿Estás seguro?", './listarCantones')
+      validarEliminacion('.btn_delete','./listarCantones')
       //detallesProveedor()
     });
   </script>
@@ -50,5 +67,19 @@
 <div th:if="${cantones.empty}">
   <p>No se encontraron registros para mostrar.</p>
 </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.js"></script>
+  <script src="text/javascript" th:src="@{/js/alertScript.js}"></script>
+  <script src="text/javascript" th:src="@{/js/cantonScript.js}"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      validarEliminacion('.btn_delete', './listarCantones');
+      desplegarForm();
+    });
+  </script>
+
 </body>
 </html>
