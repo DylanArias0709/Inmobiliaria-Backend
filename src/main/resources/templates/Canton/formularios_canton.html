@@ -18,16 +18,15 @@
         <form th:action="@{/cantones/registrarCanton}" method="post" id="form-crear" class="form-crear">
             <div class="form-group">
                 <label for="cantonName">Nombre del Cantón:</label>
-                <input type="text" class="form-control" id="cantonName" name="cantonName" required>
+                <input type="text" class="form-control" id="cantonNameCreate" name="cantonName" required>
             </div>
             <div class="form-group">
                 <label for="provinceId">Provincia:</label>
-                <select class="form-control" id="provinceId" name="provinceId" required>
-                    <!-- Llenar con las opciones de provincias -->
+                <select class="form-control" id="provinceIdCreate" name="provinceId" required>
                     <option th:each="province : ${provinces}" th:value="${province.id}" th:text="${province.name}"></option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary" onclick="validarCreacionCanton()">Crear</button>
+            <button type="submit" class="btn btn-primary">Crear</button>
             <button type="button" class="btn btn-secondary" onclick="ocultarForm()">Cancelar</button>
         </form>
         <div class="mt-3">

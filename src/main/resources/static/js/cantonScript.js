@@ -1,4 +1,4 @@
-function desplegarForm(){
+function desplegarForm() {
     var desplegarFormContainer = document.getElementById("form_container");
 
     // Obtener todos los botones de desplegar formularios y agregar un evento clic a cada uno
@@ -7,7 +7,6 @@ function desplegarForm(){
         boton.addEventListener('click', function () {
             // Obtener el valor (ID del cantón) del botón clicado
             var idCanton = this.value;
-            //alert("ID del cantón: " + idCanton);
 
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.open("GET", "/canton/cantonForm?canton=" + idCanton, true);

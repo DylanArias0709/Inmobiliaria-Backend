@@ -40,11 +40,12 @@ public class CantonController {
     @GetMapping("/cantonForm")
     public String mostrarFormulario(@RequestParam("canton") Integer id, Model model) {
         Canton canton = null;
-        canton = cantonService.obtenerRolePorId(id); // Método para obtener el rol por id
+        if (id != 0) {
+            canton = cantonService.obtenerRolePorId(id);
+        }
         List<Province> listaProvince = provinceService.listarProvince();
-        //model.addAttribute("provinces",listaProvince);
-        //model.addAttribute("canton", canton);
-
+        model.addAttribute("provinces", listaProvince);
+        model.addAttribute("canton", canton);
         return "Canton/formularios_canton";
     }
 
