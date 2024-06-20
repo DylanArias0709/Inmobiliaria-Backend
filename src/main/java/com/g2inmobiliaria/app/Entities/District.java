@@ -32,9 +32,9 @@ public class District {
 
     public District() {
         id = 0;
+        idCanton = new Canton();
         name = "";
         status = 0;
-
     }
 
     public District(Integer id, Canton idCanton, String name, Short status, Set<Direction> tbDirections) {
@@ -43,5 +43,45 @@ public class District {
         this.name = name;
         this.status = status;
         this.tbDirections = tbDirections;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Set<Direction> getTbDirections() {
+        return tbDirections;
+    }
+
+    public void setTbDirections(Set<Direction> tbDirections) {
+        this.tbDirections = tbDirections;
+    }
+
+    public Short getStatus() {
+        return status;
+    }
+
+    public void setStatus(Short status) {
+        this.status = status;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Canton getIdCanton() {
+        return idCanton;
+    }
+
+    public void setIdCanton(Canton idCanton) {
+        this.idCanton = idCanton;
     }
 }
