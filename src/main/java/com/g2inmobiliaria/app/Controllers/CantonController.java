@@ -62,4 +62,23 @@ public class CantonController {
         return ResponseEntity.ok().body(response);
     }
 
+    @PostMapping("/actualizarCanton")
+    public ResponseEntity<?> actualizarCanton(
+            @RequestParam("idCanton") int idCanton,
+            @RequestParam("cantonName") String cantonName,
+            @RequestParam("provinceId") int provinceId) {
+
+        Canton canton = new Canton();
+        // Configurar los atributos del objeto Canton según los parámetros recibidos
+        canton.setId(idCanton);
+        canton.setName(cantonName);
+        canton.getIdProvince().setId(provinceId);
+        canton.setStatus((short) 1); // Estatus quemado en 1
+
+        // Llamar al servicio para actualizar el cantón
+        String response = cantonService.actualizarCanton(canton);
+        return ResponseEntity.ok().body(response);
+    }
+
+
 }

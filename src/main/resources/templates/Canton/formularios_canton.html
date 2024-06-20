@@ -36,7 +36,7 @@
 
     <div th:if="${canton != null}">
         <h2 class="mb-4">Editar Cantón</h2>
-        <form class="editForm" th:action="@{/cantones/actualizarCanton}" method="post">
+        <form class="editForm" th:action="@{/canton/actualizarCanton}" method="post">
             <input type="hidden" id="id" name="id" th:value="${canton.id}">
             <div class="form-group">
                 <label for="cantonName">Nombre del Cantón:</label>
@@ -45,26 +45,20 @@
             <div class="form-group">
                 <label for="provinceId">Provincia:</label>
                 <select class="form-control" id="provinceId" name="provinceId" required>
-                    <!-- Llenar con las opciones de provincias -->
-                    <option th:each="province : ${provinces}" th:value="${province.id}" th:text="${province.name}" th:selected="${province.id == canton.province.id}"></option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="status">Status:</label>
-                <select class="form-control" id="status" name="status" required>
-                    <option value="1" th:selected="${canton.status == 1}">Activo</option>
-                    <option value="0" th:selected="${canton.status == 0}">Inactivo</option>
+                    <option th:each="province : ${provinces}" th:value="${province.id}"
+                            th:text="${province.name}"
+                            th:selected="${province.id == canton.province.id} ? 'selected' : false"></option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary" onclick="editarCanton()">Actualizar</button>
             <button type="button" class="btn btn-secondary" onclick="ocultarForm()">Cancelar</button>
         </form>
     </div>
-</div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Agrega tus scripts aquí si es necesario
     });
 </script>
+
 </body>
 </html>

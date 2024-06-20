@@ -21,6 +21,8 @@ function desplegarForm() {
     });
 }
 
+
+
 function ocultarForm(){
     document.getElementById("form_container").innerHTML = "";
 }

@@ -43,9 +43,11 @@
       <td th:text="${canton.name}"></td>
       <td th:text="${canton.status == 1 ? 'Activo' : 'Inactivo'}"></td>
       <td>
-        <button type="button" class="producto-editar btn_editar" th:value="${canton.id}"><i class="bi bi-pen"></i></button>
+        <button type="button" class="btn btn-warning btn-sm btn_desplegarForm" th:value="${canton.id}">
+          <i class="bi bi-pen"></i>
+        </button>
         <br>
-        -----
+
         <br>
         <button class="btn_delete producto-eliminar">
           <a class="btn_eliminar" th:href="@{/canton/eliminarCanton(canton=${canton.id})}"><i class="bi bi-trash"></i></a>
