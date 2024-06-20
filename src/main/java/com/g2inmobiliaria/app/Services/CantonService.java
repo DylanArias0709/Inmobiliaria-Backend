@@ -57,7 +57,7 @@ public class CantonService {
         query.registerStoredProcedureParameter(3, Integer.class, ParameterMode.IN);
         query.registerStoredProcedureParameter(4, Integer.class, ParameterMode.OUT); // Parámetro de salida para el ID del cantón creado
 
-        query.setParameter(1, canton.getIdProvince());
+        query.setParameter(1, canton.getIdProvince().getId());
         query.setParameter(2, canton.getName());
         query.setParameter(3, canton.getStatus());
 
