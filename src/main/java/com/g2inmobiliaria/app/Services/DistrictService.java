@@ -65,7 +65,7 @@ public class DistrictService {
 
     // Método para el borrado lógico de un distrito
     public String borradoLogicoDistrito(int id) {
-        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spDeleteDistrict");
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spLogicalDeleteDistrict");
         query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
 
         query.setParameter(1, id);
