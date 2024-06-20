@@ -17,9 +17,15 @@ public class DistrictService {
 
     // Método para listar distritos
     public List<District> listarDistritos() {
-        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spGetDistrict", District.class);
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spGetDistrict", "DistrictMapping");
+        query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+        query.setParameter(1, null); // @IdDistrict - null para obtener todos los distritos
+        query.registerStoredProcedureParameter(2, Short.class, ParameterMode.IN);
+        query.setParameter(2, (short) 1); // @StatusDistrict - 1 para obtener distritos activos
+
         return query.getResultList();
     }
+
 
     // Método para registrar un distrito y obtener el ID del distrito creado
     public String registrarDistrito(District district) {

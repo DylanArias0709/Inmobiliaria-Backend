@@ -57,7 +57,7 @@
                 <tbody>
                 <tr th:each="district : ${distritos}">
                     <td th:text="${district.name}"></td>
-                    <td th:text="${district.getIdCanton() != null ? district.getIdCanton().getName() : ''}"></td>
+                    <td th:text="${district.getIdCanton() != null} ? ${district.getIdCanton().getName()} : ''"></td>
                     <td th:text="${district.status == 1 ? 'Activo' : 'Inactivo'}"></td>
                     <td>
                         <div class="d-flex">

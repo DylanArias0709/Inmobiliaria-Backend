@@ -10,6 +10,18 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@SqlResultSetMapping(
+        name = "DistrictMapping",
+        classes = @ConstructorResult(
+                targetClass = District.class,
+                columns = {
+                        @ColumnResult(name = "IdDistrict", type = Integer.class),
+                        @ColumnResult(name = "Name", type = String.class),
+                        @ColumnResult(name = "Status", type = Short.class),
+                        @ColumnResult(name = "CantonName", type = String.class)
+                }
+        )
+)
 @Table(name = "tbDistrict")
 public class District {
     @Id
