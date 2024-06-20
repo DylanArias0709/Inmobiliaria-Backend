@@ -56,4 +56,134 @@ public class User {
     @OneToMany(mappedBy = "idUser")
     private Set<Sesion> tbSesions = new LinkedHashSet<>();
 
+    public User() {
+        id = 0;
+        userName = "";
+        registrationDate = LocalDate.now();
+        password = "";
+        activationToken = "";
+        verificationToken = "";
+        idPerson = new Person();
+        idRole = new Role();
+    }
+
+    public User(Integer id, Set<Sesion> tbSesions, Set<RealStateAgent> tbRealStateAgents, Set<Comment> tbComments, Set<Client> tbClients, Short status, Role idRole, Person idPerson, String verificationToken, String activationToken, String password, LocalDate registrationDate, String userName) {
+        this.id = id;
+        this.tbSesions = tbSesions;
+        this.tbRealStateAgents = tbRealStateAgents;
+        this.tbComments = tbComments;
+        this.tbClients = tbClients;
+        this.status = status;
+        this.idRole = idRole;
+        this.idPerson = idPerson;
+        this.verificationToken = verificationToken;
+        this.activationToken = activationToken;
+        this.password = password;
+        this.registrationDate = registrationDate;
+        this.userName = userName;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Set<Sesion> getTbSesions() {
+        return tbSesions;
+    }
+
+    public void setTbSesions(Set<Sesion> tbSesions) {
+        this.tbSesions = tbSesions;
+    }
+
+    public Set<RealStateAgent> getTbRealStateAgents() {
+        return tbRealStateAgents;
+    }
+
+    public void setTbRealStateAgents(Set<RealStateAgent> tbRealStateAgents) {
+        this.tbRealStateAgents = tbRealStateAgents;
+    }
+
+    public Set<Comment> getTbComments() {
+        return tbComments;
+    }
+
+    public void setTbComments(Set<Comment> tbComments) {
+        this.tbComments = tbComments;
+    }
+
+    public Set<Client> getTbClients() {
+        return tbClients;
+    }
+
+    public void setTbClients(Set<Client> tbClients) {
+        this.tbClients = tbClients;
+    }
+
+    public Short getStatus() {
+        return status;
+    }
+
+    public void setStatus(Short status) {
+        this.status = status;
+    }
+
+    public Role getIdRole() {
+        return idRole;
+    }
+
+    public void setIdRole(Role idRole) {
+        this.idRole = idRole;
+    }
+
+    public Person getIdPerson() {
+        return idPerson;
+    }
+
+    public void setIdPerson(Person idPerson) {
+        this.idPerson = idPerson;
+    }
+
+    public String getVerificationToken() {
+        return verificationToken;
+    }
+
+    public void setVerificationToken(String verificationToken) {
+        this.verificationToken = verificationToken;
+    }
+
+    public String getActivationToken() {
+        return activationToken;
+    }
+
+    public void setActivationToken(String activationToken) {
+        this.activationToken = activationToken;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }

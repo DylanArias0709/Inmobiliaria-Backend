@@ -61,6 +61,9 @@ public class Client {
     }
 
     public Client() {
+        id = 0;
+        budget = BigDecimal.valueOf(0);
+        idUser= new User();
     }
 
     public Set<Visit> getTbVisits() {
