@@ -46,4 +46,21 @@ public class RealStateAgent {
     @OneToMany(mappedBy = "idRealStateAgent")
     private Set<Visit> tbVisits = new LinkedHashSet<>();
 
+    public RealStateAgent(Integer id, User idUser, Integer idClientPreference, BigDecimal maximumBudget, Short status, Set<Agreement> tbAgreements, Set<Comunication> tbComunications, Set<PublicationProperty> tbPublicationProperties, Set<Sale> tbSales, Set<Visit> tbVisits) {
+        this.id = id;
+        this.idUser = idUser;
+        this.idClientPreference = idClientPreference;
+        this.maximumBudget = maximumBudget;
+        this.status = status;
+        this.tbAgreements = tbAgreements;
+        this.tbComunications = tbComunications;
+        this.tbPublicationProperties = tbPublicationProperties;
+        this.tbSales = tbSales;
+        this.tbVisits = tbVisits;
+    }
+
+    public RealStateAgent() {
+        this.id = 0;
+        this.idUser = new User();
+    }
 }

@@ -8,6 +8,7 @@
         /* Estilos personalizados */
         body {
             padding-top: 56px; /* Ajuste para dejar espacio al navbar fijo */
+            margin-bottom: 60px; /* Ajuste para dejar espacio al footer */
         }
         .offcanvas-collapse {
             position: fixed;
@@ -50,7 +51,7 @@
         }
         .offcanvas-header {
             background-color: #fff; /* Fondo del encabezado */
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Borde inferior */
+            border-bottom: 1px solid rgba(50, 20, 60, 0.7); /* Borde inferior */
         }
         .offcanvas-title {
             font-size: 1.25rem; /* Tamaño de la fuente del título */
@@ -60,6 +61,38 @@
         .btn-close {
             color: #6c757d; /* Color del botón de cierre */
         }
+        /* Estilos para las tarjetas */
+        .card {
+            margin-bottom: 15px;
+            border: none; /* Quita el borde predeterminado */
+            border-radius: 10px; /* Añade bordes redondeados */
+            box-shadow: 0 4px 8px rgba(30,70,10,0.4); /* Sombra suave */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Transiciones suaves */
+            background-color: #fff; /* Color de fondo inicial */
+        }
+        .card:hover {
+            transform: translateY(-5px); /* Efecto de levantamiento al pasar el cursor */
+            box-shadow: 0 8px 16px rgba(70,10,60,0.9); /* Sombra más pronunciada */
+            background-color: #f8f9fa; /* Cambio de color de fondo al pasar el cursor */
+        }
+        .card-title {
+            font-size: 1.25rem; /* Tamaño del título de la tarjeta */
+            font-weight: 600; /* Grosor del título */
+            margin-bottom: 10px; /* Espaciado inferior */
+            color: #343a40; /* Color del título */
+        }
+        .card-text {
+            color: #6c757d; /* Color del texto */
+        }
+        .btn-primary {
+            background-color: #007bff; /* Color de fondo del botón primario */
+            border-color: #007bff; /* Color del borde del botón primario */
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Cambio de color de fondo al pasar el cursor sobre el botón primario */
+            border-color: #0056b3; /* Cambio de color del borde al pasar el cursor sobre el botón primario */
+        }
+
     </style>
 </head>
 <body class="bg-light">
@@ -102,7 +135,7 @@
                 <button id="district-offcanvas" class="nav-link btn btn-link" onclick="window.location.href = '/district/listarDistrict'">Administrar Distritos</button>
             </li>
             <li class="nav-item">
-                <button id="PaymentMethod-offcanvas" class="nav-link btn btn-link" onclick="window.location.href = '/payment-methods/list'">Administrar Metodo de Pago</button>
+                <button id="PaymentMethod-offcanvas" class="nav-link btn btn-link" onclick="window.location.href = '/payment-methods/list'">Administrar Método de Pago</button>
             </li>
             <li class="nav-item">
                 <button id="PropertyType-offcanvas" class="nav-link btn btn-link" onclick="window.location.href = '/property-types/list'">Administrar Tipo de Propiedad</button>
@@ -111,15 +144,67 @@
                 <button id="ServiceTypes-offcanvas" class="nav-link btn btn-link" onclick="window.location.href = '/serviceTypes/listarServiceTypes'">Administrar Tipo de Servicio</button>
             </li>
             <li class="nav-item">
-                <button id="ComunicationType-offcanvas" class="nav-link btn btn-link" onclick="window.location.href = '/comunication-types/list'">Administrar Tipo de Comunicacion</button>
+                <button id="ComunicationType-offcanvas" class="nav-link btn btn-link" onclick="window.location.href = '/comunication-types/list'">Administrar Tipo de Comunicación</button>
             </li>
             <li class="nav-item">
                 <button id="canton-offcanvas" class="nav-link btn btn-link" onclick="window.location.href = '/canton/listarCantones'">Administrar Cantones</button>
             </li>
-
+            <li class="nav-item">
+                <button id="Rents-offcanvas" class="nav-link btn btn-link" onclick="window.location.href = '/rents/listarRentas'">Administrar Rentas</button>
+            </li>
+            <li class="nav-item">
+                <button id="Sales-offcanvas" class="nav-link btn btn-link" onclick="window.location.href = '/sales/listarVentas'">Administrar Ventas</button>
+            </li>
+            <li class="nav-item">
+                <button id="agreements-offcanvas" class="nav-link btn btn-link" onclick="window.location.href = '/agreements/listarAcuerdos'">Administrar Acuerdos</button>
+            </li>
         </ul>
     </div>
 </div>
+
+<!-- Contenido principal con tarjetas -->
+<div class="container mt-4">
+    <h2 class="mb-4">Contenido Principal</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Administrar Roles</h5>
+                    <p class="card-text">Gestiona los roles de usuario.</p>
+                    <a href="/roles/listarRoles" class="btn btn-primary">Ir</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Administrar Provincias</h5>
+                    <p class="card-text">Gestiona las provincias.</p>
+                    <a href="/provinces/listarProvinces" class="btn btn-primary">Ir</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Administrar Tipo de Propiedad</h5>
+                    <p class="card-text">Gestiona los tipos de propiedad.</p>
+                    <a href="/property-types/list" class="btn btn-primary">Ir</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Administrar Método de Pago</h5>
+                    <p class="card-text">Gestiona los Métodos de Pago.</p>
+                    <a href="/payment-methods/list" class="btn btn-primary">Ir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
