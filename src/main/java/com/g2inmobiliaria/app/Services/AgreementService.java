@@ -3,7 +3,6 @@ package com.g2inmobiliaria.app.Services;
 import com.g2inmobiliaria.app.Entities.Agreement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;

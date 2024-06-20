@@ -1,6 +1,5 @@
 package com.g2inmobiliaria.app.Controllers;
 
-import com.g2inmobiliaria.app.Entities.PaymentMethod;
 import com.g2inmobiliaria.app.Entities.Sale;
 import com.g2inmobiliaria.app.Services.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;

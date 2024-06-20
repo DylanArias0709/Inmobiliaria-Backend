@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrar Rentas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="text/javascript" th:src="@{/js/alertScript.js}"></script>
+    <script src="text/javascript" th:src="@{/js/rentScript.js}"></script>
+</head>
+<body>
+<div class="container mt-5">
+    <div th:if="${rent == null}">
+        <h2 class="mb-4">Crear Renta</h2>
+        <form th:action="@{/rents/registrarRent}" method="post" id="form-crear" class="form-crear">
+            <div class="form-group">
+                <label for="idAgreement">Acuerdo:</label>
+                <input type="number" class="form-control" id="idAgreement" name="idAgreement" required>
+            </div>
+            <div class="form-group">
+                <label for="rentPrice">Precio de Renta:</label>
+                <input type="text" class="form-control" id="rentPrice" name="rentPrice" required>
+            </div>
+            <div class="form-group">
+                <label for="startDateRent">Fecha de Inicio:</label>
+                <input type="date" class="form-control" id="startDateRent" name="startDateRent" required>
+            </div>
+            <div class="form-group">
+                <label for="endDateRent">Fecha de Fin:</label>
+                <input type="date" class="form-control" id="endDateRent" name="endDateRent" required>
+            </div>
+            <div class="form-group">
+                <label for="monthDuration">Duración en Meses:</label>
+                <input type="number" class="form-control" id="monthDuration" name="monthDuration" required>
+            </div>
+            <div class="form-group">
+                <label for="initialDeposit">Depósito Inicial:</label>
+                <input type="text" class="form-control" id="initialDeposit" name="initialDeposit" required>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="validarCreacionRenta()">Crear</button>
+            <button type="button" class="btn btn-secondary" onclick="ocultarForm()">Cancelar</button>
+        </form>
+        <div class="mt-3">
+            <p id="texto_error" class="text-danger"></p>
+        </div>
+    </div>
+
+    <div th:if="${rent != null}">
+        <h2 class="mb-4">Editar Renta</h2>
+        <form class="editForm" th:action="@{/rents/actualizarRent}" method="post">
+            <input type="hidden" id="id" name="id" th:value="${rent.id}">
+            <div class="form-group">
+                <label for="idAgreement">Acuerdo:</label>
+                <input type="number" class="form-control" id="idAgreement" name="idAgreement" th:value="${rent.idAgreement.id}" required>
+            </div>
+            <div class="form-group">
+                <label for="rentPrice">Precio de Renta:</label>
+                <input type="text" class="form-control" id="rentPrice" name="rentPrice" th:value="${rent.rentPrice}" required>
+            </div>
+            <div class="form-group">
+                <label for="startDateRent">Fecha de Inicio:</label>
+                <input type="date" class="form-control" id="startDateRent" name="startDateRent" th:value="${rent.startDateRent}" required>
+            </div>
+            <div class="form-group">
+                <label for="endDateRent">Fecha de Fin:</label>
+                <input type="date" class="form-control" id="endDateRent" name="endDateRent" th:value="${rent.endDateRent}" required>
+            </div>
+            <div class="form-group">
+                <label for="monthDuration">Duración en Meses:</label>
+                <input type="number" class="form-control" id="monthDuration" name="monthDuration" th:value="${rent.monthDuration}" required>
+            </div>
+            <div class="form-group">
+                <label for="initialDeposit">Depósito Inicial:</label>
+                <input type="text" class="form-control" id="initialDeposit" name="initialDeposit" th:value="${rent.initialDeposit}" required>
+            </div>
+            <div class="form-group">
+                <label for="status">Estado:</label>
+                <select class="form-control" id="status" name="status" required>
+                    <option value="1" th:selected="${rent.status == 1}">Activo</option>
+                    <option value="0" th:selected="${rent.status == 0}">Inactivo</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="editarRenta()">Actualizar</button>
+            <button type="button" class="btn btn-secondary" onclick="ocultarForm()">Cancelar</button>
+        </form>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Agrega tus scripts aquí si es necesario
+    });
+</script>
+</body>
+</html>
