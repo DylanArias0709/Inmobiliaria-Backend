@@ -35,14 +35,20 @@ public class Canton {
     private Set<District> tbDistricts = new LinkedHashSet<>();
 
     public Canton() {
+        id = 0;
+        idProvince = new Province();
+        name = "";
+        status = 0;
+        provinceName = "";
     }
 
-    public Canton(Integer id, Province idProvince, String name, Short status, Set<District> tbDistricts) {
+    public Canton(Integer id, String provinceName, Set<District> tbDistricts, Short status, Province idProvince, String name) {
         this.id = id;
+        this.provinceName = provinceName;
+        this.tbDistricts = tbDistricts;
+        this.status = status;
         this.idProvince = idProvince;
         this.name = name;
-        this.status = status;
-        this.tbDistricts = tbDistricts;
     }
 
     public Integer getId() {
@@ -51,6 +57,30 @@ public class Canton {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Set<District> getTbDistricts() {
+        return tbDistricts;
+    }
+
+    public void setTbDistricts(Set<District> tbDistricts) {
+        this.tbDistricts = tbDistricts;
+    }
+
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
+
+    public Short getStatus() {
+        return status;
+    }
+
+    public void setStatus(Short status) {
+        this.status = status;
     }
 
     public Province getIdProvince() {
@@ -67,21 +97,5 @@ public class Canton {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Short getStatus() {
-        return status;
-    }
-
-    public void setStatus(Short status) {
-        this.status = status;
-    }
-
-    public Set<District> getTbDistricts() {
-        return tbDistricts;
-    }
-
-    public void setTbDistricts(Set<District> tbDistricts) {
-        this.tbDistricts = tbDistricts;
     }
 }

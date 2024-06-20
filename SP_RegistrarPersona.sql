@@ -1,32 +1,26 @@
-CREATE PROCEDURE spRegisterPerson
+ALTER PROCEDURE spRegisterPerson
     @Name VARCHAR(100),
     @FirstSurname VARCHAR(100),
     @SecondSurname VARCHAR(100),
     @IdCard VARCHAR(100),
-    @StatusPerson TINYINT,
 
     @IdProvince INT,
     @IdCanton INT,
     @IdDistrict INT,
     @AditionalInformation VARCHAR(200),
-    @StatusDirection TINYINT,
 
     @Email VARCHAR(100),
-    @StatusEmail TINYINT,
 
     @PhoneNumber VARCHAR(20),
-    @StatusPhone TINYINT,
 
     @UserName VARCHAR(100),
     @Password VARCHAR(100),
     @ActivationToken VARCHAR(500),
     @VerificationToken VARCHAR(500),
-    @StatusUser TINYINT,
 
     @Budget DECIMAL(18, 2) = NULL,
     @MaximumBudget DECIMAL(18, 2) = NULL,
     @StatusClient TINYINT = NULL,
-    @StatusRealStateAgent TINYINT = NULL,
     @IdRole INT,
     @PersonType CHAR(1) -- 'C' para Cliente, 'A' para Agente Inmobiliario
 AS
@@ -38,28 +32,22 @@ BEGIN
             @FirstSurname = @FirstSurname,
             @SecondSurname = @SecondSurname,
             @IdCard = @IdCard,
-            @StatusPerson = @StatusPerson,
 
             @IdProvince = @IdProvince,
             @IdCanton = @IdCanton,
             @IdDistrict = @IdDistrict,
             @AditionalInformation = @AditionalInformation,
-            @StatusDirection = @StatusDirection,
 
             @Email = @Email,
-            @StatusEmail = @StatusEmail,
 
             @PhoneNumber = @PhoneNumber,
-            @StatusPhone = @StatusPhone,
 
             @UserName = @UserName,
             @Password = @Password,
             @ActivationToken = @ActivationToken,
             @VerificationToken = @VerificationToken,
-            @StatusUser = @StatusUser,
 
             @Budget = @Budget,
-            @StatusClient = @StatusClient,
             @IdRole = @IdRole;
     END
     ELSE IF @PersonType = 'A'
@@ -69,28 +57,22 @@ BEGIN
             @FirstSurname = @FirstSurname,
             @SecondSurname = @SecondSurname,
             @IdCard = @IdCard,
-            @StatusPerson = @StatusPerson,
 
             @IdProvince = @IdProvince,
             @IdCanton = @IdCanton,
             @IdDistrict = @IdDistrict,
             @AditionalInformation = @AditionalInformation,
-            @StatusDirection = @StatusDirection,
 
             @Email = @Email,
-            @StatusEmail = @StatusEmail,
 
             @PhoneNumber = @PhoneNumber,
-            @StatusPhone = @StatusPhone,
 
             @UserName = @UserName,
             @Password = @Password,
             @ActivationToken = @ActivationToken,
             @VerificationToken = @VerificationToken,
-            @StatusUser = @StatusUser,
 
             @MaximumBudget = @MaximumBudget,
-            @StatusRealStateAgent = @StatusRealStateAgent,
             @IdRole = @IdRole;
     END
     ELSE
@@ -100,32 +82,26 @@ BEGIN
 END;
 
 EXEC spRegisterPerson 
-    @Name = 'Adam',
-    @FirstSurname = 'Acuña',
-    @SecondSurname = 'González',
-    @IdCard = '118200907',
-    @StatusPerson = 1,
+    @Name = 'Aaron',
+    @FirstSurname = 'Matarrita',
+    @SecondSurname = 'No sé',
+    @IdCard = '5121065023',
 
     @IdProvince = 1,
     @IdCanton = 1,
     @IdDistrict = 1,
     @AditionalInformation = 'Calle 123, Casa 456',
-    @StatusDirection = 1,
 
-    @Email = 'adam.acuna@example.com',
-    @StatusEmail = 1,
+    @Email = 'aaron.matarrita@example.com',
 
-    @PhoneNumber = '63133860',
-    @StatusPhone = 1,
+    @PhoneNumber = '564354654534',
 
-    @UserName = 'adamacuna',
-    @Password = 'SecurePassword123',
-    @ActivationToken = 'activation-token-124',
-    @VerificationToken = 'verification-token-124',
-    @StatusUser = 1,
+    @UserName = 'aaronmatarrita',
+    @Password = '12346541564',
+    @ActivationToken = 'activation-token-125',
+    @VerificationToken = 'verification-token-125',
 
     @Budget = 50000.00,
-    @StatusClient = 1,
     @IdRole = 2,
     @PersonType = 'C';
 
