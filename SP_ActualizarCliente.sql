@@ -4,28 +4,22 @@ ALTER PROCEDURE spUpdateClient
     @FirstSurname VARCHAR(100),
     @SecondSurname VARCHAR(100),
     @IdCard VARCHAR(100),
-    @StatusPerson TINYINT,
 
     @IdProvince INT,
     @IdCanton INT,
     @IdDistrict INT,
     @AditionalInformation VARCHAR(200),
-    @StatusDirection TINYINT,
 
     @Email VARCHAR(100),
-    @StatusEmail TINYINT,
 
     @PhoneNumber VARCHAR(20),
-    @StatusPhone TINYINT,
 
     @UserName VARCHAR(100),
     @Password VARCHAR(100),
     @ActivationToken VARCHAR(500),
     @VerificationToken VARCHAR(500),
-    @StatusUser TINYINT,
 
     @Budget DECIMAL(18, 2),
-    @StatusClient TINYINT,
     @IdRole INT
 AS
 BEGIN
@@ -115,11 +109,8 @@ BEGIN
         -- Actualizar la tabla tbDirection
         UPDATE tbDirection
         SET 
-            IdProvince = @IdProvince,
-            IdCanton = @IdCanton,
             IdDistrict = @IdDistrict,
-            AditionalInformation = @AditionalInformation,
-            Status = @StatusDirection
+            AditionalInformation = @AditionalInformation
         WHERE IdDirection = @IdDirection;
 
         -- Actualizar la tabla tbPerson
@@ -128,22 +119,19 @@ BEGIN
             Name = @Name,
             FirstSurname = @FirstSurname,
             SecondSurname = @SecondSurname,
-            IdCard = @IdCard,
-            Status = @StatusPerson
+            IdCard = @IdCard
         WHERE IdPerson = @IdPerson;
 
         -- Actualizar la tabla tbEmail
         UPDATE tbEmail
         SET 
-            Email = @Email,
-            Status = @StatusEmail
+            Email = @Email
         WHERE IdPerson = @IdPerson;
 
         -- Actualizar la tabla tbPhone
         UPDATE tbPhone
         SET 
-            PhoneNumber = @PhoneNumber,
-            Status = @StatusPhone
+            PhoneNumber = @PhoneNumber
         WHERE IdPerson = @IdPerson;
 
         -- Actualizar la tabla tbUser
@@ -153,15 +141,13 @@ BEGIN
             Password = @Password,
             ActivationToken = @ActivationToken,
             VerificationToken = @VerificationToken,
-            IdRole = @IdRole,
-            Status = @StatusUser
+            IdRole = @IdRole
         WHERE IdUser = @IdUser;
 
         -- Actualizar la tabla tbClient
         UPDATE tbClient
         SET 
-            Budget = @Budget,
-            Status = @StatusClient
+            Budget = @Budget
         WHERE IdClient = @ClientId;
 
         -- Si todo va bien, confirmar la transacción
@@ -171,6 +157,8 @@ BEGIN
         SELECT @ClientId AS IdClient;
     END TRY
     BEGIN CATCH
+	SET @ClientId = 0;
+	SELECT @ClientId AS IdClient;
         -- En caso de error, deshacer la transacción
         ROLLBACK TRANSACTION;
 
@@ -185,29 +173,24 @@ END;
 
 
 EXEC spUpdateClient 
-    @ClientId = 2, 
+    @ClientId = 1, 
     @Name = 'Adam', 
     @FirstSurname = 'Acuña', 
     @SecondSurname = 'González', 
-    @IdCard = '118200907', 
-    @StatusPerson = 1, 
-    @IdProvince = 4, 
-    @IdCanton = 14, 
-    @IdDistrict = 16, 
+    @IdCard = '123456789', 
+    @IdProvince = 9, 
+    @IdCanton = 1, 
+    @IdDistrict = 1, 
     @AditionalInformation = 'Near the park', 
-    @StatusDirection = 1, 
     @Email = 'adam@gmail.com', 
-    @StatusEmail = 1, 
     @PhoneNumber = '62913160', 
-    @StatusPhone = 1, 
     @UserName = 'adamacuna', 
     @Password = 'newpassword', 
     @ActivationToken = 'activation-token-124', 
     @VerificationToken = 'verification-token-124', 
-    @StatusUser = 1, 
     @Budget = 1000.00, 
-    @StatusClient = 1, 
     @IdRole = 1;
+
 
 SELECT
     c.Budget,
@@ -223,12 +206,7 @@ SELECT
     p.IdCard,
 	ph.PhoneNumber,
 	e.Email,
-    p.Status AS PersonStatus,
-    d.AditionalInformation AS DirecciónExacta,
-    d.Status AS DirectionStatus,
-    pr.Name AS ProvinceName,
-    ct.Name AS CantonName,
-    dt.Name AS DistrictName
+    p.Status AS PersonStatus
 FROM
     tbClient c
     INNER JOIN tbUser u ON c.IdUser = u.IdUser
@@ -236,7 +214,3 @@ FROM
     INNER JOIN tbPerson p ON u.IdPerson = p.IdPerson
 	INNER JOIN tbPhone ph ON p.IdPerson = ph.IdPerson
 	INNER JOIN tbEmail e ON p.IdPerson = e.IdPerson
-    INNER JOIN tbDirection d ON p.IdDirection = d.IdDirection
-    INNER JOIN tbProvince pr ON d.IdProvince = pr.IdProvince
-    INNER JOIN tbCanton ct ON d.IdCanton = ct.IdCanton
-    INNER JOIN tbDistrict dt ON d.IdDistrict = dt.IdDistrict

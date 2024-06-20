@@ -50,4 +50,32 @@ public class ClientController {
 
         return clientService.registerClient(cliente, telefono, email);
     }
+
+    @PostMapping("/actualizarCliente")
+    public String actualizarCliente(@RequestBody Map<String, Object> clienteData){
+        Client cliente = new Client();
+        int idCliente = Integer.parseInt(clienteData.get("idCliente").toString());
+        cliente.setId(idCliente);
+        cliente.getIdUser().getIdPerson().setName((String) clienteData.get("nombre"));
+        cliente.getIdUser().getIdPerson().setFirstSurname((String) clienteData.get("primerApellido"));
+        cliente.getIdUser().getIdPerson().setFirstSurname((String) clienteData.get("segundoApellido"));
+        cliente.getIdUser().getIdPerson().setFirstSurname((String) clienteData.get("idCard"));
+        String provincia = (String) clienteData.get("idProvince");
+        cliente.getIdUser().getIdPerson().getIdDirection().getIdDistrict().getIdCanton().getIdProvince().setId(Integer.parseInt(provincia));
+        String canton = (String) clienteData.get("idCanton");
+        cliente.getIdUser().getIdPerson().getIdDirection().getIdDistrict().getIdCanton().setId(Integer.parseInt(canton));
+        String distrito = (String) clienteData.get("idDistrict");
+        cliente.getIdUser().getIdPerson().getIdDirection().getIdDistrict().setId(Integer.parseInt(distrito));
+        cliente.getIdUser().getIdPerson().getIdDirection().setAditionalInformation((String) clienteData.get("aditionalInformation"));
+        String email = (String) clienteData.get("correoElectronico");
+        String telefono = (String) clienteData.get("numeroTelefono");
+        cliente.getIdUser().setUserName((String) clienteData.get("userName"));
+        cliente.getIdUser().setPassword((String) clienteData.get("password"));
+        cliente.getIdUser().setPassword((String) clienteData.get("activationToken"));
+        cliente.getIdUser().setPassword((String) clienteData.get("verificationToken"));
+        cliente.getIdUser().setPassword((String) clienteData.get("budget"));
+        cliente.getIdUser().getIdRole().setId(Integer.parseInt((String) clienteData.get("idRole")));
+
+        return clientService.updateClient(cliente, telefono, email);
+    }
 }
