@@ -1,6 +1,7 @@
 package com.g2inmobiliaria.app.Services;
 
 import com.g2inmobiliaria.app.Entities.Agreement;
+import com.g2inmobiliaria.app.Entities.Client;
 import com.g2inmobiliaria.app.Entities.PaymentMethod;
 import com.g2inmobiliaria.app.Entities.Sale;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +85,10 @@ public class SaleService {
                         sale.setSaleDate(resultSet.getDate("SaleDate").toLocalDate());
                         sale.setAditionalInformation(resultSet.getString("AditionalInformation"));
                         sale.setStatus(resultSet.getShort("Status"));
-
+                        int idClientLocal = resultSet.getInt("IdClient");
+                        sale.getIdClient().setId(idClientLocal);
+                        int idAgentLocal = resultSet.getInt("IdRealStateAgent");
+                        sale.getIdRealStateAgent().setId(idAgentLocal);
                         int agreementId = resultSet.getInt("IdAgreement");
                         if (!resultSet.wasNull()) {
                             List<Agreement> agreements = agreementService.getAgreements(agreementId, null, null, null, null);

@@ -52,8 +52,8 @@
                         Ver Acuerdo
                     </button>
                 </td>
-                <td th:text="${sale.idClient?.id} ?: ''"></td>
-                <td th:text="${sale.idRealStateAgent?.id} ?: ''"></td>
+                <td th:text="${'Cliente ' + sale.idClient.id}"></td>
+                <td th:text="${'Agente ' + sale.idRealStateAgent?.id} ?: ''"></td>
                 <td th:text="${sale.saleDate ?: ''}"></td>
                 <td th:text="${sale.aditionalInformation ?: ''}"></td>
                 <td th:text="${sale.idPaymentMethod?.typePaymentMethod} ?: ''"></td>

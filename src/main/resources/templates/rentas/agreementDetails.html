@@ -3,8 +3,8 @@
     <div>
         <p><strong>Acuerdo Número:</strong> <span th:text="'AGCODR#' + ${agreement.id}"></span></p>
         <p><strong>Propiedad:</strong> <span th:text="${agreement.idProperty != null ? agreement.idProperty.name : ''}"></span></p>
-        <p><strong>Cliente:</strong> <span th:text="${agreement.idClient != null ? agreement.idClient.name : ''}"></span></p>
-        <p><strong>Agente Inmobiliario:</strong> <span th:text="${agreement.idRealStateAgent != null ? agreement.idRealStateAgent.name : ''}"></span></p>
+        <p><strong>Cliente:</strong> <span th:text="${'Cliente' + agreement.idClient.id != null ? agreement.idClient.name : ''}"></span></p>
+        <p><strong>Agente Inmobiliario:</strong> <span th:text="${'Agente' + agreement.idRealStateAgent.id != null ? agreement.idRealStateAgent.name : ''}"></span></p>
         <p><strong>Fecha del Acuerdo:</strong> <span th:text="${agreement.agreementDate}"></span></p>
         <p><strong>Información Adicional:</strong> <span th:text="${agreement.aditionalInformation}"></span></p>
         <p><strong>Estado:</strong> <span th:text="${agreement.status == 1 ? 'Activo' : 'Inactivo'}"></span></p>

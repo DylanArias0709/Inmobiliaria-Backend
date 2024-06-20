@@ -74,6 +74,12 @@ public class AgreementService {
                         agreement.setAgreementDate(resultSet.getDate("AgreementDate").toLocalDate());
                         agreement.setAditionalInformation(resultSet.getString("AditionalInformation"));
                         agreement.setStatus(resultSet.getShort("Status"));
+                        int idClientLocal = resultSet.getInt("IdClient");
+                        agreement.getIdClient().setId(idClientLocal);
+                        int idAgentLocal = resultSet.getInt("IdRealStateAgent");
+                        int idPropertyLocal = resultSet.getInt("IdProperty");
+                        agreement.getIdProperty().setId(idPropertyLocal);
+                        agreement.getIdRealStateAgent().setId(idAgentLocal);
                         agreements.add(agreement);
                     }
                 }

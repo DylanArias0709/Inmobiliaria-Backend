@@ -1,9 +1,11 @@
 package com.g2inmobiliaria.app.Controllers;
 
 import com.g2inmobiliaria.app.Entities.Agreement;
+import com.g2inmobiliaria.app.Entities.Client;
 import com.g2inmobiliaria.app.Entities.PaymentMethod;
 import com.g2inmobiliaria.app.Entities.Sale;
 import com.g2inmobiliaria.app.Services.AgreementService;
+import com.g2inmobiliaria.app.Services.ClientService;
 import com.g2inmobiliaria.app.Services.PaymentMethodService;
 import com.g2inmobiliaria.app.Services.SaleService;
 import jakarta.annotation.PostConstruct;
@@ -25,18 +27,23 @@ public class SaleController {
     private PaymentMethodService paymentMethodService;
     @Autowired
     private AgreementService agreementService;
+    @Autowired
+    private ClientService clientService;
 
     private List<PaymentMethod> paymentMethods;
+    private List<Object[]> clientList;
 
     @PostConstruct
     public void init() {
         paymentMethods = paymentMethodService.listarPaymentMethods();
+        clientList = clientService.getClients(null);
     }
 
     @GetMapping("/listarVentas")
     public String listSales(Model model) {
         List<Sale> salesList = saleService.getSales(null, null, null, null, null, null);
         model.addAttribute("sales", salesList);
+        model.addAttribute("clients", clientList);
         return "ventas/ventas_admin";
     }
 
@@ -70,9 +77,11 @@ public class SaleController {
         List<Agreement> agreements = agreementService.getAgreements(null, null, null, null, null);
         model.addAttribute("agreements", agreements);
         model.addAttribute("paymentMethods", paymentMethods);
+        model.addAttribute("clientList", clientList);
         model.addAttribute("sale", sale);
         return "ventas/formularios_sale";
     }
+
 
     @GetMapping("/detalles")
     public String detalles(@RequestParam("agreement") Integer idAgreement, Model model) {

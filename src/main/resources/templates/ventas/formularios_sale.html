@@ -24,7 +24,12 @@
             </div>
             <div class="form-group">
                 <label for="idClient">Cliente:</label>
-                <input type="number" class="form-control" id="idClient" name="idClient" required>
+                <select class="form-control" id="idClient" name="idClient" required>
+                    <option th:each="client : ${clientList}"
+                            th:value="${client[0]}"
+                            th:text="${client[7]}">
+                    </option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="idRealStateAgent">Agente:</label>
@@ -67,7 +72,12 @@
             </div>
             <div class="form-group">
                 <label for="idClient">Cliente:</label>
-                <input type="number" class="form-control" id="idClient" name="idClient" th:value="${sale.idClient?.id} ?: ''" required>
+                <select class="form-control" id="idClient" name="idClient" required>
+                    <option th:each="client : ${clientList}"
+                            th:value="${client[0]}"
+                            th:text="${client[7]}">
+                    </option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="idRealStateAgent">Agente:</label>

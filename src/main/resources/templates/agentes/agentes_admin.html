@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Administrar Acuerdos</title>
+    <title>Administrar Agentes Inmobiliarios</title>
     <!-- Incluye tus hojas de estilo y scripts aquí -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
@@ -15,7 +15,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Administrar Acuerdos</a>
+        <a class="navbar-brand" href="#">Administrar Agentes Inmobiliarios</a>
         <button class="navbar-toggler btn_desplegarForm" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -25,39 +25,39 @@
 </nav>
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Acuerdos</h2>
-        <button class="btn btn-primary btn_desplegarForm" value="0">Crear nuevo acuerdo</button>
+        <h2>Agentes Inmobiliarios</h2>
+        <button class="btn btn-primary btn_desplegarForm" value="0">Crear nuevo agente</button>
     </div>
-    <div id="form_container" class="mb-3">
-
-    </div>
-    <div th:if="${!agreements.empty}">
+    <div id="form_container" class="mb-3"></div>
+    <div th:if="${!agents.empty}">
         <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th>Propiedad</th>
-                <th>Cliente</th>
-                <th>Agente</th>
-                <th>Fecha de Acuerdo</th>
-                <th>Información Adicional</th>
-                <th>Estado</th>
+                <th>Nombre</th>
+                <th>Primer Apellido</th>
+                <th>Segundo Apellido</th>
+                <th>ID Card</th>
+                <th>Número de Teléfono</th>
+                <th>Correo Electrónico</th>
+                <th>Nombre de Usuario</th>
                 <th>Opciones</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="agreement : ${agreements}">
-                <td th:text="${'Propiedad: ' + agreement.idProperty?.id} ?: ''"></td>
-                <td th:text="${'Cliente: ' + agreement.idClient?.id} ?: ''"></td>
-                <td th:text="${'Agente: ' + agreement.idRealStateAgent?.id} ?: ''"></td>
-                <td th:text="${agreement.agreementDate}"></td>
-                <td th:text="${agreement.aditionalInformation}"></td>
-                <td th:text="${agreement.status == 1 ? 'Activo' : 'Inactivo'}"></td>
+            <tr th:each="agent : ${agents}">
+                <td th:text="${agent[6]}"></td>
+                <td th:text="${agent[7]}"></td>
+                <td th:text="${agent[8]}"></td>
+                <td th:text="${agent[9]}"></td>
+                <td th:text="${agent[11]}"></td>
+                <td th:text="${agent[12]}"></td>
+                <td th:text="${agent[3]}"></td>
                 <td>
-                    <button type="button" class="btn btn-warning btn-sm btn_desplegarForm" th:value="${agreement.id}">
+                    <button type="button" class="btn btn-warning btn-sm btn_desplegarForm" th:value="${agent[0]}">
                         <i class="bi bi-pen"></i>
                     </button>
                     <button class="btn btn-danger btn-sm btn_delete">
-                        <a class="btn_eliminar text-white" th:href="@{/agreements/eliminarAgreement(agreement=${agreement.id})}">
+                        <a class="btn_eliminar text-white" th:href="@{/agents/eliminarAgente(agent=${agent[0]})}">
                             <i class="bi bi-trash"></i>
                         </a>
                     </button>
@@ -66,7 +66,7 @@
             </tbody>
         </table>
     </div>
-    <div th:if="${agreements.empty}" class="alert alert-warning">
+    <div th:if="${agents.empty}" class="alert alert-warning">
         <p>No se encontraron registros para mostrar.</p>
     </div>
 </div>
@@ -75,11 +75,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.js"></script>
-<script src="text/javascript" th:src="@{/js/alertScript.js}"></script>
-<script src="text/javascript" th:src="@{/js/agreementScript.js}"></script>
+<script src="text/javascript" th:src="@{/js/agentScript.js}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        validarEliminacion('.btn_delete', './listarAcuerdos');
+        validarEliminacion('.btn_delete', './listarAgentes');
         desplegarForm();
     });
 </script>
