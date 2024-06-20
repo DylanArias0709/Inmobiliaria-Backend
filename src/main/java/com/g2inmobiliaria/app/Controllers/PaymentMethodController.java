@@ -35,12 +35,12 @@ public class PaymentMethodController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deletePaymentMethod(@RequestParam("id") int id) {
+    public ResponseEntity<?> deletePaymentMethod(@RequestParam("PaymentMethod") int id) {
         return ResponseEntity.ok().body(paymentMethodService.borradoLogicoPaymentMethod(id));
     }
 
     @GetMapping("/form")
-    public String showPaymentMethodForm(@RequestParam("id") Integer id, Model model) {
+    public String showPaymentMethodForm(@RequestParam("PaymentMethod") Integer id, Model model) {
         PaymentMethod paymentMethod = paymentMethodService.obtenerPaymentMethodPorId(id);
         model.addAttribute("paymentMethod", paymentMethod);
         return "payment_methods/payment_method_form";

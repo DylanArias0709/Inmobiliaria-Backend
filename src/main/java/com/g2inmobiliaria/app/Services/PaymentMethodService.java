@@ -21,33 +21,26 @@ public class PaymentMethodService {
     }
 
     public String registrarPaymentMethod(PaymentMethod paymentMethod) {
+        // Crear la consulta de procedimiento almacenado con un parámetro
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spCreatePaymentMethod");
         query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter(2, Short.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter(3, Integer.class, ParameterMode.OUT);
 
+        // Establecer el valor del parámetro
         query.setParameter(1, paymentMethod.getTypePaymentMethod());
-        query.setParameter(2, paymentMethod.getStatus());
 
+        // Ejecutar el procedimiento almacenado
         query.execute();
 
-        int idPaymentMethodCreated = (int) query.getOutputParameterValue(3);
-
-        if (idPaymentMethodCreated > 0) {
-            return "{\"success\": true, \"message\": \"¡Método de pago creado exitosamente!\"}";
-        } else if (idPaymentMethodCreated == -1) {
-            return "{\"success\": false, \"message\": \"¡El tipo de método de pago ya existe!\"}";
-        } else {
-            return "{\"success\": false, \"message\": \"¡Hubo un error creando el método de pago!\"}";
-        }
+        // Si deseas manejar algún tipo de salida o verificar algo, puedes hacerlo aquí
+        return "{\"success\": true, \"message\": \"¡Método de pago creado exitosamente!\"}";
     }
+
 
     public String actualizarPaymentMethod(PaymentMethod paymentMethod) {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spUpdatePaymentMethod");
         query.registerStoredProcedureParameter("IdPaymentMethod", Integer.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("TypePaymentMethod", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("Status", Short.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter("ErrorCode", Integer.class, ParameterMode.OUT);
 
         query.setParameter("IdPaymentMethod", paymentMethod.getId());
         query.setParameter("TypePaymentMethod", paymentMethod.getTypePaymentMethod());
@@ -55,31 +48,23 @@ public class PaymentMethodService {
 
         query.execute();
 
-        int errorCode = (int) query.getOutputParameterValue("ErrorCode");
-        if (errorCode == 0) {
-            return "{\"success\": true, \"message\": \"¡Método de pago actualizado exitosamente!\"}";
-        } else {
-            return "{\"success\": false, \"message\": \"¡Hubo un error actualizando el método de pago!\"}";
-        }
+        // Aquí podrías agregar alguna lógica para manejar el resultado si es necesario
+        return "{\"success\": true, \"message\": \"¡Método de pago actualizado exitosamente!\"}";
     }
+
 
     public String borradoLogicoPaymentMethod(int id) {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spLogicalDeletePaymentMethod");
         query.registerStoredProcedureParameter("IdPaymentMethod", Integer.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter("IdPaymentMethodDeleted", Integer.class, ParameterMode.OUT);
 
         query.setParameter("IdPaymentMethod", id);
 
         query.execute();
 
-        int idPaymentMethodDeleted = (int) query.getOutputParameterValue("IdPaymentMethodDeleted");
-
-        if (idPaymentMethodDeleted == id) {
-            return "{\"success\": true, \"message\": \"Método de pago deshabilitado exitosamente.\"}";
-        } else {
-            return "{\"success\": false, \"message\": \"Hubo un error deshabilitando el método de pago.\"}";
-        }
+        // Asumir que si no hay excepción, la operación fue exitosa
+        return "{\"success\": true, \"message\": \"Método de pago deshabilitado exitosamente.\"}";
     }
+
 
     public PaymentMethod obtenerPaymentMethodPorId(int id) {
         for (PaymentMethod paymentMethod : listarPaymentMethods()) {
