@@ -3,67 +3,52 @@ package com.g2inmobiliaria.app.Controllers;
 import com.g2inmobiliaria.app.Entities.Rent;
 import com.g2inmobiliaria.app.Services.RentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/rents")
 public class RentController {
 
     @Autowired
     private RentService rentService;
 
-    @PostMapping("/add")
-    public ResponseEntity<?> createRent(@RequestBody Rent rent) {
-        try {
-            rentService.createRent(rent.getIdAgreement().getId(), rent.getRentPrice(),
-                    java.sql.Date.valueOf(rent.getStartDateRent()), java.sql.Date.valueOf(rent.getEndDateRent()),
-                    rent.getMonthDuration(), rent.getInitialDeposit());
-            return ResponseEntity.ok(rent);
-        } catch (RuntimeException e) {
-            // Retornar solo el mensaje de error
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    @GetMapping("/listarRentas")
+    public String listRents(Model model) {
+        List<Rent> rentList = rentService.getRents(null, null, null);
+        model.addAttribute("rents", rentList);
+        return "rentas/rentas_admin";
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteRent(@PathVariable Integer id) {
-        try {
-            rentService.logicalDeleteRent(id);
-            return ResponseEntity.ok("Rent deleted successfully");
-        } catch (RuntimeException e) {
-            // Retornar solo el mensaje de error
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    @PostMapping("/registrarRent")
+    public ResponseEntity<?> registerRent(@RequestBody Rent rent) {
+        return ResponseEntity.ok().body(rentService.createRent(rent));
     }
 
-    @GetMapping
-    public ResponseEntity<List<Rent>> getRents(
-            @RequestParam(required = false) Integer idRent,
-            @RequestParam(required = false) Integer idAgreement,
-            @RequestParam(required = false) Short status) {
-        try {
-            List<Rent> rents = rentService.getRents(idRent, idAgreement, status);
-            return ResponseEntity.ok(rents);
-        } catch (RuntimeException e) {
-            // Retornar solo el mensaje de error
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+    @PostMapping("/actualizarRent")
+    public ResponseEntity<?> updateRent(@RequestBody Rent rent) {
+        return ResponseEntity.ok().body(rentService.updateRent(rent));
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateRent(@PathVariable Integer id, @RequestBody Rent rent) {
-        try {
-            rentService.updateRent(id, rent.getIdAgreement().getId(), rent.getRentPrice(),
-                    java.sql.Date.valueOf(rent.getStartDateRent()), java.sql.Date.valueOf(rent.getEndDateRent()),
-                    rent.getMonthDuration(), rent.getInitialDeposit(), rent.getStatus());
-            return ResponseEntity.ok(rent);
-        } catch (RuntimeException e) {
-            // Retornar solo el mensaje de error
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    @DeleteMapping("/eliminarRent")
+    public ResponseEntity<?> logicalDeleteRent(@RequestParam("rent") int id) {
+        return ResponseEntity.ok().body(rentService.logicalDeleteRent(id));
+    }
+
+    @GetMapping("/rentForm")
+    public String showForm(@RequestParam("rent") Integer id, Model model) {
+        Rent rent = null;
+        if (id != null && id > 0) {
+            List<Rent> rents = rentService.getRents(id, null, null);
+            if (!rents.isEmpty()) {
+                rent = rents.getFirst();
+            }
         }
+        model.addAttribute("rent", rent);
+        return "rentas/formularios_rent";
     }
 }

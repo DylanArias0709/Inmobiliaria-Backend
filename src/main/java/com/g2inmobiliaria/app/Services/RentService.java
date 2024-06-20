@@ -18,29 +18,30 @@ public class RentService {
     @Autowired
     private AgreementService agreementService;
 
-    // Método para utilizar el sp de crear Rent
-    public void createRent(Integer idAgreement, java.math.BigDecimal rentPrice, java.sql.Date startDateRent, java.sql.Date endDateRent, Integer monthDuration, java.math.BigDecimal initialDeposit) {
+    // Método para crear Rent
+    public String createRent(Rent rent) {
         try {
             jdbcTemplate.execute((Connection connection) -> {
                 CallableStatement callableStatement = connection.prepareCall("{call spCreateRent(?, ?, ?, ?, ?, ?)}");
-                callableStatement.setInt(1, idAgreement);
-                callableStatement.setBigDecimal(2, rentPrice);
-                callableStatement.setDate(3, startDateRent);
-                callableStatement.setDate(4, endDateRent);
-                callableStatement.setInt(5, monthDuration);
-                callableStatement.setBigDecimal(6, initialDeposit);
+                callableStatement.setInt(1, rent.getIdAgreement().getId());
+                callableStatement.setBigDecimal(2, rent.getRentPrice());
+                callableStatement.setDate(3, Date.valueOf(rent.getStartDateRent()));
+                callableStatement.setDate(4, Date.valueOf(rent.getEndDateRent()));
+                callableStatement.setInt(5, rent.getMonthDuration());
+                callableStatement.setBigDecimal(6, rent.getInitialDeposit());
 
                 callableStatement.execute();
                 return null;
             });
+            return "{\"success\": true, \"message\": \"¡Renta creada exitosamente!\"}";
         } catch (Exception e) {
-            // Extraer solo el mensaje de la excepción
-            String errorMessage = e.getCause().getMessage();
-            throw new RuntimeException("Error al crear el alquiler: " + errorMessage);
+            String errorMessage = (e.getCause() != null) ? e.getCause().getMessage() : e.getMessage();
+            return "{\"success\": false, \"message\": \"Error al crear la renta: " + errorMessage + "\"}";
         }
     }
-    // Método para utilizar el sp de borrado lógico
-    public void logicalDeleteRent(Integer idRent) {
+
+    // Método para borrado lógico de Rent
+    public String logicalDeleteRent(int idRent) {
         try {
             jdbcTemplate.execute((Connection connection) -> {
                 CallableStatement callableStatement = connection.prepareCall("{call spLogicalDeleteRent(?)}");
@@ -49,14 +50,14 @@ public class RentService {
                 callableStatement.execute();
                 return null;
             });
+            return "{\"success\": true, \"message\": \"Renta deshabilitada exitosamente.\"}";
         } catch (Exception e) {
-            // Extraer solo el mensaje de la excepción
-            String errorMessage = e.getCause().getMessage();
-            throw new RuntimeException("Error al eliminar el alquiler: " + errorMessage);
+            String errorMessage = (e.getCause() != null) ? e.getCause().getMessage() : e.getMessage();
+            return "{\"success\": false, \"message\": \"Error al eliminar la renta: " + errorMessage + "\"}";
         }
     }
-    // Método para utilizar el sp de listar rentas
-    // Método para utilizar el sp de listar rentas
+
+    // Método para listar Rentas
     public List<Rent> getRents(Integer idRent, Integer idAgreement, Short status) {
         return jdbcTemplate.execute((Connection connection) -> {
             CallableStatement callableStatement = connection.prepareCall("{call spGetRent(?, ?, ?)}");
@@ -79,10 +80,8 @@ public class RentService {
                         rent.setInitialDeposit(resultSet.getBigDecimal("InitialDeposit"));
                         rent.setStatus(resultSet.getShort("Status"));
 
-                        // Obtener idAgreement
                         int agreementId = resultSet.getInt("IdAgreement");
                         if (!resultSet.wasNull()) {
-                            // Usar el método getAgreements para obtener el Agreement
                             List<Agreement> agreements = agreementService.getAgreements(agreementId, null, null, null, null);
                             if (!agreements.isEmpty()) {
                                 rent.setIdAgreement(agreements.get(0));
@@ -99,26 +98,27 @@ public class RentService {
         });
     }
 
-    // Método para utilizar sp de modificar rent
-    public void updateRent(Integer idRent, Integer idAgreement, java.math.BigDecimal rentPrice, java.sql.Date startDateRent, java.sql.Date endDateRent, Integer monthDuration, java.math.BigDecimal initialDeposit, Short status) {
+    // Método para actualizar Rent
+    public String updateRent(Rent rent) {
         try {
             jdbcTemplate.execute((Connection connection) -> {
                 CallableStatement callableStatement = connection.prepareCall("{call spUpdateRent(?, ?, ?, ?, ?, ?, ?, ?)}");
-                callableStatement.setInt(1, idRent);
-                callableStatement.setInt(2, idAgreement);
-                callableStatement.setBigDecimal(3, rentPrice);
-                callableStatement.setDate(4, startDateRent);
-                callableStatement.setDate(5, endDateRent);
-                callableStatement.setInt(6, monthDuration);
-                callableStatement.setBigDecimal(7, initialDeposit);
-                callableStatement.setShort(8, status);
+                callableStatement.setInt(1, rent.getId());
+                callableStatement.setInt(2, rent.getIdAgreement().getId());
+                callableStatement.setBigDecimal(3, rent.getRentPrice());
+                callableStatement.setDate(4, Date.valueOf(rent.getStartDateRent()));
+                callableStatement.setDate(5, Date.valueOf(rent.getEndDateRent()));
+                callableStatement.setInt(6, rent.getMonthDuration());
+                callableStatement.setBigDecimal(7, rent.getInitialDeposit());
+                callableStatement.setShort(8, rent.getStatus());
 
                 callableStatement.execute();
                 return null;
             });
+            return "{\"success\": true, \"message\": \"¡Renta actualizada exitosamente!\"}";
         } catch (Exception e) {
             String errorMessage = (e.getCause() != null) ? e.getCause().getMessage() : e.getMessage();
-            throw new RuntimeException("Error al actualizar el alquiler: " + errorMessage);
+            return "{\"success\": false, \"message\": \"Error al actualizar la renta: " + errorMessage + "\"}";
         }
     }
 }

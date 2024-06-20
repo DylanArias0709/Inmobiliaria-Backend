@@ -1,71 +1,62 @@
 package com.g2inmobiliaria.app.Controllers;
 
+import com.g2inmobiliaria.app.Entities.PaymentMethod;
 import com.g2inmobiliaria.app.Entities.Sale;
 import com.g2inmobiliaria.app.Services.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/sales")
 public class SaleController {
 
     @Autowired
     private SaleService saleService;
+    // @Autowired
+    // private PaymentMethodService paymentMethodService;
 
-    @PostMapping
-    public ResponseEntity<?> createSale(@RequestBody Sale sale) {
-        try {
-            saleService.createSale(sale.getIdAgreement().getId(), sale.getIdClient().getId(),
-                    sale.getIdRealStateAgent().getId(), java.sql.Date.valueOf(sale.getSaleDate()), sale.getAditionalInformation(),
-                    sale.getIdPaymentMethod().getId());
-            return ResponseEntity.ok(sale);
-        } catch (RuntimeException e) {
-            // Retornar solo el mensaje de error
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    @GetMapping("/listarVentas")
+    public String listSales(Model model) {
+        List<Sale> salesList = saleService.getSales(null, null, null, null, null, null);
+        model.addAttribute("sales", salesList);
+        return "ventas/ventas_admin";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteSale(@PathVariable Integer id) {
-        try {
-            saleService.logicalDeleteSale(id);
-            return ResponseEntity.ok("Sale deleted successfully");
-        } catch (RuntimeException e) {
-            // Retornar solo el mensaje de error
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    @PostMapping("/registrarSale")
+    public ResponseEntity<String> registerSale(@RequestBody Sale sale) {
+        String response = saleService.createSale(sale);
+        return ResponseEntity.ok(response);
     }
-    @GetMapping
-    public ResponseEntity<List<Sale>> getSales(
-            @RequestParam(required = false) Integer idSale,
-            @RequestParam(required = false) Integer idAgreement,
-            @RequestParam(required = false) Integer idClient,
-            @RequestParam(required = false) Integer idRealStateAgent,
-            @RequestParam(required = false) Integer idPaymentMethod,
-            @RequestParam(required = false) Short status) {
-        try {
-            List<Sale> sales = saleService.getSales(idSale, idAgreement, idClient, idRealStateAgent, idPaymentMethod, status);
-            return ResponseEntity.ok(sales);
-        } catch (RuntimeException e) {
-            // Retornar solo el mensaje de error
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+
+    @PostMapping("/actualizarSale")
+    public ResponseEntity<String> updateSale(@RequestBody Sale sale) {
+        String response = saleService.updateSale(sale);
+        return ResponseEntity.ok(response);
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateSale(@PathVariable Integer id, @RequestBody Sale sale) {
-        try {
-            saleService.updateSale(id, sale.getIdAgreement().getId(), sale.getIdClient().getId(),
-                    sale.getIdRealStateAgent().getId(), Date.valueOf(sale.getSaleDate()), sale.getAditionalInformation(),
-                    sale.getIdPaymentMethod().getId(), sale.getStatus());
-            return ResponseEntity.ok(sale);
-        } catch (RuntimeException e) {
-            // Retornar solo el mensaje de error
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+    @DeleteMapping("/eliminarSale")
+    public ResponseEntity<String> logicalDeleteSale(@RequestParam("sale") int id) {
+        String response = saleService.logicalDeleteSale(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/saleForm")
+    public String showForm(@RequestParam("sale") Integer id, Model model) {
+        Sale sale = null;
+        if (id != null && id > 0) {
+            List<Sale> sales = saleService.getSales(id, null, null, null, null, null);
+            if (!sales.isEmpty()) {
+                sale = sales.getFirst();
+            }
         }
+        // List<PaymentMethod> paymentMethods = paymentMethodService.listarPaymentMethods();
+        //  model.addAttribute("paymentMethods", paymentMethods);
+        model.addAttribute("sale", sale);
+        return "ventas/formularios_sale";
     }
 }

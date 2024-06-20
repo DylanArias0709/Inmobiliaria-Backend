@@ -3,68 +3,55 @@ package com.g2inmobiliaria.app.Controllers;
 import com.g2inmobiliaria.app.Entities.Agreement;
 import com.g2inmobiliaria.app.Services.AgreementService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/agreements")
 public class AgreementController {
 
     @Autowired
     private AgreementService agreementService;
 
-    @PostMapping
-    public ResponseEntity<?> createAgreement(@RequestBody Agreement agreement) {
-        try {
-            agreementService.createAgreement(agreement.getIdProperty().getId(), agreement.getIdClient().getId(),
-                    agreement.getIdRealStateAgent().getId(), Date.valueOf(agreement.getAgreementDate()), agreement.getAditionalInformation());
-            return ResponseEntity.ok(agreement);
-        } catch (RuntimeException e) {
-            // Retornar solo el mensaje de error
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    @GetMapping("/listarAcuerdos")
+    public String listAgreements(Model model) {
+        List<Agreement> agreementsList = agreementService.getAgreements(null, null, null, null, null);
+        model.addAttribute("agreements", agreementsList);
+        return "acuerdos/acuerdos_admin";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAgreement(@PathVariable Integer id) {
-        try {
-            agreementService.logicalDeleteAgreement(id);
-            return ResponseEntity.ok("Agreement deleted successfully");
-        } catch (RuntimeException e) {
-            // Retornar solo el mensaje de error
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    @PostMapping("/registrarAgreement")
+    public ResponseEntity<String> registerAgreement(@RequestBody Agreement agreement) {
+        String response = agreementService.createAgreement(agreement);
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/listAgreements")
-    public ResponseEntity<List<Agreement>> getAgreements(
-            @RequestParam(required = false) Integer idAgreement,
-            @RequestParam(required = false) Integer idProperty,
-            @RequestParam(required = false) Integer idClient,
-            @RequestParam(required = false) Integer idRealStateAgent,
-            @RequestParam(required = false) Short status) {
-        try {
-            List<Agreement> agreements = agreementService.getAgreements(idAgreement, idProperty, idClient, idRealStateAgent, status);
-            return ResponseEntity.ok(agreements);
-        } catch (RuntimeException e) {
-            // Retornar solo el mensaje de error
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+    @PostMapping("/actualizarAgreement")
+    public ResponseEntity<String> updateAgreement(@RequestBody Agreement agreement) {
+        String response = agreementService.updateAgreement(agreement);
+        return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Agreement> updateAgreement(@PathVariable Integer id, @RequestBody Agreement agreement) {
-        try {
-            agreementService.updateAgreement(id, agreement.getIdProperty().getId(), agreement.getIdClient().getId(),
-                    agreement.getIdRealStateAgent().getId(), Date.valueOf(agreement.getAgreementDate()), agreement.getAditionalInformation(), agreement.getStatus());
-            return ResponseEntity.ok(agreement);
-        } catch (RuntimeException e) {
-            // Retornar solo el mensaje de error
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    @DeleteMapping("/eliminarAgreement")
+    public ResponseEntity<String> logicalDeleteAgreement(@RequestParam("agreement") int id) {
+        String response = agreementService.logicalDeleteAgreement(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/agreementForm")
+    public String showForm(@RequestParam("agreement") Integer id, Model model) {
+        Agreement agreement = null;
+        if (id != null && id > 0) {
+            List<Agreement> agreements = agreementService.getAgreements(id, null, null, null, null);
+            if (!agreements.isEmpty()) {
+                agreement = agreements.getFirst();
+            }
         }
+        model.addAttribute("agreement", agreement);
+        return "acuerdos/formularios_agreement";
     }
 }

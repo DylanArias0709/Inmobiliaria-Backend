@@ -1,5 +1,6 @@
 package com.g2inmobiliaria.app.Services;
 
+import com.g2inmobiliaria.app.Entities.Agreement;
 import com.g2inmobiliaria.app.Entities.Sale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,29 +15,33 @@ public class SaleService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private AgreementService agreementService;
 
     // Método para crear sale con sp
-    public void createSale(Integer idAgreement, Integer idClient, Integer idRealStateAgent, java.sql.Date saleDate, String aditionalInformation, Integer idPaymentMethod) {
+    public String createSale(Sale sale) {
         try {
             jdbcTemplate.execute((Connection connection) -> {
                 CallableStatement callableStatement = connection.prepareCall("{call spCreateSale(?, ?, ?, ?, ?, ?)}");
-                callableStatement.setInt(1, idAgreement);
-                callableStatement.setInt(2, idClient);
-                callableStatement.setInt(3, idRealStateAgent);
-                callableStatement.setDate(4, saleDate);
-                callableStatement.setString(5, aditionalInformation);
-                callableStatement.setInt(6, idPaymentMethod);
+                callableStatement.setInt(1, sale.getIdAgreement().getId());
+                callableStatement.setInt(2, sale.getIdClient().getId());
+                callableStatement.setInt(3, sale.getIdRealStateAgent().getId());
+                callableStatement.setDate(4, Date.valueOf(sale.getSaleDate()));
+                callableStatement.setString(5, sale.getAditionalInformation());
+                callableStatement.setInt(6, sale.getIdPaymentMethod().getId());
 
                 callableStatement.execute();
                 return null;
             });
+            return "{\"success\": true, \"message\": \"¡Venta creada exitosamente!\"}";
         } catch (Exception e) {
             String errorMessage = (e.getCause() != null) ? e.getCause().getMessage() : e.getMessage();
-            throw new RuntimeException("Error al crear la venta: " + errorMessage);
+            return "{\"success\": false, \"message\": \"Error al crear la venta: " + errorMessage + "\"}";
         }
     }
+
     // Método de borrado lógico con sp
-    public void logicalDeleteSale(Integer idSale) {
+    public String logicalDeleteSale(int idSale) {
         try {
             jdbcTemplate.execute((Connection connection) -> {
                 CallableStatement callableStatement = connection.prepareCall("{call spLogicalDeleteSale(?)}");
@@ -45,11 +50,13 @@ public class SaleService {
                 callableStatement.execute();
                 return null;
             });
+            return "{\"success\": true, \"message\": \"Venta eliminada exitosamente.\"}";
         } catch (Exception e) {
             String errorMessage = (e.getCause() != null) ? e.getCause().getMessage() : e.getMessage();
-            throw new RuntimeException("Error al eliminar la venta: " + errorMessage);
+            return "{\"success\": false, \"message\": \"Error al eliminar la venta: " + errorMessage + "\"}";
         }
     }
+
     // Método de listar con sp
     public List<Sale> getSales(Integer idSale, Integer idAgreement, Integer idClient, Integer idRealStateAgent, Integer idPaymentMethod, Short status) {
         return jdbcTemplate.execute((Connection connection) -> {
@@ -72,7 +79,15 @@ public class SaleService {
                         sale.setSaleDate(resultSet.getDate("SaleDate").toLocalDate());
                         sale.setAditionalInformation(resultSet.getString("AditionalInformation"));
                         sale.setStatus(resultSet.getShort("Status"));
-                        // Map other fields and relationships if needed
+
+                        int agreementId = resultSet.getInt("IdAgreement");
+                        if (!resultSet.wasNull()) {
+                            List<Agreement> agreements = agreementService.getAgreements(agreementId, null, null, null, null);
+                            if (!agreements.isEmpty()) {
+                                sale.setIdAgreement(agreements.getFirst());
+                            }
+                        }
+
                         sales.add(sale);
                     }
                 }
@@ -82,26 +97,28 @@ public class SaleService {
             return sales;
         });
     }
+
     // Método para actualizar sale con sp
-    public void updateSale(Integer idSale, Integer idAgreement, Integer idClient, Integer idRealStateAgent, java.sql.Date saleDate, String aditionalInformation, Integer idPaymentMethod, Short status) {
+    public String updateSale(Sale sale) {
         try {
             jdbcTemplate.execute((Connection connection) -> {
                 CallableStatement callableStatement = connection.prepareCall("{call spUpdateSale(?, ?, ?, ?, ?, ?, ?, ?)}");
-                callableStatement.setInt(1, idSale);
-                callableStatement.setInt(2, idAgreement);
-                callableStatement.setInt(3, idClient);
-                callableStatement.setInt(4, idRealStateAgent);
-                callableStatement.setDate(5, saleDate);
-                callableStatement.setString(6, aditionalInformation);
-                callableStatement.setInt(7, idPaymentMethod);
-                callableStatement.setShort(8, status);
+                callableStatement.setInt(1, sale.getId());
+                callableStatement.setInt(2, sale.getIdAgreement().getId());
+                callableStatement.setInt(3, sale.getIdClient().getId());
+                callableStatement.setInt(4, sale.getIdRealStateAgent().getId());
+                callableStatement.setDate(5, Date.valueOf(sale.getSaleDate()));
+                callableStatement.setString(6, sale.getAditionalInformation());
+                callableStatement.setInt(7, sale.getIdPaymentMethod().getId());
+                callableStatement.setShort(8, sale.getStatus());
 
                 callableStatement.execute();
                 return null;
             });
+            return "{\"success\": true, \"message\": \"¡Venta actualizada exitosamente!\"}";
         } catch (Exception e) {
             String errorMessage = (e.getCause() != null) ? e.getCause().getMessage() : e.getMessage();
-            throw new RuntimeException("Error al actualizar la venta: " + errorMessage);
+            return "{\"success\": false, \"message\": \"Error al actualizar la venta: " + errorMessage + "\"}";
         }
     }
 }

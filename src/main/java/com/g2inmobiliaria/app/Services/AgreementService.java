@@ -17,27 +17,28 @@ public class AgreementService {
     private JdbcTemplate jdbcTemplate;
 
     // Método para utilizar el sp de crear acuerdo
-    public void createAgreement(Integer idProperty, Integer idClient, Integer idRealStateAgent, Date agreementDate, String aditionalInformation) {
+    public String createAgreement(Agreement agreement) {
         try {
             jdbcTemplate.execute((Connection connection) -> {
                 CallableStatement callableStatement = connection.prepareCall("{call spCreateAgreement(?, ?, ?, ?, ?)}");
-                callableStatement.setInt(1, idProperty);
-                callableStatement.setInt(2, idClient);
-                callableStatement.setInt(3, idRealStateAgent);
-                callableStatement.setDate(4, agreementDate);
-                callableStatement.setString(5, aditionalInformation);
+                callableStatement.setInt(1, agreement.getIdProperty().getId());
+                callableStatement.setInt(2, agreement.getIdClient().getId());
+                callableStatement.setInt(3, agreement.getIdRealStateAgent().getId());
+                callableStatement.setDate(4, Date.valueOf(agreement.getAgreementDate()));
+                callableStatement.setString(5, agreement.getAditionalInformation());
 
                 callableStatement.execute();
                 return null;
             });
+            return "{\"success\": true, \"message\": \"¡Acuerdo creado exitosamente!\"}";
         } catch (Exception e) {
-            // Extraer solo el mensaje de la excepción
-            String errorMessage = e.getCause().getMessage();
-            throw new RuntimeException("Error al crear el acuerdo: " + errorMessage);
+            String errorMessage = (e.getCause() != null) ? e.getCause().getMessage() : e.getMessage();
+            return "{\"success\": false, \"message\": \"Error al crear el acuerdo: " + errorMessage + "\"}";
         }
     }
+
     // Método para realizar un borrado con el sp de borrado lógico
-    public void logicalDeleteAgreement(Integer idAgreement) {
+    public String logicalDeleteAgreement(int idAgreement) {
         try {
             jdbcTemplate.execute((Connection connection) -> {
                 CallableStatement callableStatement = connection.prepareCall("{call spLogicalDeleteAgreement(?)}");
@@ -46,13 +47,14 @@ public class AgreementService {
                 callableStatement.execute();
                 return null;
             });
+            return "{\"success\": true, \"message\": \"Acuerdo eliminado exitosamente.\"}";
         } catch (Exception e) {
-            // Extraer solo el mensaje de la excepción
-            String errorMessage = e.getCause().getMessage();
-            throw new RuntimeException("Error al eliminar el acuerdo: " + errorMessage);
+            String errorMessage = (e.getCause() != null) ? e.getCause().getMessage() : e.getMessage();
+            return "{\"success\": false, \"message\": \"Error al eliminar el acuerdo: " + errorMessage + "\"}";
         }
     }
-    // Método para realizar una búsqueda (listado) de los acuerdos (se puede filtrar según datos dados, o listar todos)
+
+    // Método para realizar una búsqueda (listado) de los acuerdos
     public List<Agreement> getAgreements(Integer idAgreement, Integer idProperty, Integer idClient, Integer idRealStateAgent, Short status) {
         return jdbcTemplate.execute((Connection connection) -> {
             CallableStatement callableStatement = connection.prepareCall("{call spGetAgreement(?, ?, ?, ?, ?)}");
@@ -77,31 +79,32 @@ public class AgreementService {
                     }
                 }
             } else {
-                throw new RuntimeException("No results found");
+                throw new RuntimeException("No se encontraron resultados");
             }
             return agreements;
         });
     }
+
     // Método para actualizar un acuerdo, utilizando el sp de spUpdateAgreement
-    public void updateAgreement(Integer idAgreement, Integer idProperty, Integer idClient, Integer idRealStateAgent, java.sql.Date agreementDate, String aditionalInformation, Short status) {
+    public String updateAgreement(Agreement agreement) {
         try {
             jdbcTemplate.execute((Connection connection) -> {
                 CallableStatement callableStatement = connection.prepareCall("{call spUpdateAgreement(?, ?, ?, ?, ?, ?, ?)}");
-                callableStatement.setInt(1, idAgreement);
-                callableStatement.setInt(2, idProperty);
-                callableStatement.setInt(3, idClient);
-                callableStatement.setInt(4, idRealStateAgent);
-                callableStatement.setDate(5, agreementDate);
-                callableStatement.setString(6, aditionalInformation);
-                callableStatement.setShort(7, status);
+                callableStatement.setInt(1, agreement.getId());
+                callableStatement.setInt(2, agreement.getIdProperty().getId());
+                callableStatement.setInt(3, agreement.getIdClient().getId());
+                callableStatement.setInt(4, agreement.getIdRealStateAgent().getId());
+                callableStatement.setDate(5, Date.valueOf(agreement.getAgreementDate()));
+                callableStatement.setString(6, agreement.getAditionalInformation());
+                callableStatement.setShort(7, agreement.getStatus());
 
                 callableStatement.execute();
                 return null;
             });
+            return "{\"success\": true, \"message\": \"¡Acuerdo actualizado exitosamente!\"}";
         } catch (Exception e) {
-            // Extraer solo el mensaje de la excepción
-            String errorMessage = e.getCause().getMessage();
-            throw new RuntimeException("Error al actualizar el acuerdo: " + errorMessage);
+            String errorMessage = (e.getCause() != null) ? e.getCause().getMessage() : e.getMessage();
+            return "{\"success\": false, \"message\": \"Error al actualizar el acuerdo: " + errorMessage + "\"}";
         }
     }
 }
