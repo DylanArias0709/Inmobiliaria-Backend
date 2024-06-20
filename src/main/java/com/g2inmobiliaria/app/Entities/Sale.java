@@ -41,4 +41,19 @@ public class Sale {
     @Column(name = "Status", columnDefinition = "tinyint not null")
     private Short status;
 
+    public Sale(Integer id, Agreement idAgreement, Client idClient, RealStateAgent idRealStateAgent, LocalDate saleDate, String aditionalInformation, PaymentMethod idPaymentMethod, Short status) {
+        this.id = id;
+        this.idAgreement = idAgreement;
+        this.idClient = idClient;
+        this.idRealStateAgent = idRealStateAgent;
+        this.saleDate = saleDate;
+        this.aditionalInformation = aditionalInformation;
+        this.idPaymentMethod = idPaymentMethod;
+        this.status = status;
+    }
+
+    public Sale() {
+        this.idClient = new Client();
+        this.idRealStateAgent = new RealStateAgent();
+    }
 }

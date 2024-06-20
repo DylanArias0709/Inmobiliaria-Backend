@@ -45,4 +45,9 @@ public class Agreement {
     @OneToMany(mappedBy = "idAgreement")
     private Set<Sale> tbSales = new LinkedHashSet<>();
 
+    public Agreement() {
+        this.idProperty = new Property();
+        this.idClient = new Client();
+        this.idRealStateAgent = new RealStateAgent();
+    }
 }
