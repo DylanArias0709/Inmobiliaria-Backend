@@ -63,7 +63,7 @@ public class ComunicationTypeService {
 
         // Ejecución del procedimiento almacenado
         query.execute();
-        
+
         // Aquí puedes manejar cualquier lógica adicional según el resultado de la ejecución del procedimiento almacenado
         return "{\"success\": true, \"message\": \"¡Tipo de comunicación actualizado exitosamente!\"}";
     }
