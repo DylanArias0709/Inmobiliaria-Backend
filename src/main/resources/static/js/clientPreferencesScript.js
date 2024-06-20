@@ -1,15 +1,15 @@
-function desplegarForm() {
+function desplegarFormClientPreference() {
     var desplegarFormContainer = document.getElementById("form_container");
 
     // Obtener todos los botones de desplegar formularios y agregar un evento clic a cada uno
     var botones = document.querySelectorAll('.btn_desplegarForm');
     botones.forEach(function (boton) {
         boton.addEventListener('click', function () {
-            // Obtener el valor (ID del cantón) del botón clicado
-            var idCanton = this.value;
+            // Obtener el valor (ID de la preferencia de cliente) del botón clicado
+            var idClientPreference = this.value;
 
             var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", "/canton/cantonForm?canton=" + idCanton, true);
+            xmlhttp.open("GET", "/clientPreferences/clientPreferenceForm?clientPreference=" + idClientPreference, true);
             xmlhttp.send();
 
             xmlhttp.onreadystatechange = function () {
@@ -21,18 +21,16 @@ function desplegarForm() {
     });
 }
 
-
-
-function ocultarForm(){
+function ocultarFormClientPreference() {
     document.getElementById("form_container").innerHTML = "";
 }
 
-function editarCanton(){
+function editarClientPreference() {
     var editarForm = document.querySelector('.editForm');
     editarForm.addEventListener('submit', function (event) {
         event.preventDefault();
         Swal.fire({
-            title: '¿Desea continuar con la edición de este cantón?',
+            title: '¿Desea continuar con la edición de esta preferencia de cliente?',
             text: '¡Asegúrate de tener los datos correctos!',
             icon: 'question',
             showCancelButton: true,
@@ -63,7 +61,7 @@ function editarCanton(){
                         if (data.success) {
                             mostrarToastConfirmacion(data.message);
                             setTimeout(function () {
-                                window.location.href = "./listarCantones";
+                                window.location.href = "/clientPreferences/listarClientPreferences";
                             }, 1000);
                         } else {
                             mostrarToastError(data.message);
@@ -77,7 +75,7 @@ function editarCanton(){
     });
 }
 
-function validarFormularioCrearCanton(event) {
+function validarFormularioCrearClientPreference(event) {
     event.preventDefault(); // Evitar que el evento por defecto se ejecute
 
     var form = document.getElementById('form-crear');
@@ -88,7 +86,7 @@ function validarFormularioCrearCanton(event) {
         var input = inputs[i];
         if (input.value.trim() === '') {
             var mensaje = "Por favor, completa todos los campos.";
-            mostrarMensaje(mensaje, mensajeContainer);
+            mostrarMensajeClientPreference(mensaje, mensajeContainer);
             return false; // Detener la validación y no enviar el formulario
         }
     }
@@ -96,20 +94,19 @@ function validarFormularioCrearCanton(event) {
     return true;
 }
 
-function mostrarMensaje(mensaje, container) {
+function mostrarMensajeClientPreference(mensaje, container) {
     container.innerHTML = mensaje;
 }
 
-function validarCreacionCanton() {
+function validarCreacionClientPreference() {
     var crearForm = document.querySelector('.form-crear');
 
     crearForm.addEventListener('submit', function (event) {
-        //alert("Si llega al if");
         event.preventDefault();
-        if (validarFormularioCrearCanton(event)) {
+        if (validarFormularioCrearClientPreference(event)) {
             Swal.fire({
-                title: "¿Estas seguro de crear este cantón?",
-                text: '¡Asegurate de tener los datos correctos!',
+                title: "¿Está seguro de crear esta Preferencia de Cliente?",
+                text: '¡Asegúrese de tener los datos correctos!',
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -118,22 +115,29 @@ function validarCreacionCanton() {
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    // Obtener datos del formulario y convertirlos a JSON
+                    const formData = new FormData(crearForm);
+                    const jsonData = {};
+                    formData.forEach((value, key) => {
+                        jsonData[key] = value;
+                    });
+                    const requestBody = JSON.stringify(jsonData);
 
                     fetch(crearForm.action, {
                         method: 'POST',
-                        body: new FormData(crearForm)
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: requestBody
                     })
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                // Si el proceso de agregar el cantón fue exitoso, mostrar mensaje de éxito
                                 mostrarToastConfirmacion(data.message);
-                                // Redirigir después de un pequeño retraso
                                 setTimeout(function () {
-                                    window.location.href = './listarCantones';
-                                }, 1000); // 1000 milisegundos de retraso
+                                    window.location.href = './listarClientPreferences';
+                                }, 1000);
                             } else {
-                                // Si el proceso de agregar el cantón falló, mostrar mensaje de error
                                 mostrarToastError(data.message);
                             }
                         })
@@ -144,4 +148,22 @@ function validarCreacionCanton() {
             });
         }
     });
+}
+
+// Funciones para mostrar mensajes Toast usando Toastify.js (o cualquier otro sistema de notificaciones)
+
+function mostrarToastConfirmacion(mensaje) {
+    Toastify({
+        text: mensaje,
+        backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+        className: "info",
+    }).showToast();
+}
+
+function mostrarToastError(mensaje) {
+    Toastify({
+        text: mensaje,
+        backgroundColor: "linear-gradient(to right, #ff416c, #ff4b2b)",
+        className: "error",
+    }).showToast();
 }

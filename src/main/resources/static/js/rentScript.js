@@ -1,38 +1,35 @@
 function desplegarForm() {
     var desplegarFormContainer = document.getElementById("form_container");
 
-    // Obtener todos los botones de desplegar formularios y agregar un evento clic a cada uno
     var botones = document.querySelectorAll('.btn_desplegarForm');
     botones.forEach(function (boton) {
         boton.addEventListener('click', function () {
-            // Obtener el valor (ID del cantón) del botón clicado
-            var idCanton = this.value;
-
+            var idRent = this.value;
             var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", "/canton/cantonForm?canton=" + idCanton, true);
+            xmlhttp.open("GET", "/rents/rentForm?rent=" + idRent, true);
             xmlhttp.send();
 
             xmlhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
                     desplegarFormContainer.innerHTML = this.responseText;
+                } else if (this.status === 500) {
+                    console.error("Error al cargar el formulario.");
                 }
             };
         });
     });
 }
 
-
-
-function ocultarForm(){
+function ocultarForm() {
     document.getElementById("form_container").innerHTML = "";
 }
 
-function editarCanton(){
+function editarRenta() {
     var editarForm = document.querySelector('.editForm');
     editarForm.addEventListener('submit', function (event) {
         event.preventDefault();
         Swal.fire({
-            title: '¿Desea continuar con la edición de este cantón?',
+            title: '¿Desea continuar con la edición de esta renta?',
             text: '¡Asegúrate de tener los datos correctos!',
             icon: 'question',
             showCancelButton: true,
@@ -42,15 +39,17 @@ function editarCanton(){
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Obtener datos del formulario y convertirlos a JSON
                 const formData = new FormData(editarForm);
                 const jsonData = {};
                 formData.forEach((value, key) => {
-                    jsonData[key] = value;
+                    if (key === 'idAgreement') {
+                        jsonData[key] = { id: value };
+                    } else {
+                        jsonData[key] = value;
+                    }
                 });
                 const requestBody = JSON.stringify(jsonData);
 
-                // Enviar la solicitud con el cuerpo en formato JSON
                 fetch(editarForm.action, {
                     method: 'POST',
                     headers: {
@@ -63,7 +62,7 @@ function editarCanton(){
                         if (data.success) {
                             mostrarToastConfirmacion(data.message);
                             setTimeout(function () {
-                                window.location.href = "./listarCantones";
+                                window.location.href = "./listarRentas";
                             }, 1000);
                         } else {
                             mostrarToastError(data.message);
@@ -77,8 +76,8 @@ function editarCanton(){
     });
 }
 
-function validarFormularioCrearCanton(event) {
-    event.preventDefault(); // Evitar que el evento por defecto se ejecute
+function validarFormularioCrear(event) {
+    event.preventDefault();
 
     var form = document.getElementById('form-crear');
     var inputs = form.getElementsByTagName('input');
@@ -89,7 +88,7 @@ function validarFormularioCrearCanton(event) {
         if (input.value.trim() === '') {
             var mensaje = "Por favor, completa todos los campos.";
             mostrarMensaje(mensaje, mensajeContainer);
-            return false; // Detener la validación y no enviar el formulario
+            return false;
         }
     }
 
@@ -100,15 +99,14 @@ function mostrarMensaje(mensaje, container) {
     container.innerHTML = mensaje;
 }
 
-function validarCreacionCanton() {
+function validarCreacionRenta() {
     var crearForm = document.querySelector('.form-crear');
 
     crearForm.addEventListener('submit', function (event) {
-        //alert("Si llega al if");
         event.preventDefault();
-        if (validarFormularioCrearCanton(event)) {
+        if (validarFormularioCrear(event)) {
             Swal.fire({
-                title: "¿Estas seguro de crear este cantón?",
+                title: "¿Estas seguro de crear esta renta?",
                 text: '¡Asegurate de tener los datos correctos!',
                 icon: 'question',
                 showCancelButton: true,
@@ -118,22 +116,31 @@ function validarCreacionCanton() {
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-
+                    const formData = new FormData(crearForm);
+                    const jsonData = {};
+                    formData.forEach((value, key) => {
+                        if (key === 'idAgreement') {
+                            jsonData[key] = { id: value };
+                        } else {
+                            jsonData[key] = value;
+                        }
+                    });
+                    const requestBody = JSON.stringify(jsonData);
                     fetch(crearForm.action, {
                         method: 'POST',
-                        body: new FormData(crearForm)
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: requestBody
                     })
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                // Si el proceso de agregar el cantón fue exitoso, mostrar mensaje de éxito
                                 mostrarToastConfirmacion(data.message);
-                                // Redirigir después de un pequeño retraso
                                 setTimeout(function () {
-                                    window.location.href = './listarCantones';
-                                }, 1000); // 1000 milisegundos de retraso
+                                    window.location.href = './listarRentas';
+                                }, 1000);
                             } else {
-                                // Si el proceso de agregar el cantón falló, mostrar mensaje de error
                                 mostrarToastError(data.message);
                             }
                         })
@@ -143,5 +150,27 @@ function validarCreacionCanton() {
                 }
             });
         }
+    });
+}
+
+function verAcuerdo() {
+    var botones = document.querySelectorAll('.btn_verAcuerdo');
+    botones.forEach(function (boton) {
+        boton.addEventListener('click', function () {
+            var idAgreement = this.getAttribute('data-id');
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", "/rents/detalles?agreement=" + idAgreement, true);
+            xmlhttp.send();
+
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    document.getElementById('modalVerAcuerdoBody').innerHTML = this.responseText;
+                    var myModal = new bootstrap.Modal(document.getElementById('modalVerAcuerdo'));
+                    myModal.show();
+                } else if (this.status === 500) {
+                    console.error("Error al cargar los detalles del acuerdo.");
+                }
+            };
+        });
     });
 }
