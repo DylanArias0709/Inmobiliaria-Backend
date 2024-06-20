@@ -49,4 +49,27 @@ public class CantonService {
         return null;
     }
 
+    // Método para registrar un Cantón y obtener el ID del cantón creado
+    public String registrarCanton(Canton canton) {
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spCreateCanton");
+        query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(3, Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(4, Integer.class, ParameterMode.OUT); // Parámetro de salida para el ID del cantón creado
+
+        query.setParameter(1, canton.getIdProvince());
+        query.setParameter(2, canton.getName());
+        query.setParameter(3, canton.getStatus());
+
+        query.execute();
+
+        // Obtener el valor del parámetro de salida
+        int idCantonCreado = (int) query.getOutputParameterValue(4);
+
+        if (idCantonCreado > 0) {
+            return "{\"success\": true, \"message\": \"¡Cantón creado exitosamente!\"}";
+        } else {
+            return "{\"success\": false, \"message\": \"¡Hubo un error creando el cantón!\"}";
+        }
+    }
 }

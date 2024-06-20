@@ -75,8 +75,7 @@ function editarCanton(){
     });
 }
 
-function validarFormularioCrear(event) {
-
+function validarFormularioCrearCanton(event) {
     event.preventDefault(); // Evitar que el evento por defecto se ejecute
 
     var form = document.getElementById('form-crear');

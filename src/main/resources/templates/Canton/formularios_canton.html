@@ -15,7 +15,7 @@
 <div class="container mt-5">
     <div th:if="${canton == null}">
         <h2 class="mb-4">Crear Cantón</h2>
-        <form th:action="@{/cantones/registrarCanton}" method="post" id="form-crear" class="form-crear">
+        <form th:action="@{/canton/registrarCanton}" method="post" id="form-crear" class="form-crear" enctype="application/x-www-form-urlencoded">
             <div class="form-group">
                 <label for="cantonName">Nombre del Cantón:</label>
                 <input type="text" class="form-control" id="cantonNameCreate" name="cantonName" required>

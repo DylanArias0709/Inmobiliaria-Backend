@@ -49,4 +49,17 @@ public class CantonController {
         return "Canton/formularios_canton";
     }
 
+    @PostMapping("/registrarCanton")
+    public ResponseEntity<?> registrarCanton(@RequestParam("cantonName") String cantonName, @RequestParam("provinceId") int provinceId) {
+        Canton canton = new Canton();
+        // Configurar los atributos del objeto Canton según los parámetros recibidos
+        canton.setName(cantonName);
+        canton.getIdProvince().setId(provinceId);
+        canton.setStatus((short) 1);
+
+        // Llamar al servicio para registrar el cantón
+        String response = cantonService.registrarCanton(canton);
+        return ResponseEntity.ok().body(response);
+    }
+
 }
