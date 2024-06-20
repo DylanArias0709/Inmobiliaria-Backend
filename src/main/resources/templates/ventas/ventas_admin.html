@@ -47,12 +47,16 @@
             </thead>
             <tbody>
             <tr th:each="sale : ${sales}">
-                <td th:text="${sale.idAgreement?.id} ?: ''"></td>
+                <td>
+                    <button type="button" class="btn btn-info btn-sm btn_verAcuerdo" th:data-id="${sale.idAgreement.id}">
+                        Ver Acuerdo
+                    </button>
+                </td>
                 <td th:text="${sale.idClient?.id} ?: ''"></td>
                 <td th:text="${sale.idRealStateAgent?.id} ?: ''"></td>
                 <td th:text="${sale.saleDate ?: ''}"></td>
                 <td th:text="${sale.aditionalInformation ?: ''}"></td>
-                <td th:text="${sale.idPaymentMethod?.id} ?: ''"></td>
+                <td th:text="${sale.idPaymentMethod?.typePaymentMethod} ?: ''"></td>
                 <td th:text="${sale.status == 1 ? 'Activo' : 'Inactivo'}"></td>
                 <td>
                     <button type="button" class="btn btn-warning btn-sm btn_desplegarForm" th:value="${sale.id}">
@@ -73,6 +77,24 @@
     </div>
 </div>
 
+<!-- Modal para mostrar los detalles del acuerdo -->
+<div class="modal fade" id="modalVerAcuerdo" tabindex="-1" aria-labelledby="modalVerAcuerdoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalVerAcuerdoLabel">Detalles del Acuerdo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalVerAcuerdoBody">
+                <!-- Aquí se cargarán los detalles del acuerdo -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -83,6 +105,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         validarEliminacion('.btn_delete', './listarVentas');
         desplegarForm();
+        verAcuerdo();
     });
 </script>
 </body>

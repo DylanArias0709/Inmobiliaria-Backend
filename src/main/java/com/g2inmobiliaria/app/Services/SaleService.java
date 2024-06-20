@@ -1,6 +1,7 @@
 package com.g2inmobiliaria.app.Services;
 
 import com.g2inmobiliaria.app.Entities.Agreement;
+import com.g2inmobiliaria.app.Entities.PaymentMethod;
 import com.g2inmobiliaria.app.Entities.Sale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,6 +18,8 @@ public class SaleService {
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private AgreementService agreementService;
+    @Autowired
+    private PaymentMethodService paymentMethodService;
 
     // Método para crear sale con sp
     public String createSale(Sale sale) {
@@ -73,6 +76,8 @@ public class SaleService {
             List<Sale> sales = new ArrayList<>();
             if (hasResults) {
                 try (ResultSet resultSet = callableStatement.getResultSet()) {
+                    List<PaymentMethod> allPaymentMethods = paymentMethodService.listarPaymentMethods();
+
                     while (resultSet.next()) {
                         Sale sale = new Sale();
                         sale.setId(resultSet.getInt("IdSale"));
@@ -88,6 +93,14 @@ public class SaleService {
                             }
                         }
 
+                        // Asignar el método de pago desde la lista de todos los métodos de pago
+                        int paymentMethodId = resultSet.getInt("IdPaymentMethod");
+                        for (PaymentMethod paymentMethod : allPaymentMethods) {
+                            if (paymentMethod.getId() == paymentMethodId) {
+                                sale.setIdPaymentMethod(paymentMethod);
+                                break;
+                            }
+                        }
                         sales.add(sale);
                     }
                 }
@@ -97,6 +110,7 @@ public class SaleService {
             return sales;
         });
     }
+
 
     // Método para actualizar sale con sp
     public String updateSale(Sale sale) {

@@ -38,15 +38,12 @@
             </div>
             <div class="form-group">
                 <label for="idPaymentMethod">Método de Pago:</label>
-                <input type="number" class="form-control" id="idPaymentMethod" name="idPaymentMethod" th:value="${sale.idPaymentMethod?.id} ?: ''" required>
-                <!--
                 <select class="form-control" id="idPaymentMethod" name="idPaymentMethod" required>
                     <option th:each="method : ${paymentMethods}"
                             th:value="${method.id}"
                             th:text="${method.typePaymentMethod}">
                     </option>
                 </select>
-                -->
             </div>
             <button type="submit" class="btn btn-primary" onclick="validarCreacionVenta()">Crear</button>
             <button type="button" class="btn btn-secondary" onclick="ocultarForm()">Cancelar</button>
@@ -82,15 +79,12 @@
             </div>
             <div class="form-group">
                 <label for="idPaymentMethod">Método de Pago:</label>
-                <input type="number" class="form-control" id="idPaymentMethod" name="idPaymentMethod" th:value="${sale.idPaymentMethod?.id} ?: ''" required>
-                <!--
                 <select class="form-control" id="idPaymentMethod" name="idPaymentMethod" required>
                     <option th:each="method : ${paymentMethods}"
                             th:value="${method.id}"
                             th:text="${method.typePaymentMethod}">
                     </option>
                 </select>
-                -->
             </div>
             <div class="form-group">
                 <label for="status">Estado:</label>

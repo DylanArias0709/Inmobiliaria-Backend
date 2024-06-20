@@ -152,3 +152,25 @@ function validarCreacionRenta() {
         }
     });
 }
+
+function verAcuerdo() {
+    var botones = document.querySelectorAll('.btn_verAcuerdo');
+    botones.forEach(function (boton) {
+        boton.addEventListener('click', function () {
+            var idAgreement = this.getAttribute('data-id');
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", "/rents/detalles?agreement=" + idAgreement, true);
+            xmlhttp.send();
+
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    document.getElementById('modalVerAcuerdoBody').innerHTML = this.responseText;
+                    var myModal = new bootstrap.Modal(document.getElementById('modalVerAcuerdo'));
+                    myModal.show();
+                } else if (this.status === 500) {
+                    console.error("Error al cargar los detalles del acuerdo.");
+                }
+            };
+        });
+    });
+}

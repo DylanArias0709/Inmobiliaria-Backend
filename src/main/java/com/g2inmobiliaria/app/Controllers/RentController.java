@@ -1,6 +1,8 @@
 package com.g2inmobiliaria.app.Controllers;
 
+import com.g2inmobiliaria.app.Entities.Agreement;
 import com.g2inmobiliaria.app.Entities.Rent;
+import com.g2inmobiliaria.app.Services.AgreementService;
 import com.g2inmobiliaria.app.Services.RentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ public class RentController {
 
     @Autowired
     private RentService rentService;
+    @Autowired
+    private AgreementService agreementService;
 
     @GetMapping("/listarRentas")
     public String listRents(Model model) {
@@ -50,5 +54,12 @@ public class RentController {
         }
         model.addAttribute("rent", rent);
         return "rentas/formularios_rent";
+    }
+
+    @GetMapping("/detalles")
+    public String detalles(@RequestParam("agreement") Integer idAgreement, Model model) {
+        Agreement agreement = (Agreement) agreementService.getAgreements(idAgreement, null, null, null, null).getFirst();
+        model.addAttribute("agreement", agreement);
+        return "rentas/agreementDetails :: modalContent";
     }
 }

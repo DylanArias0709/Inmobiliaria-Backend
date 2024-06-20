@@ -1,7 +1,12 @@
 package com.g2inmobiliaria.app.Controllers;
 
+import com.g2inmobiliaria.app.Entities.Agreement;
+import com.g2inmobiliaria.app.Entities.PaymentMethod;
 import com.g2inmobiliaria.app.Entities.Sale;
+import com.g2inmobiliaria.app.Services.AgreementService;
+import com.g2inmobiliaria.app.Services.PaymentMethodService;
 import com.g2inmobiliaria.app.Services.SaleService;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,8 +21,17 @@ public class SaleController {
 
     @Autowired
     private SaleService saleService;
-    // @Autowired
-    // private PaymentMethodService paymentMethodService;
+    @Autowired
+    private PaymentMethodService paymentMethodService;
+    @Autowired
+    private AgreementService agreementService;
+
+    private List<PaymentMethod> paymentMethods;
+
+    @PostConstruct
+    public void init() {
+        paymentMethods = paymentMethodService.listarPaymentMethods();
+    }
 
     @GetMapping("/listarVentas")
     public String listSales(Model model) {
@@ -50,12 +64,19 @@ public class SaleController {
         if (id != null && id > 0) {
             List<Sale> sales = saleService.getSales(id, null, null, null, null, null);
             if (!sales.isEmpty()) {
-                sale = sales.getFirst();
+                sale = sales.get(0);
             }
         }
-        // List<PaymentMethod> paymentMethods = paymentMethodService.listarPaymentMethods();
-        //  model.addAttribute("paymentMethods", paymentMethods);
+
+        model.addAttribute("paymentMethods", paymentMethods);
         model.addAttribute("sale", sale);
         return "ventas/formularios_sale";
+    }
+
+    @GetMapping("/detalles")
+    public String detalles(@RequestParam("agreement") Integer idAgreement, Model model) {
+        Agreement agreement = (Agreement) agreementService.getAgreements(idAgreement, null, null, null, null).get(0);
+        model.addAttribute("agreement", agreement);
+        return "ventas/agreementDetails :: modalContent";
     }
 }
