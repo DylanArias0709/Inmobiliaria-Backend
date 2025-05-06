@@ -28,7 +28,7 @@ public class ClientService {
     }
 
 
-    public String registrarClient(Client client, String phoneNumber, String email) {
+    public String registrarClient(Client client, String phoneNumber, String email, int idRole) {
         try {
             StoredProcedureQuery query = entityManager.createStoredProcedureQuery("spRegisterClient");
             query.registerStoredProcedureParameter("Name", String.class, ParameterMode.IN);
@@ -46,10 +46,8 @@ public class ClientService {
             query.registerStoredProcedureParameter("ActivationToken", String.class, ParameterMode.IN);
             query.registerStoredProcedureParameter("VerificationToken", String.class, ParameterMode.IN);
             query.registerStoredProcedureParameter("Budget", BigDecimal.class, ParameterMode.IN);
-            //query.registerStoredProcedureParameter("MaximumBudget", BigDecimal.class, ParameterMode.IN);
-            query.registerStoredProcedureParameter("StatusClient", Short.class, ParameterMode.IN);
             query.registerStoredProcedureParameter("IdRole", Integer.class, ParameterMode.IN);
-            //query.registerStoredProcedureParameter("PersonType", String.class, ParameterMode.IN);
+
             query.setParameter("Name", client.getIdUser().getIdPerson().getName());
             query.setParameter("FirstSurname", client.getIdUser().getIdPerson().getFirstSurname());
             query.setParameter("SecondSurname", client.getIdUser().getIdPerson().getSecondSurname());
@@ -65,20 +63,18 @@ public class ClientService {
             query.setParameter("ActivationToken", client.getIdUser().getActivationToken());
             query.setParameter("VerificationToken", client.getIdUser().getVerificationToken());
             query.setParameter("Budget", client.getBudget());
-            //query.setParameter("MaximumBudget", null); // Agente no necesita MaximumBudget
-            query.setParameter("StatusClient", null); // Agente no necesita StatusClient
-            query.setParameter("IdRole", client.getIdUser().getIdRole().getId());
-            //query.setParameter("PersonType", "C"); // Cliente por defecto
-            query.execute();
+            query.setParameter("IdRole", idRole);
 
-            return "Cliente registrado exitosamente.";
+            query.execute();
+            return "{\"success\": true, \"message\": \"¡Cliente creado exitosamente!\"}";
         } catch (Exception ex) {
-            ex.printStackTrace(); // Manejo de error según tu lógica
-            return "Error al registrar cliente: " + ex.getMessage();
+            ex.printStackTrace();
+            return "{\"success\": false, \"message\": \"¡Error creando el cliente! " + ex.getMessage() + "\"}";
         }
     }
 
-        @Transactional
+
+    @Transactional
         public String updateClient(Client client, String phoneNumber, String email) {
 
             try {
