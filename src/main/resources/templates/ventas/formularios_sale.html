@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrar Ventas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="text/javascript" th:src="@{/js/alertScript.js}"></script>
+    <script src="text/javascript" th:src="@{/js/saleScript.js}"></script>
+</head>
+<body>
+<div class="container mt-5">
+    <div th:if="${sale == null}">
+        <h2 class="mb-4">Crear Venta</h2>
+        <form th:action="@{/sales/registrarSale}" method="post" id="form-crear" class="form-crear">
+            <div class="form-group">
+                <label for="idAgreement">Acuerdo:</label>
+                <select class="form-control" id="idAgreement" name="idAgreement" required>
+                    <option th:each="agreement : ${agreements}" th:value="${agreement.id}" th:text="'AGCODV#' + ${agreement.id}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="idClient">Cliente:</label>
+                <select class="form-control" id="idClient" name="idClient" required>
+                    <option th:each="client : ${clientList}"
+                            th:value="${client[0]}"
+                            th:text="${client[7]}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="idRealStateAgent">Agente:</label>
+                <input type="number" class="form-control" id="idRealStateAgent" name="idRealStateAgent" required>
+            </div>
+            <div class="form-group">
+                <label for="saleDate">Fecha de Venta:</label>
+                <input type="date" class="form-control" id="saleDate" name="saleDate" required>
+            </div>
+            <div class="form-group">
+                <label for="aditionalInformation">Información Adicional:</label>
+                <input type="text" class="form-control" id="aditionalInformation" name="aditionalInformation" required>
+            </div>
+            <div class="form-group">
+                <label for="idPaymentMethod">Método de Pago:</label>
+                <select class="form-control" id="idPaymentMethod" name="idPaymentMethod" required>
+                    <option th:each="method : ${paymentMethods}"
+                            th:value="${method.id}"
+                            th:text="${method.typePaymentMethod}">
+                    </option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="validarCreacionVenta()">Crear</button>
+            <button type="button" class="btn btn-secondary" onclick="ocultarForm()">Cancelar</button>
+        </form>
+        <div class="mt-3">
+            <p id="texto_error" class="text-danger"></p>
+        </div>
+    </div>
+
+    <div th:if="${sale != null}">
+        <h2 class="mb-4">Editar Venta</h2>
+        <form class="editForm" th:action="@{/sales/actualizarSale}" method="post">
+            <input type="hidden" id="id" name="id" th:value="${sale.id}">
+            <div class="form-group">
+                <label for="idAgreement">Acuerdo:</label>
+                <select class="form-control" id="idAgreement" name="idAgreement" required>
+                    <option th:each="agreement : ${agreements}" th:value="${agreement.id}" th:text="'AGCODV#' + ${agreement.id}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="idClient">Cliente:</label>
+                <select class="form-control" id="idClient" name="idClient" required>
+                    <option th:each="client : ${clientList}"
+                            th:value="${client[0]}"
+                            th:text="${client[7]}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="idRealStateAgent">Agente:</label>
+                <input type="number" class="form-control" id="idRealStateAgent" name="idRealStateAgent" th:value="${sale.idRealStateAgent?.id} ?: ''" required>
+            </div>
+            <div class="form-group">
+                <label for="saleDate">Fecha de Venta:</label>
+                <input type="date" class="form-control" id="saleDate" name="saleDate" th:value="${sale.saleDate ?: ''}" required>
+            </div>
+            <div class="form-group">
+                <label for="aditionalInformation">Información Adicional:</label>
+                <input type="text" class="form-control" id="aditionalInformation" name="aditionalInformation" th:value="${sale.aditionalInformation ?: ''}" required>
+            </div>
+            <div class="form-group">
+                <label for="idPaymentMethod">Método de Pago:</label>
+                <select class="form-control" id="idPaymentMethod" name="idPaymentMethod" required>
+                    <option th:each="method : ${paymentMethods}"
+                            th:value="${method.id}"
+                            th:text="${method.typePaymentMethod}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="status">Estado:</label>
+                <select class="form-control" id="status" name="status" required>
+                    <option value="1" th:selected="${sale.status == 1}">Activo</option>
+                    <option value="0" th:selected="${sale.status == 0}">Inactivo</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="editarVenta()">Actualizar</button>
+            <button type="button" class="btn btn-secondary" onclick="ocultarForm()">Cancelar</button>
+        </form>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Agrega tus scripts aquí si es necesario
+    });
+</script>
+</body>
+</html>

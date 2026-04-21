@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrar Distritos</title>
+    <!-- Incluye tus hojas de estilo y scripts aquí -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://kit.fontawesome.com/a2dd6045c4.js"></script>
+    <script src="https://kit.fontawesome.com/51553d23ad.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div th:if="${!district.empty}" class="tb-container">
+    <table border="1" class="contenedor-productos table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cantón</th>
+            <th>Status</th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="district : ${distritos}">
+            <td th:text="${district.name}"></td>
+            <td th:text="${district.canton.name}"></td> <!-- Mostrar el nombre del cantón -->
+            <td th:text="${district.status == 1 ? 'Activo' : 'Inactivo'}"></td>
+            <td>
+                <button type="button" class="producto-editar btn_editar" th:value="${district.id}"><i class="bi bi-pen"></i></button>
+                <br>
+                -----
+                <br>
+                <button class="btn_delete producto-eliminar">
+                    <a class="btn_eliminar" th:href="@{/district/eliminarDistrict(id=${district.id})}"><i class="bi bi-trash"></i></a>
+                </button>
+                <br>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="text/javascript" th:src="@{/js/alertScript.js}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            validarEliminacion('.btn_delete', './listarDistrict');
+            //detallesProveedor()
+        });
+    </script>
+</div>
+<div th:if="${district.empty}">
+    <p>No se encontraron registros para mostrar.</p>
+</div>
+
+
+<!-- Formulario para registrar distrito con ComboBox para seleccionar cantón -->
+<!--
+<div>
+    <h2>Registrar Distrito</h2>
+    <form th:action="@{/district/registrarDistrito}" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="name" required>
+        <br>
+        <label for="canton">Cantón:</label>
+        <select id="canton" name="idCanton" required>
+
+            <option th:each="canton : ${cantones}" th:value="${canton.id}" th:text="${canton.name}"></option>
+        </select>
+        <br>
+        <button type="submit">Registrar Distrito</button>
+    </form>
+</div>
+-->
+
+</body>
+</html>
